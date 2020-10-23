@@ -58,11 +58,11 @@
 					</nav>
 					<div class="copyright ml-auto">
 						Copyright@2020
-					</div>				
+					</div>
 				</div>
 			</footer>
         </div>
-        
+
 	</div>
 	<script src="/js/app.js"></script>
 	<!--   Core JS Files   -->
@@ -77,10 +77,16 @@
 	<!-- jQuery Scrollbar -->
 	<script src="/assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
 
+
+	<!-- Chart JS -->
+	<script src="/assets/js/plugin/chart.js/chart.min.js"></script>
+
 	<!-- jQuery Sparkline -->
 	<script src="/assets/js/plugin/jquery.sparkline/jquery.sparkline.min.js"></script>
 
-	
+	<!-- Chart Circle -->
+	<script src="/assets/js/plugin/chart-circle/circles.min.js"></script>
+
 	<!-- Datatables -->
 	<script src="/assets/js/plugin/datatables/datatables.min.js"></script>
 
