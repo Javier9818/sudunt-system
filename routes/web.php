@@ -19,7 +19,7 @@ Route::post('/logout', function(){ Auth::logout(); return redirect('/');})->name
 Route::get('/login', function () {return view('auth.login');});
 
 
-Route::get('/', function () { return view('admin.index');})->middleware('auth');
+Route::get('/users', function () { return view('admin.users.list');})->middleware('auth');
 
 
 

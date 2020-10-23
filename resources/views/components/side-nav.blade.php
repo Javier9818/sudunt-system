@@ -3,12 +3,12 @@
         <div class="sidebar-content">
             <div class="user">
                 <div class="avatar-sm float-left mr-2">
-                    <images src="/assets/images/user.png" alt="..." class="avatar-images rounded-circle">
+                    <img src="/assets/images/user.png" alt="..." class="avatar-images rounded-circle" width="100%">
                 </div>
                 <div class="info">
                     <a data-toggle="collapse" href="#collapseExample" aria-expanded="true">
                         <span>
-                            Hizrian
+                            {{session('names')}}
                             <span class="user-level">Administrator</span>
                             <span class="caret"></span>
                         </span>
@@ -19,19 +19,19 @@
                         <ul class="nav">
                             <li>
                                 <a href="#profile">
-                                    <span class="link-collapse">My Profile</span>
+                                    <span class="link-collapse">Mi perfil</span>
                                 </a>
                             </li>
                             <li>
                                 <a href="#edit">
-                                    <span class="link-collapse">Edit Profile</span>
+                                    <span class="link-collapse">Editar perfil</span>
                                 </a>
                             </li>
-                            <li>
+                            <!-- <li>
                                 <a href="#settings">
                                     <span class="link-collapse">Settings</span>
                                 </a>
-                            </li>
+                            </li> -->
                         </ul>
                     </div>
                 </div>
@@ -46,13 +46,8 @@
                     <div class="collapse {{ $isTab('1') ? 'show' : '' }}" id="dashboard">
                         <ul class="nav nav-collapse">
                             <li class="{{ $isSelected('1', '1') ? 'active' : '' }}">
-                                <a href="../demo1/index.html">
+                                <a href="/usuarios">
                                     <span class="sub-item">Usuarios</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="../demo2/index.html">
-                                    <span class="sub-item">Dashboard 2</span>
                                 </a>
                             </li>
                         </ul>
@@ -67,22 +62,22 @@
                 <li class="nav-item">
                     <a data-toggle="collapse" href="#base">
                         <i class="fas fa-layer-group"></i>
-                        <p>Base</p>
+                        <p>Votaciones</p>
                         <span class="caret"></span>
                     </a>
                     <div class="collapse" id="base">
                         <ul class="nav nav-collapse">
                             <li>
-                                <a href="components/avatars.html">
-                                    <span class="sub-item">Avatars</span>
+                                <a href="/padron">
+                                    <span class="sub-item">Padrón</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="components/buttons.html">
-                                    <span class="sub-item">Buttons</span>
+                                <a href="/formularios">
+                                    <span class="sub-item">Formularios</span>
                                 </a>
                             </li>
-                            <li>
+                            <!-- <li>
                                 <a href="components/gridsystem.html">
                                     <span class="sub-item">Grid System</span>
                                 </a>
@@ -121,7 +116,7 @@
                                 <a href="components/typography.html">
                                     <span class="sub-item">Typography</span>
                                 </a>
-                            </li>
+                            </li> -->
                         </ul>
                     </div>
                 </li>
