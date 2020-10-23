@@ -8,6 +8,8 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+use Socialite;
+
 class LoginController extends Controller
 {
     /*
@@ -48,4 +50,21 @@ class LoginController extends Controller
         }else
             return redirect('/login')->withErrors(['login-error' => 'Email o contraseña incorrecto']);
     }
+
+
+
+	//LOGIN CON GOOGLE
+	public function login_google(){
+		//dd(Socialite::driver('google')->redirect());
+		return Socialite::driver('google')->redirect();
+	}
+	//LOGIN CON GOOGLE
+	public function return_google(){
+		$getInfo = Socialite::driver('google')->user();
+		$email = $getInfo->email;
+		$email = base64_encode($email);
+		return redirect('/'.'votacion-desde-google/'.$email);
+		//dd();
+	}
+
 }
