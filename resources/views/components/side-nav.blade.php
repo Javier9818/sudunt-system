@@ -46,7 +46,7 @@
                     <div class="collapse {{ $isTab('1') ? 'show' : '' }}" id="dashboard">
                         <ul class="nav nav-collapse">
                             <li class="{{ $isSelected('1', '1') ? 'active' : '' }}">
-                                <a href="/usuarios">
+                                <a href="/users">
                                     <span class="sub-item">Usuarios</span>
                                 </a>
                             </li>
@@ -59,20 +59,20 @@
                     </span>
                     <h4 class="text-section">Sistema</h4>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item {{ $isTab('2') ? 'active' : '' }}" >
                     <a data-toggle="collapse" href="#base">
                         <i class="fas fa-layer-group"></i>
                         <p>Votaciones</p>
                         <span class="caret"></span>
                     </a>
-                    <div class="collapse" id="base">
+                    <div class="collapse {{ $isTab('2') ? 'show' : '' }}" id="base">
                         <ul class="nav nav-collapse">
-                            <li>
+                            <li class="{{ $isSelected('2', '1') ? 'active' : '' }}">
                                 <a href="/padron">
                                     <span class="sub-item">Padrón</span>
                                 </a>
                             </li>
-                            <li>
+                            <li class="{{ $isSelected('2', '2') ? 'active' : '' }}">
                                 <a href="/formularios">
                                     <span class="sub-item">Formularios</span>
                                 </a>

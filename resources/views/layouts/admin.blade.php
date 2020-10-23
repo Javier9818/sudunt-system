@@ -23,7 +23,7 @@
 	<link rel="stylesheet" href="/assets/css/atlantis.min.css">
 
 	<!-- CSS Just for demo purpose, don't include it in your project -->
-    <link rel="stylesheet" href="/assets/css/demo.css">
+	<link rel="stylesheet" href="/assets/css/demo.css">
     @yield('style')
 </head>
 <body>
@@ -33,7 +33,7 @@
 		@yield('side-nav')
 		<!-- End Sidebar -->
 
-		<div class="main-panel">
+		<div class="main-panel" id="app">
 			@yield('content')
 			<footer class="footer">
 				<div class="container-fluid">
@@ -64,6 +64,7 @@
         </div>
         
 	</div>
+	<script src="/js/app.js"></script>
 	<!--   Core JS Files   -->
 	<script src="/assets/js/core/jquery.3.2.1.min.js"></script>
 	<script src="/assets/js/core/popper.min.js"></script>
@@ -95,5 +96,6 @@
 
 	<!-- Atlantis JS -->
 	<script src="/assets/js/atlantis.min.js"></script>
+	@yield('script')
 </body>
 </html>
