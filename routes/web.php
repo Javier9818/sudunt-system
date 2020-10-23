@@ -21,7 +21,6 @@ Route::get('/login', function () {return view('auth.login');});
 
 Route::get('/', function () { return view('admin.index');})->middleware('auth');
 
-
-
+Route::get('/votacion/{token}', 'VoteController@validation')->name('votation');
 
 Route::get('/home', 'HomeController@index')->name('home');
