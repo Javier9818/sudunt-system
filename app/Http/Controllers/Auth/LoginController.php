@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Person;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
@@ -44,7 +45,9 @@ class LoginController extends Controller
     {
         if (Auth::attempt(["email" => $request->email, "password" => $request->password])) {
             $user = Auth::user();
-            if($user->is_admin) return redirect()->intended('/');
+            $person = Person::find($user->person_id);
+            session(["names" => $person->names]);
+            if($user->is_admin) return redirect()->intended('/users');
         }else
             return redirect('/login')->withErrors(['login-error' => 'Email o contraseña incorrecto']);
     }
