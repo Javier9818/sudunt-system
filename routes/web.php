@@ -21,6 +21,10 @@ Route::get('/login', function () {return view('auth.login');});
 
 Route::get('/users', function () { return view('admin.users.list');})->middleware('auth');
 
+Route::get('/formularios', function(){
+    return view('formularios.index');
+});
+
 
 
 
