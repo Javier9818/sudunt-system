@@ -74,7 +74,7 @@
                             </li>
                             <li class="{{ $isSelected('2', '2') ? 'active' : '' }}">
                                 <a href="/formularios">
-                                    <span class="sub-item">Formularios</span>
+                                    <span class="sub-item">Estado</span>
                                 </a>
                             </li>
                             <!-- <li>

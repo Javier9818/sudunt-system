@@ -22,9 +22,7 @@ Route::get('/login', function () {return view('auth.login');});
 Route::get('/users', 'UserController@index')->middleware('auth');
 Route::get('/', 'UserController@index')->middleware('auth');
 
-Route::get('/formularios', function(){
-    return view('formularios.index');
-});
+Route::get('/formularios', function(){ return view('admin.formularios.index');});
 
 
 
