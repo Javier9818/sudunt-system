@@ -33,6 +33,11 @@
                 </div>
                 {{-- <a href="#">Forgot Password?</a> --}}
                 <input type="submit" class="btn" value="Iniciar Sesión">
+				<!-- <a href="{{route('login-google')}}">
+					<button type="button" class="btn">
+						Iniciar sesión con Google
+					</button>
+				</a> -->
                 <!-- <a href="/home" class="btn" value="Iniciar Sesión"></a> -->
                 @error('login-error')
                     <p style="color:red;">
@@ -40,7 +45,7 @@
                     </p>
                 @enderror
             </form>
-           
+
         </div>
     </div>
     <script src="https://kit.fontawesome.com/a81368914c.js"></script>

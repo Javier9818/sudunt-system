@@ -24,6 +24,10 @@ Route::post('/logout', function(){ Auth::logout(); return redirect('/users');})-
 Route::get('/login', function () {return view('auth.login');});
 
 
+Route::get('/sufragio-sudunt', function(){ return view('admin.vote.autentication');});
+Route::get('/login-google', 'Auth\LoginController@login_google')->name('login-google');
+Route::get('/return-google', 'Auth\LoginController@return_google')->name('return-google');
+
 Route::get('/users', 'UserController@index')->middleware('auth');
 Route::get('/', 'UserController@index')->middleware('auth');
 
@@ -33,14 +37,10 @@ Route::get('/votacion/{token}', 'VoteController@validation')->name('votation');
 Route::post('/vote', 'VoteController@store')->name('votation');
 
 
-Route::get('/padron', 'PadronController@index')->middleware('auth');
-Route::post('/padron', 'PadronController@store')->middleware('auth');
-Route::get('/padron/{id}', 'PadronController@edit')->middleware('auth');
-Route::put('/padron/{id}', 'PadronController@update')->middleware('auth');
-Route::delete('/padron/{id}', 'PadronController@destroy')->middleware('auth');
-Route::get('/nuevo-empadronado', 'PadronController@create')->middleware('auth');
+Route::resource('padron', 'PadronController')->middleware('auth');
 
-Route::get('/formularios', 'VoteController@statistics');
-Route::get('/form/{id}', 'FormController@edit');
-Route::put('/form/{id}', 'FormController@update');
+
+Route::get('/formularios', 'VoteController@statistics')->middleware('auth');
+Route::get('/form/{id}', 'FormController@edit')->middleware('auth');
+Route::put('/form/{id}', 'FormController@update')->middleware('auth');
 

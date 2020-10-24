@@ -18,7 +18,8 @@ window.Vue = require('vue');
 
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
-
+import Vuelidate from 'vuelidate'
+Vue.use(Vuelidate)
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('empadronado-form', require('./components/Admin/padron/EmpadronadoForm.vue').default);
 
