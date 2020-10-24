@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Person;
 use App\Providers\RouteServiceProvider;
+use App\Teacher;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -58,16 +59,21 @@ class LoginController extends Controller
 
 	//LOGIN CON GOOGLE
 	public function login_google(){
-		//dd(Socialite::driver('google')->redirect());
+        //dd(Socialite::driver('google')->redirect());
 		return Socialite::driver('google')->redirect();
 	}
 	//LOGIN CON GOOGLE
 	public function return_google(){
-		$getInfo = Socialite::driver('google')->user();
-		$email = $getInfo->email;
-		$email = base64_encode($email);
-		return redirect('/'.'votacion-desde-google/'.$email);
-		//dd();
+        try {
+            $getInfo = Socialite::driver('google')->user();
+            $teacher = Teacher::where('email', $getInfo->email)->first();
+            if($teacher !== null)
+                return redirect('/'.'votacion/'.$teacher->token);
+            else
+                return redirect('/sufragio-sudunt')->withErrors(["login-error" => "El usuario no se encuentra registrado."]);
+        } catch (\Throwable $th) {
+            return redirect('/sufragio-sudunt')->withErrors(["login-error" => "Ha ocurrido un error, porfavor inténtelo nuevamente."]);
+        }
 	}
 
 }

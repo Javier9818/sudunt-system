@@ -31,9 +31,9 @@ return [
     ],
 
     'google' => [
-        'client_id' => '728037993598-8f3tfgkk2npoaf7o6sgtm2t5daq2gcfr.apps.googleusercontent.com',
-        'client_secret' => 'fix3evJod1BxnXwU9BtHRHZl',
-        'redirect' => 'http://localhost:8000/return-google',
-    ],
+        'client_id' => env('GOOGLE_cLIENT_ID', '728037993598-8f3tfgkk2npoaf7o6sgtm2t5daq2gcfr.apps.googleusercontent.com'),
+        'client_secret' => env('GOOGLE_CLIENT_SECRET', 'fix3evJod1BxnXwU9BtHRHZl'),
+        'redirect' => env('GOOGLE_REDIRECT', 'http://localhost:8000/return-google')
+    ]
 
 ];
