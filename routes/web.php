@@ -23,6 +23,12 @@ Route::post('/login', 'Auth\LoginController@authenticate')->name('login');
 Route::post('/logout', function(){ Auth::logout(); return redirect('/users');})->name('logout');
 Route::get('/login', function () {return view('auth.login');});
 
+Route::get('/login-google', 'Auth\LoginController@login_google')->name('login-google');
+Route::get('/return-google', 'Auth\LoginController@return_google')->name('return-google');
+Route::get('/votacion-desde-google/{email}', function ($email) {
+	$email = base64_decode($email);
+	return $email;
+});
 
 Route::get('/users', 'UserController@index')->middleware('auth');
 Route::get('/', 'UserController@index')->middleware('auth');
