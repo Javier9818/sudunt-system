@@ -18,7 +18,7 @@ class TeacherSeeder extends Seeder
             "email" => "voto@unitru.edu.pe",
             "names" => "Juan Carlos",
             "last_names" => "Melendez Cabrera",
-            "token" => Hash::make("4488")
+            "token" => preg_replace("/\//i", "online", Hash::make("4488"))
         ]);
 
         Teacher::create([
@@ -26,7 +26,7 @@ class TeacherSeeder extends Seeder
             "email" => "voto2@unitru.edu.pe",
             "names" => "Juan Carlos",
             "last_names" => "Melendez Cabrera",
-            "token" => Hash::make("4478")
+            "token" => preg_replace("/\//i", "online", Hash::make("4478"))
         ]);
 
         Teacher::create([
@@ -34,7 +34,7 @@ class TeacherSeeder extends Seeder
             "email" => "voto3@unitru.edu.pe",
             "names" => "Juan Carlos",
             "last_names" => "Melendez Cabrera",
-            "token" => Hash::make("4468")
+            "token" => preg_replace("/\//i", "online", Hash::make("4468"))
         ]);
 
     }

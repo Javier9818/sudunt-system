@@ -1946,10 +1946,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['edit', 'data'],
   data: function data() {
     return {
+      status: true,
       form: {
         names: '',
         last_names: '',
@@ -19771,6 +19774,46 @@ var render = function() {
         { staticClass: "btn btn-primary ml-2 my-3", attrs: { type: "submit" } },
         [_vm._v(_vm._s(_vm.edit === "0" ? "Registrar" : "Actualizar"))]
       )
+    ]),
+    _vm._v("\n    " + _vm._s(_vm.status) + "\n    "),
+    _c("p", [
+      _c("input", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.status,
+            expression: "status"
+          }
+        ],
+        staticClass: "offscreen",
+        attrs: { type: "checkbox", id: "toggle1", name: "status" },
+        domProps: {
+          checked: Array.isArray(_vm.status)
+            ? _vm._i(_vm.status, null) > -1
+            : _vm.status
+        },
+        on: {
+          change: function($event) {
+            var $$a = _vm.status,
+              $$el = $event.target,
+              $$c = $$el.checked ? true : false
+            if (Array.isArray($$a)) {
+              var $$v = null,
+                $$i = _vm._i($$a, $$v)
+              if ($$el.checked) {
+                $$i < 0 && (_vm.status = $$a.concat([$$v]))
+              } else {
+                $$i > -1 &&
+                  (_vm.status = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+              }
+            } else {
+              _vm.status = $$c
+            }
+          }
+        }
+      }),
+      _c("label", { staticClass: "switch", attrs: { for: "toggle1" } })
     ])
   ])
 }

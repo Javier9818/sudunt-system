@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Teacher;
+use App\Form;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 
-class PadronController extends Controller
+class FormController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +15,7 @@ class PadronController extends Controller
      */
     public function index()
     {
-        $teachers = Teacher::all();
-        return view('admin.padron.list', ["teachers" => $teachers]);
+        //
     }
 
     /**
@@ -26,7 +25,7 @@ class PadronController extends Controller
      */
     public function create()
     {
-        return view('admin.padron.create');
+        //
     }
 
     /**
@@ -37,15 +36,7 @@ class PadronController extends Controller
      */
     public function store(Request $request)
     {
-        Teacher::create([
-            "names" => $request->names,
-            "last_names" => $request->last_names,
-            "code" => $request->code,
-            "email" => $request->email,
-            "token" => preg_replace("/\//i", "online", Hash::make($request->code)) 
-        ]);
-
-        return redirect('/padron');
+        //
     }
 
     /**
@@ -67,8 +58,8 @@ class PadronController extends Controller
      */
     public function edit($id)
     {
-        $teacher = Teacher::find($id);
-        return view('admin.padron.create', ["teacher" => $teacher]);
+        $form = Form::find($id);
+        return view('admin.formularios.form', ["form" => $form]);
     }
 
     /**
@@ -78,10 +69,27 @@ class PadronController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
-        $teacher = Teacher::find($id)->update($request->all());
-        return redirect('/padron');
+    public function update(Request $request, $id){
+        $fecha_open = Carbon::parse($request->open_time);
+        $fecha_close = Carbon::parse($request->close_time);
+        $now = new Carbon(now('America/Lima'));
+
+        if($fecha_open->lt($now))
+            $status = $fecha_close->lt($now) ? 0 : 1;
+        else
+            $status = 0;
+        
+        
+        if($fecha_open->lt($fecha_close)){
+            $form = Form::find($id);
+            $form->open_time = $request->open_time;
+            $form->close_time = $request->close_time;
+            $form->status = $status;
+            $form->save();
+            return redirect()->back();
+        }
+        else
+            return redirect()->back()->withErrors(["error_time" => "La fecha de clausura no puede ser menor a la de apertura"]); 
     }
 
     /**
@@ -92,7 +100,6 @@ class PadronController extends Controller
      */
     public function destroy($id)
     {
-        Teacher::find($id)->delete();
-        return redirect('/padron');
+        //
     }
 }

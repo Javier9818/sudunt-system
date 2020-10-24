@@ -18,6 +18,8 @@ class CreateFormsTable extends Migration
             $table->string('title');
             $table->string('description');
             $table->smallInteger('status')->default(1);
+            $table->string('open_time')->default("2018-06-14T00:00");
+            $table->string('close_time')->default("2018-06-14T00:00");
             $table->timestamps();
         });
     }

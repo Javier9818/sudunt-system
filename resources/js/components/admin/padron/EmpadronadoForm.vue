@@ -27,6 +27,8 @@
         <div class="col-md-12">
             <button class="btn btn-primary ml-2 my-3" type="submit">{{edit === '0' ? 'Registrar' : 'Actualizar'}}</button>
         </div>
+        {{status}}
+        <p><input type="checkbox" id="toggle1" name="status" class="offscreen" v-model="status"><label for="toggle1" class="switch"></label></p>
     </div>
 </template>
 
@@ -35,6 +37,7 @@
         props:['edit', 'data'],
         data(){
             return{
+                status:true,
                 form:{
                     names:'',
                     last_names:'',
