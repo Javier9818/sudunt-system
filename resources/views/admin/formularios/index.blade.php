@@ -25,7 +25,7 @@
         <div class="row mt--2">
             <div class="col-md-6">
                 <div class="card full-height">
-                    <div class="card-body">
+                    <div class="card-body" id="card1">
                         <div class="card-title">Estadísticas generales</div>
                         <div class="card-category">Información sobre estadísticas en el sistema acerca de las votaciones</div>
                         <div class="d-flex flex-wrap justify-content-around pb-2 pt-4">
@@ -41,8 +41,9 @@
                                 <div id="circles-3"></div>
                                 <h6 class="fw-bold mt-3 mb-0">Porcentaje de votación</h6>
                             </div>
-                        </div>
+                        </div>                        
                     </div>
+                    <button class=" btn btn-info" onclick="genReport(1)">Generar reporte</button>
                 </div>
             </div>
             <div class="col-md-6">
@@ -50,11 +51,12 @@
                     <div class="card-header">
                         <div class="card-title">Resúmen de resultados</div>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body" id="card2">
                         <div class="chart-container">
                             <canvas id="pieChart" style="width: 50%; height: 50%"></canvas>
                         </div>
                     </div>
+                    <button class=" btn btn-info" onclick="prinCanvas('pieChart')">Generar reporte</button>
                 </div>
             </div>
             <div class="col-md-6">
@@ -62,17 +64,16 @@
                     <div class="card-header">
                         <div class="card-title">Resúmen de votos</div>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body" id="card3">
                         <div class="chart-container">
                             <canvas id="barChart"></canvas>
                         </div>
                     </div>
+                    <button class=" btn btn-info" onclick="prinCanvas('barChart')">Generar reporte</button>
                 </div>
             </div>
         </div>
-        
-
-    </div>
+    </div>   
 </div>
 @endsection
 @section('script')
@@ -209,5 +210,62 @@
 				},
 			}
 	});
+</script>
+<script>
+    function genReport(params) {       
+        var contenido= document.getElementById('card'+params).innerHTML;
+        var contenido= document.getElementById('pieChart').toDataURL();
+		var ventana = window.open('', 'PRINT', 'height=400,width=600');
+		ventana.document.write('<html><head><title>' + document.title + '</title>');
+		ventana.document.write('<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">'); //Aquí agregué la hoja de estilos
+        ventana.document.write('<link rel="stylesheet" href="/assets/css/atlantis.min.css">'); 
+        ventana.document.write('<link rel="stylesheet" href="/assets/css/styles.css">');
+		ventana.document.write('</head><body >');        
+		ventana.document.write(contenido);
+		ventana.document.write('</body>');
+        ventana.document.write('<script src="/assets/js/plugin/chart.js/chart.min.js"></'+'script>');
+        ventana.document.write('<script src="/assets/js/plugin/chart-circle/circles.min.js"></'+'script>');
+        ventana.document.write('<script src="/assets/js/plugin/jquery.sparkline/jquery.sparkline.min.js"></'+'script>');
+        ventana.document.write('<script src="/assets/js/atlantis.min.js"></'+'script>');
+        ventana.document.write('</html>');
+		ventana.document.close();
+		ventana.focus();
+		ventana.onload = function() {
+			ventana.print();
+			ventana.close();
+		};
+		return true;
+    }
+    function prinCanvas(params) {
+        const dataUrl = document.getElementById(params).toDataURL(); 
+        let windowContent = '<!DOCTYPE html>';
+        windowContent += '<html>';
+        windowContent += '<head>';
+        windowContent +='<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">';
+        windowContent +='</head>';
+        windowContent += '<body>';
+        windowContent += '<div class=" container-fluid  text-center">';
+        windowContent += '<div class="row">';        
+        windowContent += '<div class="col-12 mt-3   text-center">';
+        windowContent += '<h2>Reporte</h2>';
+        windowContent += '<div class="chart-container">';
+        windowContent += '<img src="' + dataUrl + '" class=" img-fluid   text-center">';
+        windowContent += '</div>';
+        windowContent += '</div>';
+        windowContent += '</div>';
+        windowContent += '</div>';        
+        windowContent += '</body>';
+        windowContent += '</html>';
+        const printWin = window.open('', '', 'width=' + screen.availWidth + ',height=' + screen.availHeight);
+        printWin.document.open();
+        printWin.document.write(windowContent); 
+
+        printWin.document.addEventListener('load', function() {
+            printWin.focus();
+            printWin.print();
+            printWin.document.close();
+            printWin.close();            
+        }, true);
+    }
 </script>
 @endsection
