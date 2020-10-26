@@ -14,9 +14,9 @@
         <div class="page-inner py-5">
             <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
                 <div>
-                    <h2 class="text-white pb-2 fw-bold">Datos de Votacion</h2>
-                    <h5 class="text-white op-7 mb-2">Resumen de las votaciones</h5>
-                    <h3 class="mr-2 text-white pb-2 fw-bold">Estado ({{$form->status == 1 ? 'Abierto' : 'Cerrado'}}) <a href="/form/1" class="link__style"><i class="fas fa-edit"></i></a></h3>
+                    <h2 class="text-white pb-2 fw-bold">Datos de Votacion - {{$form->title}}</h2>
+                    <h5 class="text-white op-7 mb-2">{{$form->description}}</h5>
+                    <h3 class="mr-2 text-white pb-2 fw-bold">Estado ({{$form->status == 1 ? 'Abierto' : 'Cerrado'}})</h3>
                 </div>
             </div>
         </div>
@@ -46,6 +46,7 @@
                     <button class=" btn btn-info" onclick="genReport(1)">Generar reporte</button>
                 </div>
             </div>
+            @can('rol-admin')
             <div class="col-md-6">
                 <div class="card full-height">
                     <div class="card-header">
@@ -72,6 +73,7 @@
                     <button class=" btn btn-info" onclick="prinCanvas('barChart')">Generar reporte</button>
                 </div>
             </div>
+            @endcan
         </div>
     </div>   
 </div>

@@ -9,7 +9,13 @@
                     <a data-toggle="collapse" href="#collapseExample" aria-expanded="true">
                         <span>
                             {{session('names')}}
-                            <span class="user-level">Administrator</span>
+                            <span class="user-level">
+                                @if(Auth::user()->is_admin)
+                                    Administrator
+                                @else
+                                    Personero
+                                @endif
+                            </span>
                             <span class="caret"></span>
                         </span>
                     </a>
@@ -37,22 +43,25 @@
                 </div>
             </div>
             <ul class="nav nav-primary">
-                <li class="nav-item {{ $isTab('1') ? 'active' : '' }}">
-                    <a data-toggle="collapse" href="#dashboard" class="collapsed" aria-expanded="false">
-                        <i class="fas fa-home"></i>
-                        <p>General</p>
-                        <span class="caret"></span>
-                    </a>
-                    <div class="collapse {{ $isTab('1') ? 'show' : '' }}" id="dashboard">
-                        <ul class="nav nav-collapse">
-                            <li class="{{ $isSelected('1', '1') ? 'active' : '' }}">
-                                <a href="/users">
-                                    <span class="sub-item">Usuarios</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
+                @can('rol-admin')
+                    <li class="nav-item {{ $isTab('1') ? 'active' : '' }}">
+                        <a data-toggle="collapse" href="#dashboard" class="collapsed" aria-expanded="false">
+                            <i class="fas fa-home"></i>
+                            <p>General</p>
+                            <span class="caret"></span>
+                        </a>
+                        <div class="collapse {{ $isTab('1') ? 'show' : '' }}" id="dashboard">
+                            <ul class="nav nav-collapse">
+                                <li class="{{ $isSelected('1', '1') ? 'active' : '' }}">
+                                    <a href="/user">
+                                        <span class="sub-item">Usuarios</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                @endcan
+                
                 <li class="nav-section">
                     <span class="sidebar-mini-icon">
                         <i class="fa fa-ellipsis-h"></i>
@@ -67,16 +76,23 @@
                     </a>
                     <div class="collapse {{ $isTab('2') ? 'show' : '' }}" id="base">
                         <ul class="nav nav-collapse">
+                            @can('rol-admin')
                             <li class="{{ $isSelected('2', '1') ? 'active' : '' }}">
                                 <a href="/padron">
                                     <span class="sub-item">Padrón</span>
                                 </a>
                             </li>
+                            @endcan
                             <li class="{{ $isSelected('2', '2') ? 'active' : '' }}">
+                                <a href="/form">
+                                    <span class="sub-item">Formularios</span>
+                                </a>
+                            </li>
+                            <!-- <li class="{{ $isSelected('2', '3') ? 'active' : '' }}">
                                 <a href="/formularios">
                                     <span class="sub-item">Estado</span>
                                 </a>
-                            </li>
+                            </li> -->
                             <!-- <li>
                                 <a href="components/gridsystem.html">
                                     <span class="sub-item">Grid System</span>

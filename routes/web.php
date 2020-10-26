@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::post('/login', 'Auth\LoginController@authenticate')->name('login');
-Route::post('/logout', function(){ Auth::logout(); return redirect('/users');})->name('logout');
+Route::post('/logout', function(){ Auth::logout(); return redirect('/login');})->name('logout');
 Route::get('/login', function () {return view('auth.login');});
 
 
@@ -28,7 +28,10 @@ Route::get('/sufragio-sudunt', function(){ return view('admin.vote.autentication
 Route::get('/login-google', 'Auth\LoginController@login_google')->name('login-google');
 Route::get('/return-google', 'Auth\LoginController@return_google')->name('return-google');
 
-Route::get('/users', 'UserController@index')->middleware('auth');
+
+
+// Route::get('/users', 'UserController@index')->middleware('auth');
+
 Route::get('/', 'UserController@index')->middleware('auth');
 
 
@@ -36,11 +39,11 @@ Route::get('/', 'UserController@index')->middleware('auth');
 Route::get('/votacion/{token}', 'VoteController@validation')->name('votation');
 Route::post('/vote', 'VoteController@store')->name('votation');
 
+Route::resource('user', 'UserController')->middleware('can:rol-admin');
+Route::resource('padron', 'PadronController')->middleware('can:rol-admin');
+Route::resource('form', 'FormController')->middleware('auth');
+Route::get('/form-statistics/{id}', 'VoteController@statistics')->middleware('auth');
 
-Route::resource('padron', 'PadronController')->middleware('auth');
+// Route::get('/form/{id}', 'FormController@edit')->middleware('auth');
 
-
-Route::get('/formularios', 'VoteController@statistics')->middleware('auth');
-Route::get('/form/{id}', 'FormController@edit')->middleware('auth');
-Route::put('/form/{id}', 'FormController@update')->middleware('auth');
 

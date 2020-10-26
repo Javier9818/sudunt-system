@@ -20,44 +20,26 @@
     </div>
     <div class="page-inner mt--5">
         <div class="row mt--2">
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <div class="card full-height">
                     <div class="card-body">
-                        <div class="card-title">Formulario de votación ({{$form->status == 1 ? 'Abierto' : 'Cerrado'}})</div>
-                        <form action="/form/1" method="POST">
+                        <div class="card-title">Formulario de votación 
+                            @if(($form ?? null) != null)
+                                ({{$form->status == 1 ? 'Abierto' : 'Cerrado'}})
+                            @endif    
+                        </div>
+                        <form action="{{($form ?? null) == null ? '/form':'/form/'.$form->id}}" method="POST" id="vote-form">
                             @csrf
-                            @method('PUT')
-                            <div class="row">   
-                                <!-- <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="last_names">Estado (Cerrado)</label>
-                                        <p><input type="checkbox" id="toggle1" name="status" class="offscreen" ><label for="toggle1" class="switch"></label></p>
-                                    </div>
-                                </div> -->
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Fecha de apertura</label>
-                                        <input type="datetime-local" id="open-time"
-                                        name="open_time" value="{{$form->open_time}}"
-                                        min="2020-01-01T00:00" max="2021-12-31T00:00">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Fecha de clausura</label>
-                                        <input type="datetime-local" id="close-time"
-                                        name="close_time" value="{{$form->close_time}}"
-                                        min="2020-01-01T00:00" max="2021-12-31T00:00">
-                                    </div>
-                                </div>
+                            @if(($form ?? null) != null)
+                                @method('PUT')
+                            @endif  
+                            <div class="row"> 
                                 @error('error_time')
                                     <div class="col-md-12 ml-2">
                                         <h5 style="color:red">{{$message}}</h5>
                                     </div>
                                 @enderror
-                                <div class="col-md-6 mt-2">
-                                    <button class="btn btn-primary" type="submit">Guardar</button>
-                                </div>
+                                <vote-form edit="{{($form ?? null) == null ? 0:1}}" data="{{$form ?? null}}"></vote-form>
                             </div>
                         </form>   
                     </div>

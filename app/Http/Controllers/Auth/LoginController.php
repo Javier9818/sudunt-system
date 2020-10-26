@@ -50,7 +50,8 @@ class LoginController extends Controller
             $user = Auth::user();
             $person = Person::find($user->person_id);
             session(["names" => $person->names]);
-            if($user->is_admin) return redirect()->intended('/users');
+            if($user->is_admin) return redirect()->intended('/user');
+            else return redirect(route('form.index'));
         }else
             return redirect('/login')->withErrors(['login-error' => 'Email o contraseña incorrecto']);
     }

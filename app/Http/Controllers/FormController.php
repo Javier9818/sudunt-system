@@ -15,7 +15,9 @@ class FormController extends Controller
      */
     public function index()
     {
-        //
+        $forms = Form::orderBy('created_at', 'desc')->get();
+        Form::dateVerify(0, $forms[0]);
+        return view('admin.formularios.list', ["forms" => $forms]);
     }
 
     /**
@@ -25,7 +27,8 @@ class FormController extends Controller
      */
     public function create()
     {
-        //
+        $this->authorize('rol-admin');
+        return view('admin.formularios.form');
     }
 
     /**
@@ -36,7 +39,31 @@ class FormController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->authorize('rol-admin');
+        if(Form::where('status', 1)->exists())
+            return redirect()->back()->withErrors(["error_time" => "No puede crear otro formulario mientras exista uno en estado abierto."]); 
+        else{
+            $fecha_open = Carbon::parse($request->open_time);
+            $fecha_close = Carbon::parse($request->close_time);
+            $now = new Carbon(now('America/Lima'));
+            if($fecha_open->lt($now))
+                $status = $fecha_close->lt($now) ? 0 : 1;
+            else
+                $status = 0;
+            
+            if($fecha_open->lt($fecha_close)){
+                Form::create([
+                    "open_time" => $request->open_time,
+                    "close_time" => $request->close_time,
+                    "status" => $status,
+                    "title" => $request->title,
+                    "description" => $request->description
+                ]);
+                return redirect(route('form.index'));
+            }
+            else
+                return redirect()->back()->withErrors(["error_time" => "La fecha de clausura no puede ser menor a la de apertura"]); 
+        }
     }
 
     /**
@@ -58,6 +85,7 @@ class FormController extends Controller
      */
     public function edit($id)
     {
+        $this->authorize('rol-admin');
         $form = Form::find($id);
         return view('admin.formularios.form', ["form" => $form]);
     }
@@ -70,6 +98,7 @@ class FormController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id){
+        $this->authorize('rol-admin');
         $fecha_open = Carbon::parse($request->open_time);
         $fecha_close = Carbon::parse($request->close_time);
         $now = new Carbon(now('America/Lima'));
@@ -100,6 +129,6 @@ class FormController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $this->authorize('rol-admin');
     }
 }

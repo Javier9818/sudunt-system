@@ -22,7 +22,8 @@ import Vuelidate from 'vuelidate'
 Vue.use(Vuelidate)
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('empadronado-form', require('./components/Admin/padron/EmpadronadoForm.vue').default);
-
+Vue.component('vote-form', require('./components/Admin/form/VoteForm.vue').default);
+Vue.component('user-form', require('./components/Admin/user/UserForm.vue').default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

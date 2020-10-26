@@ -1,10 +1,10 @@
 @extends('layouts.admin')
 @section('title') 
-    Inicio  
+    Formularios de sufragio  
 @endsection
 
 @section('side-nav') 
-    <x-side-nav tab="1" selected='1'/>
+    <x-side-nav tab="2" selected='2'/>
 @endsection
 
 @section('content')
@@ -13,8 +13,8 @@
             <div class="page-inner py-5">
                 <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
                     <div>
-                        <h2 class="text-white pb-2 fw-bold">Usuarios</h2>
-                        <h5 class="text-white op-7 mb-2">Lista de usuarios del sistema</h5>
+                        <h2 class="text-white pb-2 fw-bold">Formularios de sufragio</h2>
+                        <!-- <h5 class="text-white op-7 mb-2">Lista de usuarios del sistema</h5> -->
                     </div>
                     <!-- <div class="ml-md-auto py-2 py-md-0">
                         <a href="#" class="btn btn-white btn-border btn-round mr-2">Manage</a>
@@ -28,43 +28,54 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title">Usuarios </h4>
-                            <a href="/user/create" class="btn btn-sm btn-success float-right">Nuevo</a>
-                            
+                            <h4 class="card-title">Formularios de sufragio </h4>
+                            @can('rol-admin')
+                                <a href="/form/create" class="btn btn-sm btn-success float-right">Nuevo</a>
+                            @endcan
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table id="multi-filter-select" class="display table table-striped table-hover" >
                                     <thead>
                                         <tr>
-                                            <th>Nombres</th>
-                                            <th>Apellidos</th>
-                                            <th>Email</th>
-                                            <th>Rol</th>
+                                            <th>Titulo</th>
+                                            <th>Descripcion</th>
+                                            <th>Estado</th>
+                                            <th>Fecha de creación</th>
                                             <th>Opciones</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
                                         <tr>
-                                            <th>Nombres</th>
-                                            <th>Apellidos</th>
-                                            <th>Email</th>
-                                            <th>Rol</th>
+                                            <th>Titulo</th>
+                                            <th>Descripcion</th>
+                                            <th>Estado</th>
+                                            <th>Fecha de creación</th>
                                             <th>Opciones</th>
                                         </tr>
                                     </tfoot>
                                     <tbody>
-                                        @foreach($users as $user)
-                                        <tr>
-                                            <td>{{$user->names}}</td>
-                                            <td>{{$user->last_names}}</td>
-                                            <td>{{$user->email}}</td>
-                                            <td>{{$user->is_admin == true ? 'Administrador' : 'Personero'}}</td>
-                                            <td> 
-                                                <a href="/user/{{$user->id}}/edit">Editar</a> 
-                                                <a href="" class="ml-2">Eliminar</a> 
-                                            </td>
-                                        </tr>
+                                        @foreach($forms as $form)
+                                            <tr>
+                                                <td>{{$form->title}}</td>
+                                                <td>{{$form->description}}</td>
+                                                <td>{{$form->status == 0 ? 'Cerrado' : 'Abierto'}}</td>
+                                                <td>{{$form->created_at}}</td>
+                                                <td> 
+                                                    @can('rol-admin')
+                                                        @if ($loop->first)
+                                                            <a href="/form/{{$form->id}}/edit"> <i class="fas fa-edit"></i></a> 
+                                                            <a href="javascript:void(0)" class="ml-2" onclick="event.preventDefault();
+                                                            if(confirm('¿Está seguro de realizar está operación?'))document.getElementById('delete-form').submit();"><i class="fas fa-trash" style="color:lightcoral;"></i></a>
+                                                            <form id="delete-form" action="/form/{{$form->id}}" method="POST" style="display: none;">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                            </form> 
+                                                        @endif
+                                                    @endcan
+                                                    <a href="/form-statistics/{{$form->id}}" class="ml-2"> <i class="fas fa-eye" style="color:green;"></i> </a> 
+                                                </td>
+                                            </tr>
                                         @endforeach
                                     </tbody>
                                 </table>

@@ -11,8 +11,8 @@ class Form extends Model
         'title', 'description', 'status', 'open_time', 'close_time'
     ];
 
-    public static function dateVerify($id){
-        $form  = Form::find($id);
+    public static function dateVerify($id = 0, $_form = null){
+        $form  = $_form == null ? Form::find($id): $_form;
 
         $fecha_open = Carbon::parse($form->open_time);
         $fecha_close = Carbon::parse($form->close_time);
