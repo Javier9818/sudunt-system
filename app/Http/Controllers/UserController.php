@@ -124,11 +124,10 @@ class UserController extends Controller
                     "is_admin" => $request->scope == 1 ? true : false,
                 ]);
             });
+            return redirect(route('user.index'));
         } catch (\Throwable $th) {
             return redirect(route('user.create'))->withErrors(["register-error" => "Email ingresado ya se encuentra registrado."]);
         }
-
-        return redirect(route('user.index'));
     }
 
     /**
