@@ -58,11 +58,12 @@
                                                 <td>{{$teacher->email}}</td>
                                                 <td> 
                                                     <a href="/padron/{{$teacher->id}}/edit">Editar</a> 
-                                                    <a href="javascript:void(0)" class="ml-2" onclick="event.preventDefault();
-                                                    if(confirm('¿Está seguro de realizar está operación?'))document.getElementById('delete-padron').submit();">Eliminar</a>
-                                                    <form id="delete-padron" action="/padron/{{$teacher->id}}" method="POST" style="display: none;">
+                                                    <!-- <a href="javascript:void(0)" class="ml-2" onclick="event.preventDefault();
+                                                    if(confirm('¿Está seguro de realizar está operación?'))document.getElementById('delete-padron').submit();">Eliminar</a> -->
+                                                    <form id="delete-padron" action="/padron/{{$teacher->id}}" method="POST">
                                                         @csrf
                                                         @method('DELETE')
+                                                        <button class="btn btn-danger btn-sm" type="submit"><i class="fas fa-trash" style="color:white;"></i></button>
                                                     </form> 
                                                 </td>
                                             </tr>

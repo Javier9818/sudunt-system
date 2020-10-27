@@ -62,7 +62,13 @@
                                             <td>{{$user->is_admin == true ? 'Administrador' : 'Personero'}}</td>
                                             <td> 
                                                 <a href="/user/{{$user->id}}/edit">Editar</a> 
-                                                <a href="" class="ml-2">Eliminar</a> 
+                                                <!-- <a href="javascript:void(0)" class="ml-2"  onclick="event.preventDefault();
+                                                if(confirm('¿Está seguro de realizar está operación?'))document.getElementById('delete-user').submit();">Eliminar</a> -->
+                                                <form action="/user/{{$user->id}}" method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button class="btn btn-danger btn-sm" type="submit"><i class="fas fa-trash" style="color:white;"></i></button>
+                                                </form> 
                                             </td>
                                         </tr>
                                         @endforeach
