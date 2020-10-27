@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Teacher;
+use App\Vote;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -92,7 +93,11 @@ class PadronController extends Controller
      */
     public function destroy($id)
     {
-        Teacher::find($id)->delete();
-        return redirect('/padron');
+        if(Vote::where('teacher_id', $id)->exists())
+            return redirect('/padron');
+        else
+            Teacher::find($id)->delete();
+            return redirect('/padron');
+        
     }
 }

@@ -15,7 +15,7 @@ class TeacherSeeder extends Seeder
     {
         Teacher::create([
             "code" => "4488",
-            "email" => "voto@unitru.edu.pe",
+            "email" => "jbriceno@unitru.edu.pe",
             "names" => "Juan Carlos",
             "last_names" => "Melendez Cabrera",
             "token" => preg_replace("/\//i", "online", Hash::make("4488"))
@@ -23,7 +23,7 @@ class TeacherSeeder extends Seeder
 
         Teacher::create([
             "code" => "4478",
-            "email" => "voto2@unitru.edu.pe",
+            "email" => "jbricenomontano@gmail.com",
             "names" => "Juan Carlos",
             "last_names" => "Melendez Cabrera",
             "token" => preg_replace("/\//i", "online", Hash::make("4478"))
@@ -31,7 +31,7 @@ class TeacherSeeder extends Seeder
 
         Teacher::create([
             "code" => "4468",
-            "email" => "voto3@unitru.edu.pe",
+            "email" => "xxrodolfoxx98@gmail.com",
             "names" => "Juan Carlos",
             "last_names" => "Melendez Cabrera",
             "token" => preg_replace("/\//i", "online", Hash::make("4468"))
