@@ -235,7 +235,8 @@
                                     <div class="avatar-lg"><img src="/assets/images/user.png" alt="image profile" class="avatar-images rounded" width="100%"></div>
                                     <div class="u-text">
                                         <h4>{{session('names')}}</h4>
-                                        <p class="text-muted">{{Auth::user()->email}}</p><a href="profile.html" class="btn btn-xs btn-secondary btn-sm">Ver perfil</a>
+                                        <p class="text-muted">{{Auth::user()->email}}</p>
+                                        <!-- <a href="profile.html" class="btn btn-xs btn-secondary btn-sm">Ver perfil</a> -->
                                     </div>
                                 </div>
                             </li>
