@@ -15,7 +15,7 @@ class VoteController extends Controller
   public $list_elections;
   function __construct() {
       $this->list_elections = [
-        'Lista 1', 'Lista 2', 'Voto nulo', 'Voto viciado'
+        'Lista 1', 'Lista 2', 'Blanco', 'Viciado'
       ];
   }
 
