@@ -49,7 +49,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        // try {
+        try {
             $password = Str::random(10);
             DB::transaction(function () use ($request, $password){
                 $person = Person::create([
@@ -74,9 +74,9 @@ class UserController extends Controller
             });
             Mail::to($request->only(['email']))->queue(new CredentialsUser($password,$request->email, $request->names));
             return redirect(route('user.index'));
-        // } catch (\Throwable $th) {
-        //     return redirect(route('user.create'))->withErrors(["register-error" => "Email ingresado ya se encuentra registrado."]);
-        // }
+        } catch (\Throwable $th) {
+            return redirect(route('user.create'))->withErrors(["register-error" => "Email ingresado ya se encuentra registrado."]);
+        }
         
     }
 
