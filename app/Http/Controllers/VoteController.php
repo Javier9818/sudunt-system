@@ -23,7 +23,7 @@ class VoteController extends Controller
     $form = Form::orderBy('created_at', 'desc')->first();
     $form = Form::dateVerify(0, $form);
     if($form->status == 0)
-      return view('admin.vote.index',["context" => 5]); //EL VOTO YA FUE CERRADO
+      return view('admin.vote.index',["context" => 5, "form" => $form]); //EL VOTO YA FUE CERRADO
     else{
       $teacher = Teacher::where('token', $token)->first();
       if ($teacher !== null)
@@ -34,6 +34,7 @@ class VoteController extends Controller
             return view('admin.vote.index',[  // ACCESO PERMITIDO
               "list_elections" => $this->list_elections,
               "teacher" => $teacher,
+              "form" => $form,
               "context" => 2
             ]);
         }
