@@ -39,10 +39,14 @@ class PadronController extends Controller
     public function store(Request $request)
     {
         Teacher::create([
-            "names" => $request->names,
-            "last_names" => $request->last_names,
+            "nombres" => $request->nombres,
+            "correo_institucional" => $request->correo_institucional,
+            "correo_personal" => $request->correo_personal,
             "code" => $request->code,
-            "email" => $request->email,
+            "departamento" => $request->departamento,
+            "facultad" => $request->facultad,
+            "categoria" => $request->categoria,
+            "sexo" => $request->sexo,
             "token" => preg_replace("/\//i", "online", Hash::make($request->code)) 
         ]);
 
@@ -99,5 +103,10 @@ class PadronController extends Controller
             Teacher::find($id)->delete();
             return redirect('/padron');
         
+    }
+
+    public function obtenerEmpadronado($code){
+        $empadronado = Teacher::where('code', $code)->first();
+        return response()->json(["empadronado" => $empadronado ?? null]);
     }
 }

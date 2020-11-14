@@ -22,6 +22,7 @@ import Vuelidate from 'vuelidate'
 Vue.use(Vuelidate)
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('empadronado-form', require('./components/Admin/padron/EmpadronadoForm.vue').default);
+Vue.component('seach-component', require('./components/Admin/padron/SearchTeacher.vue').default);
 Vue.component('vote-form', require('./components/Admin/form/VoteForm.vue').default);
 Vue.component('user-form', require('./components/Admin/user/UserForm.vue').default);
 /**

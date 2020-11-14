@@ -37,25 +37,25 @@
                                     <thead>
                                         <tr>
                                             <th>Nombres</th>
-                                            <th>Apellidos</th>
-                                            <th>Email</th>
+                                            <th>Código</th>
+                                            <th>Correo personal</th>
                                             <th>Opciones</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
                                         <tr>
                                             <th>Nombres</th>
-                                            <th>Apellidos</th>
-                                            <th>Email</th>
+                                            <th>Código</th>
+                                            <th>Correo personal</th>
                                             <th>Opciones</th>
                                         </tr>
                                     </tfoot>
                                     <tbody>
                                         @foreach($teachers as $teacher)
                                             <tr>
-                                                <td>{{$teacher->names}}</td>
-                                                <td>{{$teacher->last_names}}</td>
-                                                <td>{{$teacher->email}}</td>
+                                                <td>{{$teacher->nombres}}</td>
+                                                <td>{{$teacher->code}}</td>
+                                                <td>{{$teacher->correo_personal}}</td>
                                                 <td> 
                                                     <a href="/padron/{{$teacher->id}}/edit">Editar</a> 
                                                     <!-- <a href="javascript:void(0)" class="ml-2" onclick="event.preventDefault();

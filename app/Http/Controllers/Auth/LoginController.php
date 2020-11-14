@@ -67,7 +67,7 @@ class LoginController extends Controller
 	public function return_google(){
         try {
             $getInfo = Socialite::driver('google')->user();
-            $teacher = Teacher::where('email', $getInfo->email)->first();
+            $teacher = Teacher::where('correo_institucional', $getInfo->email)->orWhere('correo_personal', $getInfo->email)->first();
             if($teacher !== null)
                 return redirect('/'.'votacion/'.$teacher->token);
             else

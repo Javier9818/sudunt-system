@@ -20,7 +20,7 @@ class VoteController extends Controller
   }
 
   public function validation($token){
-    $form = Form::orderBy('created_at', 'desc')->first();
+    $form = Form::orderBy('id', 'desc')->first();
     $form = Form::dateVerify(0, $form);
     if($form->status == 0)
       return view('admin.vote.index',["context" => 5, "form" => $form]); //EL VOTO YA FUE CERRADO
@@ -44,7 +44,7 @@ class VoteController extends Controller
   }
 
   public function store(Request $request){
-    $form = Form::orderBy('created_at', 'desc')->first();
+    $form = Form::orderBy('id', 'desc')->first();
     if($form->status == 0)
       return view('admin.vote.index',["context" => 5]); //EL VOTO YA FUE CERRADO
     else{
@@ -60,7 +60,8 @@ class VoteController extends Controller
               "response" => $request->vote
             ]);
             try {
-              Mail::to([$teacher->email])->queue(new VoteSuccess($teacher->names));
+              $email = $teacher->correo_institucional ?? $teacher->correo_personal;
+              Mail::to([$email])->queue(new VoteSuccess($teacher->nombres));
             } catch (\Throwable $th) {}
             return view('admin.vote.index',["teacher" => $teacher,"context" => 4]); //VOTO REGISTRADO CORRECTAMENTE
           } 

@@ -6,10 +6,10 @@
       <div class="card-body">
         @switch($context)
           @case(1)
-            <h5 class="card-title text-center mt-2">{{$teacher->names}} su voto ya se encuentra registrado.</h5>
+            <h5 class="card-title text-center mt-2">{{$teacher->nombres}} su voto ya se encuentra registrado.</h5>
           @break
           @case(2)
-            <h5 class="card-title text-center mt-2">Bienvenido {{$teacher->names}}, porfavor eliga la opción de su preferencia.</h5>
+            <h5 class="card-title text-center mt-2">Bienvenido {{$teacher->nombres}}, porfavor eliga la opción de su preferencia.</h5>
             <p class="text-center">
               El sistema de sufragio solo estará activo desde el día {{substr($form->open_time, 0, 10)}} a las {{substr($form->open_time, 11, 5)}} horas, hasta el día {{substr($form->close_time, 0, 10)}} a las {{substr($form->close_time, 11, 5)}} horas.
             </p>
@@ -53,7 +53,7 @@
             <h5 class="card-title text-center mt-2">El enlace accedido no es válido.</h5>
           @break
           @case(4)
-            <h5 class="card-title text-center mt-2"> {{$teacher->names}} su voto ha sido registrado exitosamente.</h5>
+            <h5 class="card-title text-center mt-2"> {{$teacher->nombres}} su voto ha sido registrado exitosamente.</h5>
           @break
           @case(5)
             <h5 class="card-title text-center mt-2">Sistema de votación cerrado.</h5>

@@ -7,7 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 class Teacher extends Model
 {
     protected $fillable = [
-        'code', 'email', 'names', 'last_names', 'token', 'status'
+        'code',
+        'correo_institucional',
+        'correo_personal',
+        'sexo',
+        'facultad',
+        'departamento',
+        'categoria',
+        'nombres',
+        'token'
     ];
 
     public static function validation($token)

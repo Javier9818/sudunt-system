@@ -24,7 +24,10 @@ Route::post('/logout', function(){ Auth::logout(); return redirect('/login');})-
 Route::get('/login', function () {return view('auth.login');});
 
 
-Route::get('/sufragio-sudunt', function(){ return view('admin.vote.autentication');});
+Route::get('/sufragio-sudunt', function(){ return view('admin.vote.main');});
+Route::get('/sufragio-sudunt/busqueda-empadronados', function(){ return view('admin.vote.searchTeacher');});
+Route::get('/sufragio-sudunt/autenticar-empadronado', function(){ return view('admin.vote.autentication');});
+
 Route::get('/login-google', 'Auth\LoginController@login_google')->name('login-google');
 Route::get('/return-google', 'Auth\LoginController@return_google')->name('return-google');
 

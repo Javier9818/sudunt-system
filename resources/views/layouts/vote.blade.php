@@ -91,7 +91,7 @@
       background-color: #4caf50;
     }
   </style>
-
+  @yield('styles')
   <body
     style="
       background-image: url('https://www.ecestaticos.com/imagestatic/clipping/2d9/5ca/2d95ca19408cd61eeed949932e50e977/donde-tengo-que-votar-consulta-aqui-cual-es-tu-colegio-electoral-este-10-n.jpg?mtime=1579565836');
@@ -99,13 +99,13 @@
       background-position: center center;
     "
   >
-    <header>
+    <!-- <header>
       <nav class="navbar navbar-light bg-light">
         <span class="navbar-brand mb-0 h1 text-uppercase"
           >Sufragio SUDUNT</span
         >
       </nav>
-    </header>
+    </header> -->
     <main>
       <section>
 				<div class="container h-100">
@@ -113,6 +113,7 @@
 				</div>				
       </section>
     </main>
+    <script src="/js/app.js"></script>
     <script
       src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
       integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"

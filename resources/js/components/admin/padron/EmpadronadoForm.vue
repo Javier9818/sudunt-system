@@ -1,17 +1,10 @@
 <template>
     <div class="row">
         <div class="col-md-6">
-            <div :class="`form-group ${!$v.form.names.text ? 'has-error' : ''} `">
-                <label for="names">Nombres</label>
-                <input type="text" id="names" name="names" v-model="form.names" class="form-control" required>
-                <p v-if="!$v.form.names.text" class="help text-danger">Este campo es inválido</p>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div :class="`form-group ${!$v.form.last_names.text ? 'has-error' : ''} `">
-                <label for="last_names">Apellidos</label>
-                <input type="text" id="last_names" name="last_names" v-model="form.last_names" class="form-control" required>
-                <p v-if="!$v.form.last_names.text" class="help text-danger">Este campo es inválido</p>
+            <div :class="`form-group ${!$v.form.nombres.text ? 'has-error' : ''} `">
+                <label for="nombres">Nombres y apellidos</label>
+                <input type="text" id="nombres" name="nombres" v-model="form.nombres" class="form-control" required>
+                <p v-if="!$v.form.nombres.text" class="help text-danger">Este campo es inválido</p>
             </div>
         </div>
         <div class="col-md-6">
@@ -22,10 +15,48 @@
             </div>
         </div>
         <div class="col-md-6">
-            <div :class="`form-group ${!$v.form.email.email ? 'has-error' : ''} `">
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" v-model="form.email" class="form-control" required>
-                <p v-if="!$v.form.email.email" class="help text-danger">Este campo es inválido</p>
+            <div :class="`form-group ${!$v.form.correo_personal.email ? 'has-error' : ''} `">
+                <label for="correo_personal">Correo personal</label>
+                <input type="email" id="correo_personal" name="correo_personal" v-model="form.correo_personal" class="form-control" >
+                <p v-if="!$v.form.correo_personal.email" class="help text-danger">Este campo es inválido</p>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div :class="`form-group ${!$v.form.correo_institucional.email ? 'has-error' : ''} `">
+                <label for="correo_institucional">Correo institucional</label>
+                <input type="email" id="correo_institucional" name="correo_institucional" v-model="form.correo_institucional" class="form-control" >
+                <p v-if="!$v.form.correo_institucional.email" class="help text-danger">Este campo es inválido</p>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div :class="`form-group ${!$v.form.facultad.text ? 'has-error' : ''} `">
+                <label for="facultad">Facultad</label>
+                <input type="text" id="facultad"  name="facultad" v-model="form.facultad" class="form-control" required>
+                <p v-if="!$v.form.facultad.text" class="help text-danger">Este campo es inválido</p>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div :class="`form-group ${!$v.form.departamento.text ? 'has-error' : ''} `">
+                <label for="departamento">Departamento</label>
+                <input type="text" id="departamento"  name="departamento" v-model="form.departamento" class="form-control" required>
+                <p v-if="!$v.form.departamento.text" class="help text-danger">Este campo es inválido</p>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div :class="`form-group ${!$v.form.categoria.text ? 'has-error' : ''} `">
+                <label for="categoria">Categoría</label>
+                <input type="text" id="categoria"  name="categoria" v-model="form.categoria" class="form-control" required>
+                <p v-if="!$v.form.categoria.text" class="help text-danger">Este campo es inválido</p>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="sexo">Sexo</label>
+                <select name="sexo" id="sexo" class="form-control" v-model="form.sexo" required>
+                    <option :value="null" disabled selected>-- Porfavor, seleccione una opción --</option>
+                    <option value="M">Masculino</option>
+                    <option value="F">Femenino</option>
+                </select>
             </div>
         </div>
         <div class="col-md-12">
@@ -43,27 +74,41 @@
         data(){
             return{
                 form:{
-                    names:'',
-                    last_names:'',
+                    nombres:'',
                     code:'',
-                    email:''
+                    correo_institucional:'',
+                    correo_personal:'',
+                    departamento:'',
+                    facultad:'',
+                    categoria:'',
+                    sexo:null
+
                 }
             }
         },
         validations:{
             form:{
-                names:{
-                    text
-                },
-                last_names:{
+                nombres:{
                     text
                 },
                 code:{
                     text
                 },
-                email:{
+                correo_institucional:{
                     email
-                }
+                },
+                correo_personal:{
+                    email
+                },
+                departamento:{
+                    text
+                },
+                facultad:{
+                    text
+                },
+                categoria:{
+                    text
+                },
             }
         },
         mounted() {

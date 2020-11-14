@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Form;
+use App\Vote;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -15,7 +16,7 @@ class FormController extends Controller
      */
     public function index()
     {
-        $forms = Form::orderBy('created_at', 'desc')->get();
+        $forms = Form::orderBy('id', 'desc')->get();
         Form::dateVerify(0, $forms[0]);
         return view('admin.formularios.list', ["forms" => $forms]);
     }
@@ -130,5 +131,8 @@ class FormController extends Controller
     public function destroy($id)
     {
         $this->authorize('rol-admin');
+        Vote::where('form_id', $id)->delete();
+        Form::find($id)->delete();
+        return redirect()->back();
     }
 }
