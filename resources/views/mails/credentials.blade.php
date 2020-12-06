@@ -10,7 +10,7 @@
     <p>Saludos {{$names}}, usted ha sido registrado(a) en el sistema de sufragio SUDUNT a continuación se muestran sus credenciales de acceso.</p>
     <p style="color: tomato;"> Estos datos son privados, en caso de no poder acceder, porfavor comunicarse con el área técnica de SUDUNT</p>
     <ul>
-        <li>Sistema de sufragio:   <a href="www.google.com">www.sudunt.com</a></li>
+        <li>Sistema de sufragio:   <a href="https://sudunt.bse.com.pe/">https://sudunt.bse.com.pe/</a></li>
         <li>Email: {{$email}}</li>
         <li>Contraseña: {{$pass}}</li>
     </ul>

@@ -1,7 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>@yield('title')</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link
     href="https://fonts.googleapis.com/css?family=Raleway"
     rel="stylesheet"
@@ -12,6 +15,7 @@
     integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
     crossorigin="anonymous"
   />
+  @yield('styles')
   <style>
     * {
       box-sizing: border-box;
@@ -91,43 +95,43 @@
       background-color: #4caf50;
     }
   </style>
-  @yield('styles')
-  <body
+</head>
+<body
     style="
       background-image: url('https://www.ecestaticos.com/imagestatic/clipping/2d9/5ca/2d95ca19408cd61eeed949932e50e977/donde-tengo-que-votar-consulta-aqui-cual-es-tu-colegio-electoral-este-10-n.jpg?mtime=1579565836');
       background-repeat: no-repeat;
       background-position: center center;
     "
   >
-    <!-- <header>
-      <nav class="navbar navbar-light bg-light">
-        <span class="navbar-brand mb-0 h1 text-uppercase"
-          >Sufragio SUDUNT</span
-        >
-      </nav>
-    </header> -->
-    <main>
-      <section>
-				<div class="container h-100">
-					@yield('content')
-				</div>				
-      </section>
-    </main>
-    <script src="/js/app.js"></script>
-    <script
-      src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
-      integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
-      integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
-      crossorigin="anonymous"
-		></script>
+      <!-- <header>
+        <nav class="navbar navbar-light bg-light">
+          <span class="navbar-brand mb-0 h1 text-uppercase"
+            >Sufragio SUDUNT</span
+          >
+        </nav>
+      </header> -->
+      <main>
+        <section>
+          <div class="container h-100">
+            @yield('content')
+          </div>				
+        </section>
+      </main>
+      <script src="/js/app.js"></script>
+      <script
+        src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"
+      ></script>
+      <script
+        src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+        crossorigin="anonymous"
+      ></script>
+      <script
+        src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+        crossorigin="anonymous"
+      ></script>
   </body>
 </html>

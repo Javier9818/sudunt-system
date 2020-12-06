@@ -43,10 +43,14 @@ Route::get('/votacion/{token}', 'VoteController@validation')->name('votation');
 Route::post('/vote', 'VoteController@store')->name('votation');
 
 Route::resource('user', 'UserController')->middleware('can:rol-admin');
+Route::get('/padron/tokens', 'PadronController@generateTokens')->middleware('can:rol-admin');
+Route::get('/padron/correo-institucional', 'PadronController@registroAutomaticoCorreoInstitucional')->middleware('can:rol-admin');
 Route::resource('padron', 'PadronController')->middleware('can:rol-admin');
 Route::resource('form', 'FormController')->middleware('auth');
 Route::get('/form-statistics/{id}', 'VoteController@statistics')->middleware('auth');
 
+Route::get('/view-cache', function () {Artisan::call('view:cache');});
+Route::get('/cache-clear', function () {Artisan::call('cache:clear');});
 // Route::get('/form/{id}', 'FormController@edit')->middleware('auth');
 
 

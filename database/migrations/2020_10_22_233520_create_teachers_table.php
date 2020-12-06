@@ -19,9 +19,9 @@ class CreateTeachersTable extends Migration
             $table->string('correo_institucional', 100)->nullable();
             $table->string('correo_personal', 100)->nullable();
             $table->char('sexo', 1);
-            $table->string('facultad');
-            $table->string('departamento');
-            $table->string('categoria');
+            $table->string('facultad')->nullable();
+            $table->string('departamento')->nullable();
+            $table->string('categoria')->nullable();
             $table->string('nombres');
             $table->string('token')->nullable();
             $table->smallInteger('status')->default(1);

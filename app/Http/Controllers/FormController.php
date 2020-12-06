@@ -17,7 +17,8 @@ class FormController extends Controller
     public function index()
     {
         $forms = Form::orderBy('id', 'desc')->get();
-        Form::dateVerify(0, $forms[0]);
+        if(count($forms) > 0)
+            Form::dateVerify(0, $forms[0]);
         return view('admin.formularios.list', ["forms" => $forms]);
     }
 

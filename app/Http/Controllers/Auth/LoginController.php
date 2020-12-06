@@ -71,9 +71,9 @@ class LoginController extends Controller
             if($teacher !== null)
                 return redirect('/'.'votacion/'.$teacher->token);
             else
-                return redirect('/sufragio-sudunt')->withErrors(["login-error" => "El usuario no se encuentra registrado."]);
+                return redirect('/sufragio-sudunt/autenticar-empadronado')->withErrors(["login-error" => "El usuario no se encuentra registrado."]);
         } catch (\Throwable $th) {
-            return redirect('/sufragio-sudunt')->withErrors(["login-error" => "Ha ocurrido un error, porfavor inténtelo nuevamente."]);
+            return redirect('/sufragio-sudunt/autenticar-empadronado')->withErrors(["login-error" => "Ha ocurrido un error, porfavor inténtelo nuevamente."]);
         }
 	}
 

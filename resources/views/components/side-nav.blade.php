@@ -3,7 +3,7 @@
         <div class="sidebar-content">
             <div class="user">
                 <div class="avatar-sm float-left mr-2">
-                    <img src="/assets/images/user.png" alt="..." class="avatar-images rounded-circle" width="100%">
+                    <img src="https://javier9818.github.io/cdn.tenvio/sudunt/assets/images/user.png" alt="..." class="avatar-images rounded-circle" width="100%">
                 </div>
                 <div class="info">
                     <a data-toggle="collapse" href="#collapseExample" aria-expanded="true">

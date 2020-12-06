@@ -5,11 +5,11 @@
         <div class="card shadow">
             <div class="card-body">
                 <h3 class="text-center">Bienvenido al sistema de sufragio - SUDUNT</h3>
-                <h5 class="text-center grey-text">Por favor inicie sesión con su cuenta unitru para continuar</h5>
+                <h5 class="text-center grey-text">Por favor inicie sesi&oacute;n con su cuenta unitru para continuar</h5>
                 <div class="row justify-content-center mt-4">
                     <div class="col-4">
                         <a href="{{route('login-google')}}">
-                            <button class="btn border"> <img src="/assets/images/google.png" alt="..alt" width="40px" class="mr-1"> Iniciar sessión con google</button>
+                            <button class="btn border"> <img src="https://javier9818.github.io/cdn.tenvio/sudunt/assets/images/google.png" alt="..alt" width="40px" class="mr-1"> Iniciar sessi&oacute;n con google</button>
                         </a>
                     </div>
                 </div>

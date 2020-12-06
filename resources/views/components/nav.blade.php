@@ -3,7 +3,7 @@
     <div class="logo-header" data-background-color="blue">
         
         <a href="index.html" class="logo">
-            <img src="/assets/images/logo.svg" alt="navbar brand" class="navbar-brand">
+            <img src="https://javier9818.github.io/cdn.tenvio/sudunt/assets/images/logo.svg" alt="navbar brand" class="navbar-brand">
         </a>
         <button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse" data-target="collapse" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon">
@@ -57,7 +57,7 @@
                                 <div class="notif-center">
                                     <a href="#">
                                         <div class="notif-images"> 
-                                            <images src="/assets/images/jm_denis.jpg" alt="images Profile">
+                                            <images src="https://javier9818.github.io/cdn.tenvio/sudunt/assets/images/jm_denis.jpg" alt="images Profile">
                                         </div>
                                         <div class="notif-content">
                                             <span class="subject">Jimmy Denis</span>
@@ -69,7 +69,7 @@
                                     </a>
                                     <a href="#">
                                         <div class="notif-images"> 
-                                            <images src="/assets/images/chadengle.jpg" alt="images Profile">
+                                            <images src="https://javier9818.github.io/cdn.tenvio/sudunt/assets/images/chadengle.jpg" alt="images Profile">
                                         </div>
                                         <div class="notif-content">
                                             <span class="subject">Chad</span>
@@ -81,7 +81,7 @@
                                     </a>
                                     <a href="#">
                                         <div class="notif-images"> 
-                                            <images src="/assets/images/mlane.jpg" alt="images Profile">
+                                            <images src="https://javier9818.github.io/cdn.tenvio/sudunt/assets/images/mlane.jpg" alt="images Profile">
                                         </div>
                                         <div class="notif-content">
                                             <span class="subject">Jhon Doe</span>
@@ -93,7 +93,7 @@
                                     </a>
                                     <a href="#">
                                         <div class="notif-images"> 
-                                            <images src="/assets/images/talha.jpg" alt="images Profile">
+                                            <images src="https://javier9818.github.io/cdn.tenvio/sudunt/assets/images/talha.jpg" alt="images Profile">
                                         </div>
                                         <div class="notif-content">
                                             <span class="subject">Talha</span>
@@ -143,7 +143,7 @@
                                     </a>
                                     <a href="#">
                                         <div class="notif-images"> 
-                                            <images src="/assets/images/profile2.jpg" alt="images Profile">
+                                            <images src="https://javier9818.github.io/cdn.tenvio/sudunt/assets/images/profile2.jpg" alt="images Profile">
                                         </div>
                                         <div class="notif-content">
                                             <span class="block">
@@ -225,14 +225,14 @@
                 <li class="nav-item dropdown hidden-caret">
                     <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#" aria-expanded="false">
                         <div class="avatar-sm">
-                            <img src="/assets/images/user.png" alt="..." class="avatar-images rounded-circle" width="100%">
+                            <img src="https://javier9818.github.io/cdn.tenvio/sudunt/assets/images/user.png" alt="..." class="avatar-images rounded-circle" width="100%">
                         </div>
                     </a>
                     <ul class="dropdown-menu dropdown-user animated fadeIn">
                         <div class="dropdown-user-scroll scrollbar-outer">
                             <li>
                                 <div class="user-box">
-                                    <div class="avatar-lg"><img src="/assets/images/user.png" alt="image profile" class="avatar-images rounded" width="100%"></div>
+                                    <div class="avatar-lg"><img src="https://javier9818.github.io/cdn.tenvio/sudunt/assets/images/user.png" alt="image profile" class="avatar-images rounded" width="100%"></div>
                                     <div class="u-text">
                                         <h4>{{session('names')}}</h4>
                                         <p class="text-muted">{{Auth::user()->email}}</p>

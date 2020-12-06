@@ -19,11 +19,17 @@
                 <h4 class="alert-heading">Datos no válidos</h4>
                 <p>Para realizar el acto de sufragio necesita que su correo electrónico personal o institucional sea del servicio Gmail.</p>
                 <hr>
-                <p class="mb-0">Para poder solicitar un cambio a sus datos, deberá descargar el siguiente <a href="#">formato</a>, firmar el documento y enviarlo a la siguiente dirreción de correo electrónico <a href="#">jbriceno@unitru.edu.pe</a>.</p>
+                <p class="mb-0">Para poder solicitar un cambio a sus datos, deberá descargar el siguiente <a href="/FORMATO DE ACTUALIZACIÓN DE CORREO.docx" target="_blank">FORMATO DE ACTUALIZACIÓN DE CORREO</a>, firmar el documento, escanearlo y adjuntarlo en el siguiente formulario <a href="https://forms.gle/gKDncGMrJn4aE27D8" target="_blank">https://forms.gle/gKDncGMrJn4aE27D8</a>.</p>
             </div>
 
             <div class="alert alert-success" role="alert" v-else>
                 <h4 class="alert-heading">Datos válidos</h4>
+                <p>Podrá realizar el acto de sufragio con su correo {{ 
+                    ($v.form.correo_institucional.gmail && $v.form.correo_personal.gmail && $v.form.correo_personal.required && $v.form.correo_institucional.required) ? 'institucional o correo personal' : 
+                    ($v.form.correo_institucional.gmail && $v.form.correo_institucional.required) ? 'correo institucional' : 'correo personal gmail' }}.
+                </p>
+                <!-- <hr>
+                <p class="mb-0"><b>(Opcional)</b> En caso desee cambiar los datos de su correo institucional o personal, deberá descargar el siguiente <a href="/FORMATO DE ACTUALIZACIÓN DE CORREO.docx" target="_blank">FORMATO DE ACTUALIZACIÓN DE CORREO</a>, firmar el documento, escanearlo y adjuntarlo en el siguiente formulario <a href="https://forms.gle/gKDncGMrJn4aE27D8" target="_blank">https://forms.gle/gKDncGMrJn4aE27D8</a>.</p> -->
             </div>
 
             <hr>
@@ -42,22 +48,22 @@
                     <b>Categoría:</b>
                     <p>{{form.categoria || '-'}}</p>
                 </div>
-                <div class="col-md-6">
+                <!-- <div class="col-md-6">
                     <b>Facultad:</b>
                     <p>{{form.facultad || '-'}}</p>
                 </div>
                 <div class="col-md-6">
                     <b>Departamento:</b>
                     <p>{{form.departamento || '-'}}</p>
-                </div>
-                <div class="col-md-6">
+                </div> -->
+                <!-- <div class="col-md-6">
                     <b>Sexo:</b>
                     <p>{{form.sexo || '-'}}</p>
                 </div>
                 <div class="col-md-6">
                     <b>Código:</b>
                     <p>{{form.code || '-'}}</p>
-                </div>
+                </div> -->
                 <div class="col-md-6">
                     <b>Correo institucional:</b>
                     <p>{{form.correo_institucional || '-'}}</p>
@@ -75,7 +81,7 @@
 <script>
     import { validationMixin } from 'vuelidate'
     import { helpers, required } from 'vuelidate/lib/validators'
-    const gmail = helpers.regex('alpha', /^[a-zA-Z0-9]+@((gmail.com)|(unitru.edu.pe))$/)
+    const gmail = helpers.regex('alpha', /^[\w-\.]+@((gmail.com)|(unitru.edu.pe))$/)
 
     export default {
         mounted() {
@@ -93,8 +99,8 @@
                     departamento:'',
                     sexo:'',
                     code:'',
-                    correo_institucional:'jbriceno@unitru.edu.pe',
-                    correo_personal:'jbriceno@gmail.com'
+                    correo_institucional:'',
+                    correo_personal:''
                 }
             }
         },
@@ -113,7 +119,7 @@
         },
         methods:{
             searchTeacher: function(){
-                let code = this.search
+                let code = (this.search || '').trim()
                 this.load = true
                 axios.get(`/api/empadronado/${code}`).then( ({data}) => {
                    let { empadronado } = data
@@ -122,7 +128,16 @@
                         this.found = false
                     else{
                         this.found = true
-                        this.form = empadronado
+                        this.form = {
+                            nombres: empadronado.nombres,
+                            categoria: empadronado.categoria,
+                            facultad: empadronado.facultad,
+                            departamento: empadronado.departamento,
+                            sexo: empadronado.sexo,
+                            code: empadronado.code,
+                            correo_institucional: (empadronado.correo_institucional || '').trim(),
+                            correo_personal: (empadronado.correo_personal || '').trim()
+                        } 
                     }
 
                 }).finally( () => {

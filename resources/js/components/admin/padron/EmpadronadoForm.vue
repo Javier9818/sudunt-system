@@ -29,24 +29,24 @@
             </div>
         </div>
         <div class="col-md-6">
-            <div :class="`form-group ${!$v.form.facultad.text ? 'has-error' : ''} `">
+            <div class="form-group">
                 <label for="facultad">Facultad</label>
-                <input type="text" id="facultad"  name="facultad" v-model="form.facultad" class="form-control" required>
-                <p v-if="!$v.form.facultad.text" class="help text-danger">Este campo es inválido</p>
+                <input type="text" id="facultad"  name="facultad" v-model="form.facultad" class="form-control" >
+                <!-- <p v-if="!$v.form.facultad.text" class="help text-danger">Este campo es inválido</p> -->
             </div>
         </div>
         <div class="col-md-6">
-            <div :class="`form-group ${!$v.form.departamento.text ? 'has-error' : ''} `">
+            <div class="form-group">
                 <label for="departamento">Departamento</label>
-                <input type="text" id="departamento"  name="departamento" v-model="form.departamento" class="form-control" required>
-                <p v-if="!$v.form.departamento.text" class="help text-danger">Este campo es inválido</p>
+                <input type="text" id="departamento"  name="departamento" v-model="form.departamento" class="form-control" >
+                <!-- <p v-if="!$v.form.departamento.text" class="help text-danger">Este campo es inválido</p> -->
             </div>
         </div>
         <div class="col-md-6">
-            <div :class="`form-group ${!$v.form.categoria.text ? 'has-error' : ''} `">
+            <div class="form-group">
                 <label for="categoria">Categoría</label>
-                <input type="text" id="categoria"  name="categoria" v-model="form.categoria" class="form-control" required>
-                <p v-if="!$v.form.categoria.text" class="help text-danger">Este campo es inválido</p>
+                <input type="text" id="categoria"  name="categoria" v-model="form.categoria" class="form-control" >
+                <!-- <p v-if="!$v.form.categoria.text" class="help text-danger">Este campo es inválido</p> -->
             </div>
         </div>
         <div class="col-md-6">
@@ -54,8 +54,8 @@
                 <label for="sexo">Sexo</label>
                 <select name="sexo" id="sexo" class="form-control" v-model="form.sexo" required>
                     <option :value="null" disabled selected>-- Porfavor, seleccione una opción --</option>
-                    <option value="M">Masculino</option>
-                    <option value="F">Femenino</option>
+                    <option value="H">Masculino</option>
+                    <option value="M">Femenino</option>
                 </select>
             </div>
         </div>
@@ -99,16 +99,7 @@
                 },
                 correo_personal:{
                     email
-                },
-                departamento:{
-                    text
-                },
-                facultad:{
-                    text
-                },
-                categoria:{
-                    text
-                },
+                }
             }
         },
         mounted() {

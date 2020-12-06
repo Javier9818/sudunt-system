@@ -2108,15 +2108,6 @@ var text = vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__["helpers"].rege
       },
       correo_personal: {
         email: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__["email"]
-      },
-      departamento: {
-        text: text
-      },
-      facultad: {
-        text: text
-      },
-      categoria: {
-        text: text
       }
     }
   },
@@ -2215,9 +2206,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
-var gmail = vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__["helpers"].regex('alpha', /^[a-zA-Z0-9]+@((gmail.com)|(unitru.edu.pe))$/);
+var gmail = vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__["helpers"].regex('alpha', /^[\w-\.]+@((gmail.com)|(unitru.edu.pe))$/);
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     this.$v.form.correo_institucional.$touch();
@@ -2234,8 +2231,8 @@ var gmail = vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__["helpers"].reg
         departamento: '',
         sexo: '',
         code: '',
-        correo_institucional: 'jbriceno@unitru.edu.pe',
-        correo_personal: 'jbriceno@gmail.com'
+        correo_institucional: '',
+        correo_personal: ''
       }
     };
   },
@@ -2255,14 +2252,23 @@ var gmail = vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__["helpers"].reg
     searchTeacher: function searchTeacher() {
       var _this = this;
 
-      var code = this.search;
+      var code = (this.search || '').trim();
       this.load = true;
       axios.get("/api/empadronado/".concat(code)).then(function (_ref) {
         var data = _ref.data;
         var empadronado = data.empadronado;
         if (empadronado === null) _this.found = false;else {
           _this.found = true;
-          _this.form = empadronado;
+          _this.form = {
+            nombres: empadronado.nombres,
+            categoria: empadronado.categoria,
+            facultad: empadronado.facultad,
+            departamento: empadronado.departamento,
+            sexo: empadronado.sexo,
+            code: empadronado.code,
+            correo_institucional: (empadronado.correo_institucional || '').trim(),
+            correo_personal: (empadronado.correo_personal || '').trim()
+          };
         }
       })["finally"](function () {
         _this.load = false;
@@ -21131,149 +21137,89 @@ var render = function() {
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "col-md-6" }, [
-      _c(
-        "div",
-        {
-          class:
-            "form-group " +
-            (!_vm.$v.form.facultad.text ? "has-error" : "") +
-            " "
-        },
-        [
-          _c("label", { attrs: { for: "facultad" } }, [_vm._v("Facultad")]),
-          _vm._v(" "),
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.form.facultad,
-                expression: "form.facultad"
-              }
-            ],
-            staticClass: "form-control",
-            attrs: {
-              type: "text",
-              id: "facultad",
-              name: "facultad",
-              required: ""
-            },
-            domProps: { value: _vm.form.facultad },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.$set(_vm.form, "facultad", $event.target.value)
-              }
+      _c("div", { staticClass: "form-group" }, [
+        _c("label", { attrs: { for: "facultad" } }, [_vm._v("Facultad")]),
+        _vm._v(" "),
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.form.facultad,
+              expression: "form.facultad"
             }
-          }),
-          _vm._v(" "),
-          !_vm.$v.form.facultad.text
-            ? _c("p", { staticClass: "help text-danger" }, [
-                _vm._v("Este campo es inválido")
-              ])
-            : _vm._e()
-        ]
-      )
+          ],
+          staticClass: "form-control",
+          attrs: { type: "text", id: "facultad", name: "facultad" },
+          domProps: { value: _vm.form.facultad },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.$set(_vm.form, "facultad", $event.target.value)
+            }
+          }
+        })
+      ])
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "col-md-6" }, [
-      _c(
-        "div",
-        {
-          class:
-            "form-group " +
-            (!_vm.$v.form.departamento.text ? "has-error" : "") +
-            " "
-        },
-        [
-          _c("label", { attrs: { for: "departamento" } }, [
-            _vm._v("Departamento")
-          ]),
-          _vm._v(" "),
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.form.departamento,
-                expression: "form.departamento"
-              }
-            ],
-            staticClass: "form-control",
-            attrs: {
-              type: "text",
-              id: "departamento",
-              name: "departamento",
-              required: ""
-            },
-            domProps: { value: _vm.form.departamento },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.$set(_vm.form, "departamento", $event.target.value)
-              }
+      _c("div", { staticClass: "form-group" }, [
+        _c("label", { attrs: { for: "departamento" } }, [
+          _vm._v("Departamento")
+        ]),
+        _vm._v(" "),
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.form.departamento,
+              expression: "form.departamento"
             }
-          }),
-          _vm._v(" "),
-          !_vm.$v.form.departamento.text
-            ? _c("p", { staticClass: "help text-danger" }, [
-                _vm._v("Este campo es inválido")
-              ])
-            : _vm._e()
-        ]
-      )
+          ],
+          staticClass: "form-control",
+          attrs: { type: "text", id: "departamento", name: "departamento" },
+          domProps: { value: _vm.form.departamento },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.$set(_vm.form, "departamento", $event.target.value)
+            }
+          }
+        })
+      ])
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "col-md-6" }, [
-      _c(
-        "div",
-        {
-          class:
-            "form-group " +
-            (!_vm.$v.form.categoria.text ? "has-error" : "") +
-            " "
-        },
-        [
-          _c("label", { attrs: { for: "categoria" } }, [_vm._v("Categoría")]),
-          _vm._v(" "),
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.form.categoria,
-                expression: "form.categoria"
-              }
-            ],
-            staticClass: "form-control",
-            attrs: {
-              type: "text",
-              id: "categoria",
-              name: "categoria",
-              required: ""
-            },
-            domProps: { value: _vm.form.categoria },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.$set(_vm.form, "categoria", $event.target.value)
-              }
+      _c("div", { staticClass: "form-group" }, [
+        _c("label", { attrs: { for: "categoria" } }, [_vm._v("Categoría")]),
+        _vm._v(" "),
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.form.categoria,
+              expression: "form.categoria"
             }
-          }),
-          _vm._v(" "),
-          !_vm.$v.form.categoria.text
-            ? _c("p", { staticClass: "help text-danger" }, [
-                _vm._v("Este campo es inválido")
-              ])
-            : _vm._e()
-        ]
-      )
+          ],
+          staticClass: "form-control",
+          attrs: { type: "text", id: "categoria", name: "categoria" },
+          domProps: { value: _vm.form.categoria },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.$set(_vm.form, "categoria", $event.target.value)
+            }
+          }
+        })
+      ])
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "col-md-6" }, [
@@ -21321,9 +21267,9 @@ var render = function() {
               [_vm._v("-- Porfavor, seleccione una opción --")]
             ),
             _vm._v(" "),
-            _c("option", { attrs: { value: "M" } }, [_vm._v("Masculino")]),
+            _c("option", { attrs: { value: "H" } }, [_vm._v("Masculino")]),
             _vm._v(" "),
-            _c("option", { attrs: { value: "F" } }, [_vm._v("Femenino")])
+            _c("option", { attrs: { value: "M" } }, [_vm._v("Femenino")])
           ]
         )
       ])
@@ -21456,6 +21402,24 @@ var render = function() {
                 [
                   _c("h4", { staticClass: "alert-heading" }, [
                     _vm._v("Datos válidos")
+                  ]),
+                  _vm._v(" "),
+                  _c("p", [
+                    _vm._v(
+                      "Podrá realizar el acto de sufragio con su correo " +
+                        _vm._s(
+                          _vm.$v.form.correo_institucional.gmail &&
+                            _vm.$v.form.correo_personal.gmail &&
+                            _vm.$v.form.correo_personal.required &&
+                            _vm.$v.form.correo_institucional.required
+                            ? "institucional o correo personal"
+                            : _vm.$v.form.correo_institucional.gmail &&
+                              _vm.$v.form.correo_institucional.required
+                            ? "correo institucional"
+                            : "correo personal gmail"
+                        ) +
+                        ".\n            "
+                    )
                   ])
                 ]
               ),
@@ -21473,30 +21437,6 @@ var render = function() {
               _c("b", [_vm._v("Categoría:")]),
               _vm._v(" "),
               _c("p", [_vm._v(_vm._s(_vm.form.categoria || "-"))])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "col-md-6" }, [
-              _c("b", [_vm._v("Facultad:")]),
-              _vm._v(" "),
-              _c("p", [_vm._v(_vm._s(_vm.form.facultad || "-"))])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "col-md-6" }, [
-              _c("b", [_vm._v("Departamento:")]),
-              _vm._v(" "),
-              _c("p", [_vm._v(_vm._s(_vm.form.departamento || "-"))])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "col-md-6" }, [
-              _c("b", [_vm._v("Sexo:")]),
-              _vm._v(" "),
-              _c("p", [_vm._v(_vm._s(_vm.form.sexo || "-"))])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "col-md-6" }, [
-              _c("b", [_vm._v("Código:")]),
-              _vm._v(" "),
-              _c("p", [_vm._v(_vm._s(_vm.form.code || "-"))])
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "col-md-6" }, [
@@ -21540,11 +21480,29 @@ var staticRenderFns = [
       _vm._v(
         "Para poder solicitar un cambio a sus datos, deberá descargar el siguiente "
       ),
-      _c("a", { attrs: { href: "#" } }, [_vm._v("formato")]),
-      _vm._v(
-        ", firmar el documento y enviarlo a la siguiente dirreción de correo electrónico "
+      _c(
+        "a",
+        {
+          attrs: {
+            href: "/FORMATO DE ACTUALIZACIÓN DE CORREO.docx",
+            target: "_blank"
+          }
+        },
+        [_vm._v("FORMATO DE ACTUALIZACIÓN DE CORREO")]
       ),
-      _c("a", { attrs: { href: "#" } }, [_vm._v("jbriceno@unitru.edu.pe")]),
+      _vm._v(
+        ", firmar el documento, escanearlo y adjuntarlo en el siguiente formulario "
+      ),
+      _c(
+        "a",
+        {
+          attrs: {
+            href: "https://forms.gle/gKDncGMrJn4aE27D8",
+            target: "_blank"
+          }
+        },
+        [_vm._v("https://forms.gle/gKDncGMrJn4aE27D8")]
+      ),
       _vm._v(".")
     ])
   }
