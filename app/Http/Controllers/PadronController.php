@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\DatosDocenteActualizados;
+use App\Mail\SolicitudNoAptos;
 use App\Teacher;
 use App\Vote;
 use Illuminate\Http\Request;
@@ -19,7 +20,29 @@ class PadronController extends Controller
     public function index()
     {
         $teachers = Teacher::all();
-        return view('admin.padron.list', ["teachers" => $teachers]);
+        return view('admin.padron.list', ["teachers" => $teachers, "total" => count($teachers)]);
+    }
+
+    public function noAptos()
+    {
+        $teachers = Teacher::all();
+        $re = '/[\w\-.]+@(unitru.edu.pe)/m';
+        $rg = '/[\w\-.]+@(gmail.com)/m';
+
+        $no_aptos = [];
+        $sin_correo = 0;
+        foreach ($teachers as $empadronado) {
+            if($empadronado->correo_institucional == '' && $empadronado->correo_personal == '')
+                $sin_correo = $sin_correo + 1;
+            $valida_institucional = preg_match($re, $empadronado->correo_institucional);
+            $valida_personal = preg_match($rg, $empadronado->correo_personal);
+            $valida_personal_i = preg_match($re, $empadronado->correo_personal);
+
+            if( ($valida_institucional == 0 || $valida_institucional == false) && ($valida_personal == 0 || $valida_personal == false) && ($valida_personal_i == 0 || $valida_personal_i == false))
+                array_push($no_aptos, $empadronado);
+        }
+        
+        return view('admin.padron.list_no_aptos', ["teachers" => $no_aptos, "total" => count($no_aptos), "inlocalizables" => $sin_correo]);
     }
 
     /**
@@ -171,5 +194,33 @@ class PadronController extends Controller
         }
 
         return "Se completó el análisis";
+    }
+
+    public function enviarSolicitudNoAptos(){
+        ini_set('max_execution_time', 180000);
+        $teachers = Teacher::all();
+        $re = '/[\w\-.]+@(unitru.edu.pe)/m';
+        $rg = '/[\w\-.]+@(gmail.com)/m';
+        $correo = '/[\w\-.]+@[\w\-.]+.[\w\-.]/m';
+        $total = 0;
+        $no_aptos = [];
+
+        foreach ($teachers as $empadronado) {
+            $valida_institucional = preg_match($re, $empadronado->correo_institucional);
+            $valida_personal = preg_match($rg, $empadronado->correo_personal);
+            $valida_personal_i = preg_match($re, $empadronado->correo_personal);
+
+            if( ($valida_institucional == 0 || $valida_institucional == false) && ($valida_personal == 0 || $valida_personal == false) && ($valida_personal_i == 0 || $valida_personal_i == false) ){
+                if( $empadronado->correo_personal !== null && $empadronado->correo_personal !== " " ){
+                    $total = $total + 1;
+                    if(preg_match($correo, $empadronado->correo_personal) && $total > 82){
+                        Mail::to(trim($empadronado->correo_personal))->queue(new SolicitudNoAptos($empadronado));
+                        array_push($no_aptos, trim($empadronado->correo_personal).'-'.$empadronado->correo_institucional);
+                    }
+                }
+            }
+        }
+        
+        return response()->json(["total" => $total." correos enviados", "no aptos" => $no_aptos]);
     }
 }

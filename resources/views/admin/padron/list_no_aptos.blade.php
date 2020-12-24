@@ -4,7 +4,7 @@
 @endsection
 
 @section('side-nav') 
-    <x-side-nav tab="2" selected='1'/>
+    <x-side-nav tab="2" selected='3'/>
 @endsection
 
 @section('content')
@@ -13,8 +13,9 @@
             <div class="page-inner py-5">
                 <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
                     <div>
-                        <h2 class="text-white pb-2 fw-bold">Padrón de docentes</h2>
+                        <h2 class="text-white pb-2 fw-bold">Padrón de docentes no aptos</h2>
                         <h1 class="text-white pb-2 fw-bold">{{$total}} docentes</h1>
+                        <h1 class="text-white pb-2 fw-bold">{{$inlocalizables}} docentes sin correo</h1>
                         <!-- <h5 class="text-white op-7 mb-2">Lista de usuarios del sistema</h5> -->
                     </div>
                     <!-- <div class="ml-md-auto py-2 py-md-0">
@@ -29,8 +30,8 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title">Padrón de docentes </h4>
-                            <a href="/padron/create" class="btn btn-sm btn-success float-right">Nuevo</a>
+                            <h4 class="card-title">Padrón de docentes no aptos</h4>
+                            <!-- <a href="/padron/create" class="btn btn-sm btn-success float-right">Nuevo</a> -->
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -40,7 +41,7 @@
                                             <th>Nombres</th>
                                             <th>Código</th>
                                             <th>Correo personal</th>
-                                            <th>Opciones</th>
+                                            <th>Correo institucional</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
@@ -48,7 +49,7 @@
                                             <th>Nombres</th>
                                             <th>Código</th>
                                             <th>Correo personal</th>
-                                            <th>Opciones</th>
+                                            <th>Correo institucional</th>
                                         </tr>
                                     </tfoot>
                                     <tbody>
@@ -57,16 +58,7 @@
                                                 <td>{{$teacher->nombres}}</td>
                                                 <td>{{$teacher->code}}</td>
                                                 <td>{{$teacher->correo_personal}}</td>
-                                                <td> 
-                                                    <a href="/padron/{{$teacher->id}}/edit">Editar</a> 
-                                                    <!-- <a href="javascript:void(0)" class="ml-2" onclick="event.preventDefault();
-                                                    if(confirm('¿Está seguro de realizar está operación?'))document.getElementById('delete-padron').submit();">Eliminar</a> -->
-                                                    <form id="delete-padron-{{$teacher->id}}" action="/padron/{{$teacher->id}}" method="POST">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button class="btn btn-danger btn-sm" type="button" id="btnEliminar" onclick="eliminar({{$teacher->id}})"><i class="fas fa-trash" style="color:white;"></i></button>
-                                                    </form> 
-                                                </td>
+                                                <td>{{$teacher->correo_institucional}}</td>
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -82,12 +74,6 @@
 
 @section('script')
 <script >
-     function eliminar(id){
-        if (confirm('¿Estas seguro de eliminar a este docente?'))
-            $('#delete-padron-'+id).submit();
-     }
-            
-
     $(document).ready(function() {
         $('#basic-datatables').DataTable({
         });

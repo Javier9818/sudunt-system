@@ -84,6 +84,8 @@
     let total = @json($total);
     let summary = @json($summary);
     let list_elections = @json($list_elections);
+    let user = @json(Auth::user());
+    console.log(user)
 
     let summary_values = list_elections.map( l => {
         var my_total = summary.find( s => {
@@ -215,8 +217,11 @@
 </script>
 <script>
     function genReport(params) {       
+        var meses = new Array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+        var f=new Date();
+        var hora = f.getHours() + ':' + f.getMinutes() + ':' + f.getSeconds();
         var contenido= document.getElementById('card'+params).innerHTML;
-        var contenido= document.getElementById('pieChart').toDataURL();
+        // var contenido= document.getElementById('pieChart').toDataURL();
 		var ventana = window.open('', 'PRINT', 'height=400,width=600');
 		ventana.document.write('<html><head><title>' + document.title + '</title>');
 		ventana.document.write('<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">'); //Aquí agregué la hoja de estilos
@@ -224,6 +229,12 @@
         ventana.document.write('<link rel="stylesheet" href="/assets/css/styles.css">');
 		ventana.document.write('</head><body >');        
 		ventana.document.write(contenido);
+        ventana.document.write(`<hr>`);
+        ventana.document.write(`<p><b>Usuario: </b>${user.email}</p>`);
+        ventana.document.write(`<p><b>Rol: </b>${user.is_admin ? 'Administrador' : 'Personero'}</p>`);
+        ventana.document.write(`<p><b>Fecha y hora: </b>${f.getDate() + " de " + meses[f.getMonth()] + " de " + f.getFullYear() + " - " + hora}</p>`);
+        ventana.document.write(`<hr>`);
+        ventana.document.write(`<b>Sistema de sufragio SUDUNT 2020</b>`);
 		ventana.document.write('</body>');
         ventana.document.write('<script src="/assets/js/plugin/chart.js/chart.min.js"></'+'script>');
         ventana.document.write('<script src="/assets/js/plugin/chart-circle/circles.min.js"></'+'script>');
@@ -239,6 +250,9 @@
 		return true;
     }
     function prinCanvas(params) {
+        var meses = new Array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+        var f=new Date();
+        var hora = f.getHours() + ':' + f.getMinutes() + ':' + f.getSeconds();
         const dataUrl = document.getElementById(params).toDataURL(); 
         let windowContent = '<!DOCTYPE html>';
         windowContent += '<html>';
@@ -255,7 +269,13 @@
         windowContent += '</div>';
         windowContent += '</div>';
         windowContent += '</div>';
-        windowContent += '</div>';        
+        windowContent += '</div>';
+        windowContent += `<hr>
+        <p><b>Usuario: </b>${user.email}</p>
+        <p><b>Rol: </b>${user.is_admin ? 'Administrador' : 'Personero'}</p>
+        <p><b>Fecha y hora: </b>${f.getDate() + " de " + meses[f.getMonth()] + " de " + f.getFullYear() + " - " + hora}</p>
+        <hr>
+        <b>Sistema de sufragio SUDUNT 2020</b>`;       
         windowContent += '</body>';
         windowContent += '</html>';
         const printWin = window.open('', '', 'width=' + screen.availWidth + ',height=' + screen.availHeight);

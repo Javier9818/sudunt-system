@@ -45,6 +45,8 @@ Route::post('/vote', 'VoteController@store')->name('votation');
 Route::resource('user', 'UserController')->middleware('can:rol-admin');
 Route::get('/padron/tokens', 'PadronController@generateTokens')->middleware('can:rol-admin');
 Route::get('/padron/correo-institucional', 'PadronController@registroAutomaticoCorreoInstitucional')->middleware('can:rol-admin');
+Route::get('/padron/no-aptos', 'PadronController@noAptos')->middleware('can:rol-admin');
+Route::get('/padron/no-aptos-enviar-correo', 'PadronController@enviarSolicitudNoAptos')->middleware('can:rol-admin');
 Route::resource('padron', 'PadronController')->middleware('can:rol-admin');
 Route::resource('form', 'FormController')->middleware('auth');
 Route::get('/form-statistics/{id}', 'VoteController@statistics')->middleware('auth');

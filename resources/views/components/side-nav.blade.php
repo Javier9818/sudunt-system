@@ -82,6 +82,11 @@
                                     <span class="sub-item">Padrón</span>
                                 </a>
                             </li>
+                            <li class="{{ $isSelected('2', '3') ? 'active' : '' }}">
+                                <a href="/padron/no-aptos">
+                                    <span class="sub-item">No aptos</span>
+                                </a>
+                            </li>
                             @endcan
                             <li class="{{ $isSelected('2', '2') ? 'active' : '' }}">
                                 <a href="/form">
