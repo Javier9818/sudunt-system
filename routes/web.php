@@ -50,6 +50,7 @@ Route::get('/padron/no-aptos-enviar-correo', 'PadronController@enviarSolicitudNo
 Route::resource('padron', 'PadronController')->middleware('can:rol-admin');
 Route::resource('form', 'FormController')->middleware('auth');
 Route::get('/form-statistics/{id}', 'VoteController@statistics')->middleware('auth');
+Route::get('/report-form/{id}', 'VoteController@resultados')->middleware('auth');
 
 Route::get('/view-cache', function () {Artisan::call('view:cache');});
 Route::get('/cache-clear', function () {Artisan::call('cache:clear');});

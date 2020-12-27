@@ -17,13 +17,16 @@
                     <h2 class="text-white pb-2 fw-bold">Datos de Votacion - {{$form->title}}</h2>
                     <h5 class="text-white op-7 mb-2">{{$form->description}}</h5>
                     <h3 class="mr-2 text-white pb-2 fw-bold">Estado ({{$form->status == 1 ? 'Abierto' : 'Cerrado'}})</h3>
+                    @if($form->status !== 1)
+                        <a class="btn btn-danger text-white" href="/report-form/{{$form->id}}" target="_blank" ><b>Ver resultados</b></a>
+                    @endif
                 </div>
             </div>
         </div>
     </div>
     <div class="page-inner mt--5">
         <div class="row mt--2">
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <div class="card full-height">
                     <div class="card-body" id="card1">
                         <div class="card-title">Estadísticas generales</div>
@@ -79,8 +82,10 @@
 </div>
 @endsection
 @section('script')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pusher/7.0.2/pusher.min.js" integrity="sha512-eimbIwTgi6xenk305C+lvVqEeeNu9qnbcSCmlmcdFUPr6m2lNIn9iVJbm4qat/3IV2HR5qW7HviNno+EqbKi9A==" crossorigin="anonymous"></script>
 <script>
     let votes = @json($votes);
+    let id_votes = @json($id_votes);
     let total = @json($total);
     let summary = @json($summary);
     let list_elections = @json($list_elections);
@@ -111,7 +116,7 @@
         maxValue:total,
         width:7,
         text: votes,
-        colors:['#f1f1f1', '#FF9E27'],
+        colors:['#f1f1f1', '#2BB930'],
         duration:400,
         wrpClass:'circles-wrp',
         textClass:'circles-text',
@@ -126,7 +131,7 @@
         maxValue:parseInt(total),
         width:7,
         text: `${parseInt(total) - parseInt(votes)}`,
-        colors:['#f1f1f1', '#2BB930'],
+        colors:['#f1f1f1', '#FF9E27'],
         duration:400,
         wrpClass:'circles-wrp',
         textClass:'circles-text',
@@ -214,6 +219,66 @@
 				},
 			}
 	});
+
+    var pusher = new Pusher('23df8ad0a8b7617a4838', {
+          cluster: 'us2'
+        });
+    
+    var channel = pusher.subscribe('vote-channel');
+
+    channel.bind('new-vote', function( { cantidad } ) {
+        if( cantidad > votes ){
+            votes = cantidad
+            suma_grafico();
+        }
+    });
+
+    function suma_grafico(){
+        Circles.create({
+        id:'circles-1',
+        radius:45,
+        value:votes,
+        maxValue:total,
+        width:7,
+        text: votes,
+        colors:['#f1f1f1', '#FF9E27'],
+        duration:400,
+        wrpClass:'circles-wrp',
+        textClass:'circles-text',
+        styleWrapper:true,
+        styleText:true
+    })
+
+    Circles.create({
+        id:'circles-2',
+        radius:45,
+        value:parseInt(total) - parseInt(votes),
+        maxValue:parseInt(total),
+        width:7,
+        text: `${parseInt(total) - parseInt(votes)}`,
+        colors:['#f1f1f1', '#2BB930'],
+        duration:400,
+        wrpClass:'circles-wrp',
+        textClass:'circles-text',
+        styleWrapper:true,
+        styleText:true
+    })
+
+    Circles.create({
+        id:'circles-3',
+        radius:45,
+        value:(votes/total)*100,
+        maxValue:100,
+        width:10,
+        text: `${Math.round((votes/total)*100)}%`,
+        colors:['#f1f1f1', '#F25961'],
+        duration:400,
+        wrpClass:'circles-wrp',
+        textClass:'circles-text',
+        styleWrapper:true,
+        styleText:true
+    })
+    }
 </script>
 <script>
     function genReport(params) {       

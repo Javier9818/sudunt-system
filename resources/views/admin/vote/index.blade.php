@@ -18,18 +18,18 @@
                 @csrf
                 <div>
                   <ul class="list-group list-group-flush">
-                    @foreach ($list_elections as $item)
+                    @foreach ($list_elections as $value => $item)
                       <li
                         class="list-group-item"                   
                       >
                         <div class="row">
-                          <div class="col-6">
+                          <div class="col-11">
                             <label
                               class="form-check-label pl-2"
-                              >{{$item}}</label
+                              ><b>{{$item}}</b> {{$list_nombres[$value]}}</label
                             >
                           </div>
-                          <div class="col-6 text-left">
+                          <div class="col-1 text-left">
                             <input
                               value="{{$item}}"
                               class="form-check-input"

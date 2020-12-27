@@ -16,6 +16,11 @@
                 @error('login-error')
                     <p class="text-center mt-2" style="color: red;">{{$message}}</p>
                 @enderror
+                @error('validation-error')
+                    <div class="alert alert-success mt-3" role="alert">
+                        <h4 class="alert-heading">{{$message}}</h4>
+                    </div>
+                @enderror
                
             </div>
         </div>

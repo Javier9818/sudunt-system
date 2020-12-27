@@ -71,9 +71,10 @@
                                                                 @csrf
                                                                 @method('DELETE')
                                                             </form> 
+                                                            <a href="javascript:void(0)" title="simular" onclick="simular('{{$form->id}}')"> <i class="fas fa-desktop ml-2"></i></a> 
                                                         @endif
                                                     @endcan
-                                                    <a href="/form-statistics/{{$form->id}}" class="ml-2"> <i class="fas fa-eye" style="color:green;"></i> </a> 
+                                                    <a href="/form-statistics/{{$form->id}}" class="ml-2"> <i class="fas fa-eye" style="color:green;"></i> </a>
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -83,6 +84,25 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal" tabindex="-1" id="modalPruebas">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Generando pruebas...</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h1 id="data-modal"></h1>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="close">Cancelar</button>
+            </div>
             </div>
         </div>
     </div>
@@ -155,6 +175,42 @@
             $('#addRowModal').modal('hide');
 
         });
+    });
+
+    var intervalo;
+
+    function simular(formID){
+        $('#modalPruebas').modal('show')
+        $('#data-modal').html('Simulando votación');
+        axios.get(`api/data-simulacion/${formID}`).then( ({data}) => {
+           let { error, message} = data
+           if(error)
+            $('#data-modal').html(message);
+           else{
+            let { empadronados, listas, form} = data
+            var indice = 0
+            
+            intervalo = setInterval(() => {
+                axios.post('api/voto-simulado',{
+                    teacher: empadronados[indice].id, 
+                    form: form.id , 
+                    lista: listas[Math.floor(Math.random() * listas.length)]
+                }).then( () => {
+                    $('#data-modal').html(`Simulando votación - ${indice + 1}  de ${empadronados.length} votos resgistrados`);
+                }).then( () => {
+                   if( indice >= empadronados.length )
+                    clearInterval(intervalo);
+                    indice += 1
+                }).catch((err) => {
+                    console.log(err)
+                });
+            }, 1000);
+           }
+        })
+    }
+
+    $('#close').on('click', () => {
+        clearInterval(intervalo);
     });
 </script>
 @endsection
