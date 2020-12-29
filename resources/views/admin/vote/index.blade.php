@@ -28,6 +28,7 @@
                               class="form-check-label pl-2"
                               ><b>{{$item}}</b> {{$list_nombres[$value]}}</label
                             >
+                            
                           </div>
                           <div class="col-1 text-left">
                             <input
@@ -35,6 +36,7 @@
                               class="form-check-input"
                               type="radio"
                               name="vote"
+                              required
                             />
                             <input type="text" value="{{$teacher->token}}"  name="token" style="display: none;">
                           </div>

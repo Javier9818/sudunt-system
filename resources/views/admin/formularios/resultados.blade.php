@@ -13,13 +13,40 @@
 	<!-- CSS Just for demo purpose, don't include it in your project -->
     <link rel="stylesheet" href="https://javier9818.github.io/cdn.tenvio/sudunt/assets/css/demo.css">
     <style>
+        body{
+            font-family: Arial, Helvetica, sans-serif !important;
+            color: black !important;
+        }
+        
         .firma{
-            border-top: solid 1px black;
+            /*border-top: solid 1px black;*/
+            margin-bottom: 1.8em;
+        }
+        h1{
+            color: black !important;
+        }
+        h3{
+            font-size: 1.2em !important;
+        }
+        h4{
+            font-size: 1em !important;
+        }
+        h5{
+            font-size: 0.8em !important;
+        }
+        p{
+            text-align: justify !important;
+            font-size: 0.8em;
+            color: black !important;
+        }
+        .cuadro{
+            height: 40px !important; 
+            border: black 1px solid;
         }
     </style>
 </head>
 <body>
-<div class="content">
+<!-- <div class="content">
     <div class="page-inner mt-5">
         <div class="row mt--2">
             <div class="col-md-12">
@@ -57,13 +84,62 @@
             </div>
         </div>
     </div>   
-</div>
+</div> -->
+       <div class="container">
+       <button class="btn btn-success m-3" onclick="generarPDF()">Descargar resultados</button>
+        <div class="card p-4">
+            @if($empate_listas == true)
+                <h1><b>Se detectó un empate entre votos {{$empate_1}} y votos {{$empate_2}}</b></h1>    
+            @elseif($lista_ganador == 'Blanco')
+                <h1><b>La mayor cantidad de votos fueron registrados en Blanco ({{$ganador->total ?? '0'}} votos)</b></h1>
+            @elseif($lista_ganador == 'Nulo o Viciado')
+                <h1><b>La mayor cantidad de votos fueron registrados como nulos o viciados ({{$ganador->total ?? '0'}} votos)</b></h1>
+            @else
+                <h1>La lista ganadora con {{$ganador->total ?? '0'}} votos es <b>{{$lista_ganador}} - {{$nombre_lista_ganador}}</b>. </h1>
+            @endif
+        </div>
+       <div class="row">
+            <div class="col-md-6">
+                <div class="card full-height">
+                    <div class="card-header">
+                        <div class="card-title">Resúmen de resultados</div>
+                    </div>
+                    <div class="card-body" id="card2">
+                        <div class="chart-container">
+                            <canvas id="pieChart" style="width: 50%; height: 50%"></canvas>
+                        </div>
+                    </div>
+                    <button class=" btn btn-info">Resúmen de resultados</button>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Resúmen de votos</div>
+                    </div>
+                    <div class="card-body" id="card3">
+                        <div class="chart-container">
+                            <canvas id="barChart"></canvas>
+                        </div>
+                    </div>
+                    <button class=" btn btn-info">Resúmen de votos</button>
+                </div>
+            </div>
+       </div>
+       </div>
+       <div class="d-none">
+            @include('admin.formularios.pages.page_1')
+            @include('admin.formularios.pages.page_2')
+       </div>
+        <!-- @include('admin.formularios.pages.page_3')
+        @include('admin.formularios.pages.page_4')
+        @include('admin.formularios.pages.page_5')
+        @include('admin.formularios.pages.page_6') -->
 
 
-<script src="https://javier9818.github.io/cdn.tenvio/sudunt/assets/js/core/jquery.3.2.1.min.js"></script>
+    <script src="https://javier9818.github.io/cdn.tenvio/sudunt/assets/js/core/jquery.3.2.1.min.js"></script>
 	<script src="https://javier9818.github.io/cdn.tenvio/sudunt/assets/js/core/popper.min.js"></script>
 	<script src="https://javier9818.github.io/cdn.tenvio/sudunt/assets/js/core/bootstrap.min.js"></script>
-
 	<!-- jQuery UI -->
 	<script src="https://javier9818.github.io/cdn.tenvio/sudunt/assets/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
 	<script src="https://javier9818.github.io/cdn.tenvio/sudunt/assets/js/plugin/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js"></script>
@@ -71,31 +147,15 @@
 	<!-- jQuery Scrollbar -->
 	<script src="https://javier9818.github.io/cdn.tenvio/sudunt/assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
 
-
 	<!-- Chart JS -->
 	<script src="https://javier9818.github.io/cdn.tenvio/sudunt/assets/js/plugin/chart.js/chart.min.js"></script>
-
-	<!-- jQuery Sparkline -->
-	<script src="https://javier9818.github.io/cdn.tenvio/sudunt/assets/js/plugin/jquery.sparkline/jquery.sparkline.min.js"></script>
-
-	<!-- Chart Circle -->
-	<script src="https://javier9818.github.io/cdn.tenvio/sudunt/assets/js/plugin/chart-circle/circles.min.js"></script>
 
 	<!-- Datatables -->
 	<script src="https://javier9818.github.io/cdn.tenvio/sudunt/assets/js/plugin/datatables/datatables.min.js"></script>
 
-	<!-- Bootstrap Notify -->
-	<script src="https://javier9818.github.io/cdn.tenvio/sudunt/assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
-
-	<!-- jQuery Vector Maps -->
-	<script src="https://javier9818.github.io/cdn.tenvio/sudunt/assets/js/plugin/jqvmap/jquery.vmap.min.js"></script>
-	<script src="https://javier9818.github.io/cdn.tenvio/sudunt/assets/js/plugin/jqvmap/maps/jquery.vmap.world.js"></script>
-
-	<!-- Sweet Alert -->
-	<script src="https://javier9818.github.io/cdn.tenvio/sudunt/assets/js/plugin/sweetalert/sweetalert.min.js"></script>
-
 	<!-- Atlantis JS -->
     <script src="https://javier9818.github.io/cdn.tenvio/sudunt/assets/js/atlantis.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js" integrity="sha512-pdCVFUWsxl1A4g0uV6fyJ3nrnTGeWnZN2Tl/56j45UvZ1OMdm9CIbctuIHj+yBIRTUUyv6I9+OivXj4i0LPEYA==" crossorigin="anonymous"></script>
     
     <script>
     let votes = @json($votes);
@@ -103,7 +163,7 @@
     let summary = @json($summary);
     let list_elections = @json($list_elections);
     let user = @json(Auth::user());
-
+    let colors = ["#1d7af3","#f3545d","#fdaf4b","#adaf5b", "#cdaf5b", "#adaf5b", "#tdaf5b"];
     let summary_values = list_elections.map( l => {
         var my_total = summary.find( s => {
             return s.response === l
@@ -119,119 +179,55 @@
 
         return my_total === undefined ? 0 : my_total.total
     });
-
-    let colors = ["#1d7af3","#f3545d","#fdaf4b","#adaf5b", "#cdaf5b", "#adaf5b", "#tdaf5b"];
-    
-    // Circles.create({
-    //     id:'circles-1',
-    //     radius:45,
-    //     value:votes,
-    //     maxValue:total,
-    //     width:7,
-    //     text: votes,
-    //     colors:['#f1f1f1', '#FF9E27'],
-    //     duration:400,
-    //     wrpClass:'circles-wrp',
-    //     textClass:'circles-text',
-    //     styleWrapper:true,
-    //     styleText:true
+    // $( document ).ready(function() {
+    //     generarPDF()
+    //     setTimeout(() => {
+    //         window.open('','_parent',''); 
+    //         window.close(); 
+    //     }, 3000);
     // })
+    function generarPDF(){
+        var element = document.getElementById('page');
+        var page2 = document.getElementById('page2');
+        // var page3 = document.getElementById('page3');
+        // var page4 = document.getElementById('page4');
+        // var page5 = document.getElementById('page5');
+        // var page6 = document.getElementById('page6');
+        var opt = {
+        margin:       0.5,
+        filename:     'ACTA DE COMPUTO GENERAL DE VOTOS.pdf',
+        image:        { type: 'jpeg', quality: 0.98 },
+        html2canvas:  { scale: 3, letterRendering: true },
+        jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+        };
+        
+        // New Promise-based usage:
+        // html2pdf().from(element).set(opt).save();
+        //
+        html2pdf().from(element).set(opt).toPdf().get('pdf').then(function (pdf) {
+            element.innerHTML = page2.innerHTML;
+            pdf.addPage();
+        }).toContainer().toCanvas().toPdf().save();
+        
+        // .toContainer().toCanvas().toPdf().get('pdf').then(function (pdf) {
+        //     element.innerHTML = page3.innerHTML;
+        //     pdf.addPage();
+        // }).toContainer().toCanvas().toPdf().get('pdf').then(function (pdf) {
+        //     element.innerHTML = page4.innerHTML;
+        //     pdf.addPage();
+        // }).toContainer().toCanvas().toPdf().get('pdf').then(function (pdf) {
+        //     element.innerHTML = page5.innerHTML;
+        //     pdf.addPage();
+        // }).toContainer().toCanvas().toPdf().get('pdf').then(function (pdf) {
+        //     element.innerHTML = page6.innerHTML;
+        //     pdf.addPage();
+        // }).toContainer().toCanvas().toPdf().save();
+        
+        // Old monolithic-style usage:
+        html2pdf(element, opt);
 
-    // Circles.create({
-    //     id:'circles-2',
-    //     radius:45,
-    //     value:parseInt(total) - parseInt(votes),
-    //     maxValue:parseInt(total),
-    //     width:7,
-    //     text: `${parseInt(total) - parseInt(votes)}`,
-    //     colors:['#f1f1f1', '#2BB930'],
-    //     duration:400,
-    //     wrpClass:'circles-wrp',
-    //     textClass:'circles-text',
-    //     styleWrapper:true,
-    //     styleText:true
-    // })
-
-    // Circles.create({
-    //     id:'circles-3',
-    //     radius:45,
-    //     value:(votes/total)*100,
-    //     maxValue:100,
-    //     width:10,
-    //     text: `${Math.round((votes/total)*100)}%`,
-    //     colors:['#f1f1f1', '#F25961'],
-    //     duration:400,
-    //     wrpClass:'circles-wrp',
-    //     textClass:'circles-text',
-    //     styleWrapper:true,
-    //     styleText:true
-    // })
-
-    // var pieChart = document.getElementById('pieChart').getContext('2d'),
-    // barChart = document.getElementById('barChart').getContext('2d')
-
-    // var myPieChart = new Chart(pieChart, {
-	// 		type: 'pie',
-	// 		data: {
-	// 			datasets: [{
-	// 				data: summary_values,
-	// 				backgroundColor :colors.slice(0, list_elections.count),
-	// 				borderWidth: 0
-	// 			}],
-	// 			labels: list_elections
-	// 		},
-	// 		options : {
-	// 			responsive: true, 
-	// 			maintainAspectRatio: false,
-	// 			legend: {
-	// 				position : 'bottom',
-	// 				labels : {
-	// 					fontColor: 'rgb(154, 154, 154)',
-	// 					fontSize: 11,
-	// 					usePointStyle : true,
-	// 					padding: 20
-	// 				}
-	// 			},
-	// 			pieceLabel: {
-	// 				render: 'percentage',
-	// 				fontColor: 'white',
-	// 				fontSize: 14,
-	// 			},
-	// 			tooltips: false,
-	// 			layout: {
-	// 				padding: {
-	// 					left: 20,
-	// 					right: 20,
-	// 					top: 20,
-	// 					bottom: 20
-	// 				}
-	// 			}
-	// 		}
-	// })
-
-    // var myBarChart = new Chart(barChart, {
-	// 		type: 'bar',
-	// 		data: {
-	// 			labels: list_elections,
-	// 			datasets : [{
-	// 				label: "Votos",
-	// 				backgroundColor: 'rgb(23, 125, 255)',
-	// 				borderColor: 'rgb(23, 125, 255)',
-	// 				data: summary_bar_values,
-	// 			}],
-	// 		},
-	// 		options: {
-	// 			responsive: true, 
-	// 			maintainAspectRatio: false,
-	// 			scales: {
-	// 				yAxes: [{
-	// 					ticks: {
-	// 						beginAtZero:true
-	// 					}
-	// 				}]
-	// 			},
-	// 		}
-	// });
+        
+    }
 
     function imprimirElemento(id){
         var elemento = document.getElementById(id) 
@@ -256,82 +252,73 @@
                 ventana.close();
             };
             return true;
-        }
-</script>
-<script>
-    function genReport(params) {       
-        var meses = new Array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
-        var f=new Date();
-        var hora = f.getHours() + ':' + f.getMinutes() + ':' + f.getSeconds();
-        var contenido= document.getElementById('card'+params).innerHTML;
-        // var contenido= document.getElementById('pieChart').toDataURL();
-		var ventana = window.open('', 'PRINT', 'height=400,width=600');
-		ventana.document.write('<html><head><title>' + document.title + '</title>');
-		ventana.document.write('<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">'); //Aquí agregué la hoja de estilos
-        ventana.document.write('<link rel="stylesheet" href="/assets/css/atlantis.min.css">'); 
-        ventana.document.write('<link rel="stylesheet" href="/assets/css/styles.css">');
-		ventana.document.write('</head><body >');        
-		ventana.document.write(contenido);
-        ventana.document.write(`<hr>`);
-        ventana.document.write(`<p><b>Usuario: </b>${user.email}</p>`);
-        ventana.document.write(`<p><b>Rol: </b>${user.is_admin ? 'Administrador' : 'Personero'}</p>`);
-        ventana.document.write(`<p><b>Fecha y hora: </b>${f.getDate() + " de " + meses[f.getMonth()] + " de " + f.getFullYear() + " - " + hora}</p>`);
-        ventana.document.write(`<hr>`);
-        ventana.document.write(`<b>Sistema de sufragio SUDUNT 2020</b>`);
-		ventana.document.write('</body>');
-        ventana.document.write('<script src="/assets/js/plugin/chart.js/chart.min.js"></'+'script>');
-        ventana.document.write('<script src="/assets/js/plugin/chart-circle/circles.min.js"></'+'script>');
-        ventana.document.write('<script src="/assets/js/plugin/jquery.sparkline/jquery.sparkline.min.js"></'+'script>');
-        ventana.document.write('<script src="/assets/js/atlantis.min.js"></'+'script>');
-        ventana.document.write('</html>');
-		ventana.document.close();
-		ventana.focus();
-		ventana.onload = function() {
-			ventana.print();
-			ventana.close();
-		};
-		return true;
     }
-    function prinCanvas(params) {
-        var meses = new Array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
-        var f=new Date();
-        var hora = f.getHours() + ':' + f.getMinutes() + ':' + f.getSeconds();
-        const dataUrl = document.getElementById(params).toDataURL(); 
-        let windowContent = '<!DOCTYPE html>';
-        windowContent += '<html>';
-        windowContent += '<head>';
-        windowContent +='<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">';
-        windowContent +='</head>';
-        windowContent += '<body>';
-        windowContent += '<div class=" container-fluid  text-center">';
-        windowContent += '<div class="row">';        
-        windowContent += '<div class="col-12 mt-3   text-center">';
-        windowContent += '<h2>Reporte</h2>';
-        windowContent += '<div class="chart-container">';
-        windowContent += '<img src="' + dataUrl + '" class=" img-fluid   text-center">';
-        windowContent += '</div>';
-        windowContent += '</div>';
-        windowContent += '</div>';
-        windowContent += '</div>';
-        windowContent += `<hr>
-        <p><b>Usuario: </b>${user.email}</p>
-        <p><b>Rol: </b>${user.is_admin ? 'Administrador' : 'Personero'}</p>
-        <p><b>Fecha y hora: </b>${f.getDate() + " de " + meses[f.getMonth()] + " de " + f.getFullYear() + " - " + hora}</p>
-        <hr>
-        <b>Sistema de sufragio SUDUNT 2020</b>`;       
-        windowContent += '</body>';
-        windowContent += '</html>';
-        const printWin = window.open('', '', 'width=' + screen.availWidth + ',height=' + screen.availHeight);
-        printWin.document.open();
-        printWin.document.write(windowContent); 
 
-        printWin.document.addEventListener('load', function() {
-            printWin.focus();
-            printWin.print();
-            printWin.document.close();
-            printWin.close();            
-        }, true);
-    }
+    var pieChart = document.getElementById('pieChart').getContext('2d'),
+    barChart = document.getElementById('barChart').getContext('2d')
+
+    var myPieChart = new Chart(pieChart, {
+			type: 'pie',
+			data: {
+				datasets: [{
+					data: summary_values,
+					backgroundColor :colors.slice(0, list_elections.count),
+					borderWidth: 0
+				}],
+				labels: list_elections
+			},
+			options : {
+				responsive: true, 
+				maintainAspectRatio: false,
+				legend: {
+					position : 'bottom',
+					labels : {
+						fontColor: 'rgb(154, 154, 154)',
+						fontSize: 11,
+						usePointStyle : true,
+						padding: 20
+					}
+				},
+				pieceLabel: {
+					render: 'percentage',
+					fontColor: 'white',
+					fontSize: 14,
+				},
+				tooltips: false,
+				layout: {
+					padding: {
+						left: 20,
+						right: 20,
+						top: 20,
+						bottom: 20
+					}
+				}
+			}
+	})
+
+    var myBarChart = new Chart(barChart, {
+			type: 'bar',
+			data: {
+				labels: list_elections,
+				datasets : [{
+					label: "Votos",
+					backgroundColor: 'rgb(23, 125, 255)',
+					borderColor: 'rgb(23, 125, 255)',
+					data: summary_bar_values,
+				}],
+			},
+			options: {
+				responsive: true, 
+				maintainAspectRatio: false,
+				scales: {
+					yAxes: [{
+						ticks: {
+							beginAtZero:true
+						}
+					}]
+				},
+			}
+	});
 </script>
 </body>
 </html>

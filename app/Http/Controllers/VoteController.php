@@ -16,14 +16,19 @@ class VoteController extends Controller
 {
   public $list_elections;
   public $list_nombres;
+  public $list_nombres_listas;
   function __construct() {
       $this->list_elections = [
-        'Lista 1', 'Lista 2', 'Blanco', 'Viciado'
-      ];
+        'Lista 1', 'Lista 2', 'Blanco', 'Nulo o Viciado'
+      ];//df
 
       $this->list_nombres = [
         'DEMETRIO RAFAEL JARA AGUILAR', 'CARLOS ANTONIO HONORES YGLESIAS', '', ''
-      ];
+      ];//ff
+
+      $this->list_nombres_listas = [
+        'UNIDAD E INTEGRACIÓN SINDICAL DOCENTE DE LA UNT', 'UNIDAD E INDEPENDENCIA GREMIAL', '', ''
+      ];//ff
   }
 
   public function validation($token){
@@ -94,13 +99,24 @@ class VoteController extends Controller
     $votes = Vote::where('form_id', $form->id)->get();
     $teachers = Teacher::all();
     $summary = Vote::where('form_id', $form->id)->selectRaw('response, count(response) as total')->groupBy('response')->get();
+
+    $fecha_close = Carbon::parse($form->close_time);
+    $now = new Carbon(now('America/Lima'));
+
+    $res_h = $fecha_close->diffInHours($now);
+    $res_m = $fecha_close->diffInMinutes($now);
+    $res_s = $fecha_close->diffInSeconds($now);
+
     return view('admin.formularios.index', [
       "votes" => count($votes), 
       "id_votes" => $votes->pluck('id'),
       "total" => count($teachers),
       "summary" => $summary, 
       "list_elections" => $this->list_elections,
-      "form" => $form
+      "form" => $form,
+      "res_h" => $res_h,
+      "res_m" => $res_m % 60,
+      "res_s" => $res_s % 3600
     ]);
   }
 
@@ -109,14 +125,112 @@ class VoteController extends Controller
     $votes = Vote::where('form_id', $form->id)->get();
     $teachers = Teacher::all();
     $summary = Vote::where('form_id', $form->id)->selectRaw('response, count(response) as total')->groupBy('response')->orderBy('total', 'desc')->get();
+    $ganador = Vote::where('form_id', $form->id)
+      ->selectRaw('response, count(response) as total')
+      ->groupBy('response')
+      ->orderBy('total', 'desc')
+      ->first();
+
+    $votos_blanco = Vote::where('form_id', $form->id)
+      ->selectRaw('response, count(response) as total')
+      ->groupBy('response')
+      ->where('response', 'Blanco')
+      ->first();
+
+    $votos_viciado = Vote::where('form_id', $form->id)
+      ->selectRaw('response, count(response) as total')
+      ->groupBy('response')
+      ->where('response', 'Nulo o Viciado')
+      ->first();
+
+    $votos_lista_1 = Vote::where('form_id', $form->id)
+      ->selectRaw('response, count(response) as total')
+      ->groupBy('response')
+      ->where('response', 'Lista 1')
+      ->first();
+
+    $votos_lista_2 = Vote::where('form_id', $form->id)
+      ->selectRaw('response, count(response) as total')
+      ->groupBy('response')
+      ->where('response', 'Lista 2')
+      ->first();
+
+    $index_ganador = array_search($ganador->response, $this->list_elections);
     $fecha = new Carbon(now('America/Lima'));
+    
+    $empate = false;
+    $empate_1 = '';
+    $empate_2 = '';
+
+    if($votos_lista_1 !== null && $votos_lista_2 !== null)
+      if($index_ganador == 0 || $index_ganador == 1){
+        if ($votos_lista_1->total == $votos_lista_2->total){
+            $empate = true;
+            $empate_1 = $votos_lista_1->response;
+            $empate_2 = $votos_lista_2->response;
+        }          
+      }
+
+    if($votos_lista_1 !== null)
+      if($index_ganador == 0){
+        if($votos_blanco !== null)
+          if ($votos_lista_1->total == $votos_blanco->total){
+              $empate_1 = $votos_lista_1->response;
+              $empate_2 = $votos_blanco->response;
+              $empate = true;
+          }
+
+        if($votos_viciado !== null)    
+          if ($votos_lista_1->total == $votos_viciado->total){
+              $empate = true;
+              $empate_1 = $votos_lista_1->response;
+              $empate_2 = $votos_viciado->response;
+          }
+      }
+
+    if($votos_lista_2 !== null)
+      if($index_ganador == 1){
+        if($votos_blanco !== null)    
+          if ($votos_lista_2->total == $votos_blanco->total){
+            $empate = true;
+            $empate_1 = $votos_lista_2->response;
+            $empate_2 = $votos_blanco->response;
+          }
+        if($votos_viciado !== null)      
+          if ($votos_lista_2->total == $votos_viciado->total){
+            $empate = true;
+            $empate_1 = $votos_lista_2->response;
+            $empate_2 = $votos_viciado->response;
+          }
+            
+      }
+
+    if($votos_blanco !== null && $votos_viciado !== null)  
+      if($index_ganador == 2 || $index_ganador == 3){
+        if ($votos_blanco->total == $votos_viciado->total){
+          $empate = true;
+          $empate_1 = $votos_blanco->response;
+          $empate_2 = $votos_viciado->response;
+        }
+      }
+
     return view('admin.formularios.resultados', [
       "votes" => count($votes), 
       "total" => count($teachers),
       "summary" => $summary, 
       "list_elections" => $this->list_elections,
       "form" => $form,
-      "fecha" => $fecha->format('Y-m-d H:i:s')
+      "fecha" => $fecha->format('Y-m-d H:i:s'),
+      "ganador" => $ganador,
+      "index_ganador" => $index_ganador,
+      "nombre_lista_ganador" => $this->list_nombres_listas[$index_ganador],
+      "lista_ganador" => $this->list_elections[$index_ganador],
+      "hora_actual" => $fecha->format('H:i'),
+      "votos_blanco" => $votos_blanco,
+      "votos_viciado" => $votos_viciado,
+      "empate_listas" =>  $empate,
+      "empate_1" => $empate_1,
+      "empate_2" => $empate_2
     ]);
   }
 
@@ -133,6 +247,11 @@ class VoteController extends Controller
        $empadronados = Teacher::all();
        return response()->json(["error" => false, "form" => $form, "votes" => $votes, "empadronados" => $empadronados, "listas" => $this->list_elections]);
     }
+  }
+
+  public function puestaCero($formID){
+    Vote::where('form_id', $formID)->delete();
+    return response()->json([ "error" => false]);
   }
 
   public function setVotoSimulado(Request $request){

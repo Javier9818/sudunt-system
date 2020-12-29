@@ -13,7 +13,7 @@
                                 @if(Auth::user()->is_admin)
                                     Administrator
                                 @else
-                                    Personero
+                                    Usuario
                                 @endif
                             </span>
                             <span class="caret"></span>

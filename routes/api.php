@@ -20,4 +20,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::get('/empadronado/{code}', 'PadronController@obtenerEmpadronado');
 Route::get('/data-simulacion/{formID}', 'VoteController@getDataSimulacion');
+Route::get('/data-simulacion-reset/{formID}', 'VoteController@puestaCero');
 Route::post('/voto-simulado', 'VoteController@setVotoSimulado');

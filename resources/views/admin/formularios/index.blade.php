@@ -19,6 +19,8 @@
                     <h3 class="mr-2 text-white pb-2 fw-bold">Estado ({{$form->status == 1 ? 'Abierto' : 'Cerrado'}})</h3>
                     @if($form->status !== 1)
                         <a class="btn btn-danger text-white" href="/report-form/{{$form->id}}" target="_blank" ><b>Ver resultados</b></a>
+                    @else
+                        <h3 class="mr-2 text-white pb-2 fw-bold" id="counter" name="counter">00:00</h3>
                     @endif
                 </div>
             </div>
@@ -83,6 +85,7 @@
 @endsection
 @section('script')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pusher/7.0.2/pusher.min.js" integrity="sha512-eimbIwTgi6xenk305C+lvVqEeeNu9qnbcSCmlmcdFUPr6m2lNIn9iVJbm4qat/3IV2HR5qW7HviNno+EqbKi9A==" crossorigin="anonymous"></script>
+
 <script>
     let votes = @json($votes);
     let id_votes = @json($id_votes);
@@ -90,8 +93,11 @@
     let summary = @json($summary);
     let list_elections = @json($list_elections);
     let user = @json(Auth::user());
-    console.log(user)
-
+    let res_h = @json($res_h);
+    let res_m = @json($res_m);
+    let res_s = @json($res_s);
+    let form_status = @json($form->status);
+    console.log(form_status)
     let summary_values = list_elections.map( l => {
         var my_total = summary.find( s => {
             return s.response === l
@@ -278,6 +284,39 @@
         styleWrapper:true,
         styleText:true
     })
+    }
+    if(form_status === 1) startCount(res_h,res_m,59)
+    function startCount(horas, minutos, segundos){
+        var h = horas, m = minutos, seg = segundos
+        console.log('Inicia')
+        setInterval(() => {
+            seg = seg - 1
+            if(seg<0){
+                m = m - 1
+                if(m >= 0) seg = 59
+                else{
+                    seg = 0
+                    m = 0
+                }
+            }
+
+            if(m==0){
+                h = h -1;
+                if(h >= 0) m = 59
+                else m = 0
+            }
+
+            if(h<=0){
+                h = 0;
+            }
+
+            $('#counter').html(`${h < 10 ? '0'+h : h}:${m < 10 ? '0'+m : m}:${seg < 10 ? '0'+seg : seg}`)
+
+            if( h <= 0 && m <= 0 && seg <= 0){
+                location.reload()
+            }
+                
+        }, 1000);
     }
 </script>
 <script>
