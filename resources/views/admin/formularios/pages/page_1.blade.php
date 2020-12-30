@@ -5,7 +5,7 @@
             <h3 class="text-center"><b>ACTA DE COMPUTO GENERAL DE VOTOS</b></h3>
             <br>
             <p>
-                En la ciudad de Trujillo, en el local del Sindicato Unificado de Docentes de la Universidad Nacional de Trujillo, siendo las {{$hora_actual}} horas del día 30 de diciembre del año 2020, el Comité Electoral Autónomo SUDUNT 2020, con presencia del Notario de la provincia de Trujillo, ..................................................................., recepcionó los resultados del acto electoral de las mesas de sufragio e inmediatamente consolidó los resultados generales siguientes:
+                En la ciudad de Trujillo, en el local del Sindicato Unificado de Docentes de la Universidad Nacional de Trujillo, siendo las {{$hora_actual}} horas del día 30 de diciembre del año 2020, el Comité Electoral Autónomo SUDUNT 2020, con presencia del Notario de la provincia de Trujillo, Marco Antonio Corcuera García, recepcionó los resultados del acto electoral e inmediatamente consolidó los resultados generales siguientes:
             </p>
 
             <div class="row">
@@ -19,22 +19,36 @@
                 <div class="col-6"><h4><b>{{$votes}}</b></h4></div>
             </div>
          
-            <p>
-                De acuerdo a los resultados indicados, el Comité Electoral, en concordancia con el Art. 28° del Reglamento Electoral SUDUNT 2020, declara válidas las elecciones.
-            </p>
-       
-            <p>El resultado del acto eleccionario es el siguiente:</p>
+            
 
-            @if($empate_listas == true)
-                <h4><b>Empate entre votos {{$empate_1}} y votos {{$empate_2}}</b></h4>  
+            @if( $votes >= (($total / 2) + 1 ))
+                @if($empate_listas == true)
+                    <p>
+                        De acuerdo a los resultados indicados, el Comité Electoral, en concordancia con el Art. 28° del Reglamento Electoral SUDUNT 2020, declara inválidas las elecciones.
+                    </p>
+                    <p>El resultado del acto eleccionario es el siguiente:</p>
+                    <h4><b>Empate entre votos {{$empate_1}} y votos {{$empate_2}}</b></h4>  
+                @else
+                    <p>
+                        De acuerdo a los resultados indicados, el Comité Electoral, en concordancia con el Art. 28° del Reglamento Electoral SUDUNT 2020, declara válidas las elecciones.
+                    </p>
+                    <p>El resultado del acto eleccionario es el siguiente:</p>
+                    <h4 class="mb-1"><b>{{$lista_ganador}}  {{$nombre_lista_ganador}}</b></h4>
+                    <div class="row">
+                        <div class="col-5"><h4><b>N° Votos a favor</b></h4></div>
+                        <div class="col-6"><h4><b>.......................................................</b></h4></div>
+                        <div class="col-1"><h4><b>{{$ganador->total ?? '0'}}</b></h4></div>
+                    </div>    
+                @endif
             @else
-                <h4 class="mb-1"><b>{{$lista_ganador}}  {{$nombre_lista_ganador}}</b></h4>
-                <div class="row">
-                    <div class="col-5"><h4><b>N° Votos a favor</b></h4></div>
-                    <div class="col-6"><h4><b>.......................................................</b></h4></div>
-                    <div class="col-1"><h4><b>{{$ganador->total ?? '0'}}</b></h4></div>
-                </div>    
+                <p>
+                    De acuerdo a los resultados indicados, el Comité Electoral, en concordancia con el Art. 28° del Reglamento Electoral SUDUNT 2020, declara no válidas a las elecciones.
+                </p>
+                <p>El resultado del acto eleccionario es el siguiente:</p>
+                <h4>No se superó el 50% + 1 de votos válidamente emitidos</h4>
             @endif
+       
+           
             <hr>
             @foreach($list_elections as $lista)
             <?php  $found = false; $lista_found = ''; ?>
@@ -72,15 +86,23 @@
                 <div class="col-6"><h4><b>.......................................................</b></h4></div>
                 <div class="col-1"><h4><b>{{$votes}}</b></h4></div>
             </div>
-            <p class="mt-3">
-                Luego de dar lectura a los artículos pertinentes del Reglamento de Elecciones SUDUNT 2020, el Presidente del Comité Electoral proclamó a la Lista Ganadora: 
-                @if($empate_listas == true)
-                    <b>Empate entre votos {{$empate_1}} y votos {{$empate_2}}</b>
-                @else
-                    <b>{{$lista_ganador}} - {{$nombre_lista_ganador}}</b>
-                @endif
-                
-            </p>
+            @if( $votes >= (($total / 2) + 1 ))
+                <p class="mt-3">
+                    @if($empate_listas == true)
+                    Luego de dar lectura a los artículos pertinentes del Reglamento de Elecciones SUDUNT 2020, el Presidente del Comité Electoral proclamó: 
+                        <b>Empate entre votos {{$empate_1}} y votos {{$empate_2}}</b>
+                    @else
+                    Luego de dar lectura a los artículos pertinentes del Reglamento de Elecciones SUDUNT 2020, el Presidente del Comité Electoral proclamó a la Lista Ganadora: 
+                        <b>{{$lista_ganador}}  {{$nombre_lista_ganador}}</b>
+                    @endif
+                    
+                </p>
+            @else
+                <p class="mt-3">
+                    Luego de dar lectura a los artículos pertinentes del Reglamento de Elecciones SUDUNT 2020, el Presidente del Comité Electoral proclamó inválidas las elecciones: 
+                    <b>No se superó el 50% + 1 de votos válidamente emitidos</b>   
+                </p>
+            @endif
             <p class="mt-1">
                 Dándose por finalizado el Cómputo General de Votos a las 16:00 horas del día miercoles 30 de diciembre del 2020.
             </p>

@@ -71,7 +71,7 @@
                                                                 @csrf
                                                                 @method('DELETE')
                                                             </form> 
-                                                            <a href="javascript:void(0)" title="simular" onclick="puestaCero('{{$form->id}}')"> <i class="fas fa-desktop ml-2"></i></a> 
+                                                            <a href="javascript:void(0)" title="simular" onclick="simular('{{$form->id}}')"> <i class="fas fa-desktop ml-2"></i></a> 
                                                         @endif
                                                     @endcan
                                                     <a href="/form-statistics/{{$form->id}}" class="ml-2"> <i class="fas fa-eye" style="color:green;"></i> </a>
@@ -210,9 +210,10 @@
     }
 
     function puestaCero(formID){
-        axios.get(`api/data-simulacion-reset/${formID}`).then( ({data}) => {
-           alert( "El formulario se reinició a votos 0");
-        })
+        if(confirm('¿Está seguro de realizar está poner el formulario a cuenta cero?'))
+            axios.get(`api/data-simulacion-reset/${formID}`).then( ({data}) => {
+            alert( "El formulario se reinició a votos 0");
+            })
     }
 
     $('#close').on('click', () => {

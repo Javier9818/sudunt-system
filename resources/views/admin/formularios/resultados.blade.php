@@ -88,14 +88,18 @@
        <div class="container">
        <button class="btn btn-success m-3" onclick="generarPDF()">Descargar resultados</button>
         <div class="card p-4">
-            @if($empate_listas == true)
-                <h1><b>Se detectó un empate entre votos {{$empate_1}} y votos {{$empate_2}}</b></h1>    
-            @elseif($lista_ganador == 'Blanco')
-                <h1><b>La mayor cantidad de votos fueron registrados en Blanco ({{$ganador->total ?? '0'}} votos)</b></h1>
-            @elseif($lista_ganador == 'Nulo o Viciado')
-                <h1><b>La mayor cantidad de votos fueron registrados como nulos o viciados ({{$ganador->total ?? '0'}} votos)</b></h1>
+            @if( $votes >= (($total / 2) + 1 ))
+                @if($empate_listas == true)
+                    <h1><b>Se detectó un empate entre votos {{$empate_1}} y votos {{$empate_2}}</b></h1>    
+                @elseif($lista_ganador == 'Blanco')
+                    <h1><b>La mayor cantidad de votos fueron registrados en Blanco ({{$ganador->total ?? '0'}} votos)</b></h1>
+                @elseif($lista_ganador == 'Nulo o Viciado')
+                    <h1><b>La mayor cantidad de votos fueron registrados como nulos o viciados ({{$ganador->total ?? '0'}} votos)</b></h1>
+                @else
+                    <h1>La lista ganadora con {{$ganador->total ?? '0'}} votos es <b>{{$lista_ganador}} - {{$nombre_lista_ganador}}</b>. </h1>
+                @endif
             @else
-                <h1>La lista ganadora con {{$ganador->total ?? '0'}} votos es <b>{{$lista_ganador}} - {{$nombre_lista_ganador}}</b>. </h1>
+                <h1><b>Con {{$votes}} votos, no se superó el 50% + 1 de votos válidamente emitidos.</b></h1>
             @endif
         </div>
        <div class="row">

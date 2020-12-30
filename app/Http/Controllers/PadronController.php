@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\DatosDocenteActualizados;
+use App\Mail\InvitacionVoto;
 use App\Mail\SolicitudNoAptos;
 use App\Teacher;
 use App\Vote;
@@ -222,5 +223,37 @@ class PadronController extends Controller
         }
         
         return response()->json(["total" => $total." correos enviados", "no aptos" => $no_aptos]);
+    }
+
+    
+    public function enviarCorreoInvitacion(){
+        ini_set('max_execution_time', 180000);
+        $teachers = Teacher::all();
+        $re = '/[\w\-.]+@(unitru.edu.pe)/m';
+        $rg = '/[\w\-.]+@(gmail.com)/m';
+        $correo = '/[\w\-.]+@[\w\-.]+.[\w\-.]/m';
+        $total = 0;
+        $no_aptos = [];
+
+        foreach ($teachers as $empadronado) {
+            $valida_institucional = preg_match($re, $empadronado->correo_institucional);
+            $valida_personal = preg_match($rg, $empadronado->correo_personal);
+            $valida_personal_i = preg_match($re, $empadronado->correo_personal);
+
+            if( $valida_institucional == 1 ){
+                Mail::to(trim($empadronado->correo_institucional))->queue(new InvitacionVoto($empadronado));
+                $total = $total + 1;
+            } 
+            elseif( $valida_personal == 1){
+                Mail::to(trim($empadronado->correo_personal))->queue(new InvitacionVoto($empadronado));
+                $total = $total + 1;
+            }
+            elseif( $valida_personal_i == 1){
+                Mail::to(trim($empadronado->correo_personal))->queue(new InvitacionVoto($empadronado));
+                $total = $total + 1;
+            }  
+        }
+        
+        return response()->json(["total" => $total." correos enviados"]);
     }
 }

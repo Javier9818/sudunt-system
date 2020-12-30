@@ -52,6 +52,7 @@ Route::resource('form', 'FormController')->middleware('auth');
 Route::get('/form-statistics/{id}', 'VoteController@statistics')->middleware('auth');
 Route::get('/report-form/{id}', 'VoteController@resultados')->middleware('auth');
 
+Route::get('/padron/invitacion-docentes', 'PadronController@enviarCorreoInvitacion')->middleware('can:rol-admin');
 Route::get('/view-cache', function () {Artisan::call('view:cache');});
 Route::get('/cache-clear', function () {Artisan::call('cache:clear');});
 // Route::get('/form/{id}', 'FormController@edit')->middleware('auth');

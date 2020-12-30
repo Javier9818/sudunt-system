@@ -18,7 +18,9 @@
                     <h5 class="text-white op-7 mb-2">{{$form->description}}</h5>
                     <h3 class="mr-2 text-white pb-2 fw-bold">Estado ({{$form->status == 1 ? 'Abierto' : 'Cerrado'}})</h3>
                     @if($form->status !== 1)
-                        <a class="btn btn-danger text-white" href="/report-form/{{$form->id}}" target="_blank" ><b>Ver resultados</b></a>
+                        @if($votes > 0)
+                            <a class="btn btn-danger text-white" href="/report-form/{{$form->id}}" target="_blank" ><b>Ver resultados</b></a>
+                        @endif
                     @else
                         <h3 class="mr-2 text-white pb-2 fw-bold" id="counter" name="counter">00:00</h3>
                     @endif

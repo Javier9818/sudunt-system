@@ -19,11 +19,11 @@ class VoteController extends Controller
   public $list_nombres_listas;
   function __construct() {
       $this->list_elections = [
-        'Lista 1', 'Lista 2', 'Blanco', 'Nulo o Viciado'
+        'Lista X', 'Lista Y', 'Blanco', 'Nulo o Viciado'
       ];//df
 
       $this->list_nombres = [
-        'DEMETRIO RAFAEL JARA AGUILAR', 'CARLOS ANTONIO HONORES YGLESIAS', '', ''
+        'DANIEL RUIZ VILLA', 'MARCOS GUERRA MEDINA', '', ''
       ];//ff
 
       $this->list_nombres_listas = [
@@ -162,58 +162,13 @@ class VoteController extends Controller
     $empate_1 = '';
     $empate_2 = '';
 
-    if($votos_lista_1 !== null && $votos_lista_2 !== null)
-      if($index_ganador == 0 || $index_ganador == 1){
-        if ($votos_lista_1->total == $votos_lista_2->total){
-            $empate = true;
-            $empate_1 = $votos_lista_1->response;
-            $empate_2 = $votos_lista_2->response;
-        }          
+    if(count($summary) >= 2)
+      if($summary[0]->total == $summary[1]->total){
+        $empate = true;
+        $empate_1 = $summary[0]->response;
+        $empate_2 = $summary[1]->response;
       }
-
-    if($votos_lista_1 !== null)
-      if($index_ganador == 0){
-        if($votos_blanco !== null)
-          if ($votos_lista_1->total == $votos_blanco->total){
-              $empate_1 = $votos_lista_1->response;
-              $empate_2 = $votos_blanco->response;
-              $empate = true;
-          }
-
-        if($votos_viciado !== null)    
-          if ($votos_lista_1->total == $votos_viciado->total){
-              $empate = true;
-              $empate_1 = $votos_lista_1->response;
-              $empate_2 = $votos_viciado->response;
-          }
-      }
-
-    if($votos_lista_2 !== null)
-      if($index_ganador == 1){
-        if($votos_blanco !== null)    
-          if ($votos_lista_2->total == $votos_blanco->total){
-            $empate = true;
-            $empate_1 = $votos_lista_2->response;
-            $empate_2 = $votos_blanco->response;
-          }
-        if($votos_viciado !== null)      
-          if ($votos_lista_2->total == $votos_viciado->total){
-            $empate = true;
-            $empate_1 = $votos_lista_2->response;
-            $empate_2 = $votos_viciado->response;
-          }
-            
-      }
-
-    if($votos_blanco !== null && $votos_viciado !== null)  
-      if($index_ganador == 2 || $index_ganador == 3){
-        if ($votos_blanco->total == $votos_viciado->total){
-          $empate = true;
-          $empate_1 = $votos_blanco->response;
-          $empate_2 = $votos_viciado->response;
-        }
-      }
-
+    
     return view('admin.formularios.resultados', [
       "votes" => count($votes), 
       "total" => count($teachers),
