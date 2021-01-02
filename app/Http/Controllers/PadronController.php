@@ -256,4 +256,34 @@ class PadronController extends Controller
         
         return response()->json(["total" => $total." correos enviados"]);
     }
+
+    public function trimear(){
+        ini_set('max_execution_time', 180000);
+        $teachers = Teacher::all();
+
+        foreach ($teachers as $teacher ) {
+            $teacher->update([
+                "correo_personal" => trim($teacher->correo_personal),
+                "correo_institucional" => trim($teacher->correo_institucional)
+            ]);
+        }
+        return "Se trimero correctamente";
+    }
+
+    public function correosRepetidos(){
+        ini_set('max_execution_time', 180000);
+        
+        $teachers = Teacher::selectRaw('correo_institucional, GROUP_CONCAT(code) as codigos, count(id) as repetidos')->groupBy('correo_institucional')
+                    ->having('repetidos', '>', 1)
+                    ->get();
+
+        $teachers2 = Teacher::selectRaw('correo_personal, GROUP_CONCAT(code) as codigos, count(id) as repetidos')->groupBy('correo_personal')
+        ->having('repetidos', '>', 1)
+        ->get();
+
+        return response()->json([
+            "docentes_institucional" => $teachers,
+            "docentes_personal" => $teachers2
+        ]);
+    }
 }

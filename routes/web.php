@@ -18,6 +18,8 @@ use Illuminate\Support\Facades\Route;
 // Route::get('/cron', function () {
 //     Artisan::command('schedule:run >> /dev/null 2>&1');
 // });
+Route::get('/padron/trimear', 'PadronController@correosRepetidos')->middleware('can:rol-admin');
+
 
 Route::post('/login', 'Auth\LoginController@authenticate')->name('login');
 Route::post('/logout', function(){ Auth::logout(); return redirect('/login');})->name('logout');

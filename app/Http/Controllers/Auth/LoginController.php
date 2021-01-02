@@ -69,7 +69,8 @@ class LoginController extends Controller
             $getInfo = Socialite::driver('google')->user();
             $teacher = Teacher::where('correo_institucional', $getInfo->email)->orWhere('correo_personal', $getInfo->email)->first();
             if($teacher !== null)
-                return redirect('/'.'votacion/'.$teacher->token);
+                return redirect('/'.'votacion/'.
+                $teacher->token);
             else
                 return redirect('/sufragio-sudunt/autenticar-empadronado')->withErrors(["login-error" => "El usuario no se encuentra registrado."]);
         } catch (\Throwable $th) {
