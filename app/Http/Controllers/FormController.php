@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Form;
+use App\UserActivity;
 use App\Vote;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class FormController extends Controller
 {
@@ -16,6 +18,14 @@ class FormController extends Controller
      */
     public function index()
     {
+        $fecha_actual = new Carbon(now('America/Lima'));
+        if(Auth::check())
+            UserActivity::create([
+                "hora_entrada" => $fecha_actual->format('H:i:s'),
+                "user_id" => Auth::id(),
+                "actividad" => 'Vista listar formularios'
+            ]);
+
         $forms = Form::orderBy('id', 'desc')->get();
         if(count($forms) > 0)
             Form::dateVerify(0, $forms[0]);
@@ -89,6 +99,13 @@ class FormController extends Controller
     {
         $this->authorize('rol-admin');
         $form = Form::find($id);
+        $fecha_actual = new Carbon(now('America/Lima'));
+        if(Auth::check())
+            UserActivity::create([
+                "hora_entrada" => $fecha_actual->format('H:i:s'),
+                "user_id" => Auth::id(),
+                "actividad" => 'Vista editar formulario'
+            ]);
         return view('admin.formularios.form', ["form" => $form]);
     }
 

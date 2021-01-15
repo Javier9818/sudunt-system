@@ -12,7 +12,8 @@ class ScopeSeeder extends Seeder
      */
     public function run()
     {
+        Scope::truncate();
         Scope::create(["description" => 'Administrador']);
-        Scope::create(["description" => 'Personero']); 
+        Scope::create(["description" => 'Usuario']); 
     }
 }

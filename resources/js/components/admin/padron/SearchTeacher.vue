@@ -19,7 +19,7 @@
                 <h4 class="alert-heading">Datos no válidos</h4>
                 <p>Para realizar el acto de sufragio necesita que su correo electrónico personal o institucional sea del servicio Gmail.</p>
                 <hr>
-                <p class="mb-0">Para poder solicitar un cambio a sus datos, deberá descargar el siguiente <a href="/FORMATO DE ACTUALIZACIÓN DE CORREO.docx" target="_blank">FORMATO DE ACTUALIZACIÓN DE CORREO</a>, firmar el documento, escanearlo y adjuntarlo en el siguiente formulario <a href="https://forms.gle/gKDncGMrJn4aE27D8" target="_blank">https://forms.gle/gKDncGMrJn4aE27D8</a>.</p>
+                <p class="mb-0">Para poder solicitar un cambio a sus datos, deberá descargar el siguiente <a href="/FORMATO DE ACTUALIZACION DE CORREO.docx" target="_blank">FORMATO DE ACTUALIZACIÓN DE CORREO</a>, firmar el documento, escanearlo y adjuntarlo en el siguiente formulario <a href="https://forms.gle/bzwQGggqmfo68vNN9" target="_blank">https://forms.gle/bzwQGggqmfo68vNN9</a></p>
             </div>
 
             <div class="alert alert-success" role="alert" v-else>
@@ -29,7 +29,7 @@
                     ($v.form.correo_institucional.gmail && $v.form.correo_institucional.required) ? 'correo institucional' : 'correo personal gmail' }}.
                 </p>
                 <!-- <hr>
-                <p class="mb-0"><b>(Opcional)</b> En caso desee cambiar los datos de su correo institucional o personal, deberá descargar el siguiente <a href="/FORMATO DE ACTUALIZACIÓN DE CORREO.docx" target="_blank">FORMATO DE ACTUALIZACIÓN DE CORREO</a>, firmar el documento, escanearlo y adjuntarlo en el siguiente formulario <a href="https://forms.gle/gKDncGMrJn4aE27D8" target="_blank">https://forms.gle/gKDncGMrJn4aE27D8</a>.</p> -->
+                <p class="mb-0"><b>(Opcional)</b> En caso desee cambiar los datos de su correo institucional o personal, deberá descargar el siguiente <a href="/FORMATO DE ACTUALIZACIÓN DE CORREO.docx" target="_blank">FORMATO DE ACTUALIZACIÓN DE CORREO</a>, firmar el documento, escanearlo y adjuntarlo en el siguiente formulario <a href="https://forms.gle/bzwQGggqmfo68vNN9" target="_blank">https://forms.gle/bzwQGggqmfo68vNN9</a>.</p> -->
             </div>
 
             <hr>

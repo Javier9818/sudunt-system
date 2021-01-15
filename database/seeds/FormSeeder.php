@@ -12,6 +12,7 @@ class FormSeeder extends Seeder
      */
     public function run()
     {
+        Form::truncate();
         Form::create([
             "title" => "Votaciones SUDUNT 2020",
             "description" => "Formulario para el sufragio del SUDUNT"

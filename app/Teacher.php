@@ -15,7 +15,9 @@ class Teacher extends Model
         'departamento',
         'categoria',
         'nombres',
-        'token'
+        'token',
+        'is_activo',
+        'status'
     ];
 
     public static function validation($token)

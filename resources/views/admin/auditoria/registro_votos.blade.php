@@ -1,10 +1,10 @@
 @extends('layouts.admin')
 @section('title') 
-    Inicio  
+    Padrón de docentes  
 @endsection
 
 @section('side-nav') 
-    <x-side-nav tab="1" selected='1'/>
+    <x-side-nav tab="3" selected='2'/>
 @endsection
 
 @section('content')
@@ -13,13 +13,8 @@
             <div class="page-inner py-5">
                 <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
                     <div>
-                        <h2 class="text-white pb-2 fw-bold">Usuarios</h2>
-                        <h5 class="text-white op-7 mb-2">Lista de usuarios del sistema</h5>
+                        <h2 class="text-white pb-2 fw-bold">Registro de actividad de usuarios</h2>
                     </div>
-                    <!-- <div class="ml-md-auto py-2 py-md-0">
-                        <a href="#" class="btn btn-white btn-border btn-round mr-2">Manage</a>
-                        <a href="#" class="btn btn-secondary btn-round">Add Customer</a>
-                    </div> -->
                 </div>
             </div>
         </div>
@@ -28,50 +23,39 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title">Usuarios </h4>
-                            <a href="/user/create" class="btn btn-sm btn-success float-right">Nuevo</a>
-                            
+                            <h4 class="card-title">Registros de actividad e usuarios</h4>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table id="multi-filter-select" class="display table table-striped table-hover" >
                                     <thead>
                                         <tr>
-                                            <th>Nombres</th>
-                                            <th>Apellidos</th>
-                                            <th>Email</th>
-                                            <th>Rol</th>
-                                            <th>Opciones</th>
+                                            <th>N°</th>
+                                            <th>Usuario</th>
+                                            <th>Actividad</th>
+                                            <th>Hora de entrada</th>
+                                            <th>Fecha</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
                                         <tr>
-                                            <th>Nombres</th>
-                                            <th>Apellidos</th>
-                                            <th>Email</th>
-                                            <th>Rol</th>
-                                            <th>Opciones</th>
+                                            <th>N°</th>
+                                            <th>Usuario</th>
+                                            <th>Actividad</th>
+                                            <th>Hora de entrada</th>
+                                            <th>Fecha</th>
                                         </tr>
                                     </tfoot>
                                     <tbody>
-                                        @foreach($users as $user)
-                                        <tr>
-                                            <td>{{$user->names}}</td>
-                                            <td>{{$user->last_names}}</td>
-                                            <td>{{$user->email}}</td>
-                                            <td>{{$user->is_admin == true ? 'Administrador' : 'Usuario'}}</td>
-                                            <td> 
-                                                <a href="/user/{{$user->id}}/edit">Editar</a> 
-                                                <!-- <a href="javascript:void(0)" class="ml-2"  onclick="event.preventDefault();
-                                                if(confirm('¿Está seguro de realizar está operación?'))document.getElementById('delete-user').submit();">Eliminar</a> -->
-                                                <form action="/user/{{$user->id}}" method="POST">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button class="btn btn-danger btn-sm" type="submit"><i class="fas fa-trash" style="color:white;"></i></button>
-                                                </form> 
-                                            </td>
-                                        </tr>
-                                        @endforeach
+                                        @foreach($actividades as $index => $voto)
+                                                <tr>
+                                                    <td>{{$index + 1}}</td>
+                                                    <td>{{$voto->usuario->email}}</td>
+                                                    <td>{{$voto->actividad}}</td>
+                                                    <td>{{$voto->hora_entrada}}</td>
+                                                    <td>{{$voto->created_at}}</td>
+                                                </tr>
+                                            @endforeach
                                     </tbody>
                                 </table>
                             </div>
@@ -84,7 +68,8 @@
 @endsection
 
 @section('script')
-<script >
+<script >       
+
     $(document).ready(function() {
         $('#basic-datatables').DataTable({
         });

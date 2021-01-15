@@ -16,6 +16,7 @@
             <div>
               <form id="regForm" action="/vote" method="POST">
                 @csrf
+                <input type="text" hidden  id="ip" name="ip">
                 <div>
                   <ul class="list-group list-group-flush">
                     @foreach ($list_elections as $value => $item)
@@ -52,7 +53,7 @@
             </div>
           @break
           @case(3)
-            <h5 class="card-title text-center mt-2">El enlace accedido no es válido.</h5>
+            <h5 class="card-title text-center mt-2">El enlace accedido no es válido o usuario no es apto.</h5>
           @break
           @case(4)
             <h5 class="card-title text-center mt-2"> {{$teacher->nombres}} su voto ha sido registrado exitosamente.</h5>
@@ -68,4 +69,12 @@
     </div>
   </div>
 </div> 
+@endsection
+
+@section('scripts')
+<script language="JavaScript" src="http://www.geoplugin.net/javascript.gp" type="text/javascript"></script>
+  <script>
+    document.getElementById('ip').value = geoplugin_request();
+    console.log(geoplugin_request());
+  </script>
 @endsection

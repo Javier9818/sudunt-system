@@ -4,11 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Events\VoteEvent;
 use App\Form;
+use App\Logs;
 use App\Mail\VoteSuccess;
 use App\Teacher;
+use App\UserActivity;
 use App\Vote;
+use App\VoteRegister;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 
@@ -37,10 +41,11 @@ class VoteController extends Controller
     if($form->status == 0)
       return view('admin.vote.index',["context" => 5, "form" => $form]); //EL VOTO YA FUE CERRADO
     else{
-      $teacher = Teacher::where('token', $token)->first();
+      $teacher = Teacher::where('token', $token)->where('status', 1)->first();
       if ($teacher !== null)
         {
-          if(Vote::where('teacher_id', $teacher->id)->where('form_id', $form->id)->exists())
+          // if(Vote::where('teacher_id', $teacher->id)->where('form_id', $form->id)->exists())
+          if(VoteRegister::where('teacher_id', $teacher->id)->where('form_id', $form->id)->exists())
             return view('admin.vote.index',["teacher" => $teacher,"context" => 1]); //VOTO PREVIO EXISTENTE
           else
             return view('admin.vote.index',[  // ACCESO PERMITIDO
@@ -63,19 +68,26 @@ class VoteController extends Controller
         "validation-error" => "El formulario de votación ha cerrado."
       ]);// return view('admin.vote.index',["context" => 5]); //EL VOTO YA FUE CERRADO
     else{
-      $teacher = Teacher::where('token', $request->token)->first();
+      $teacher = Teacher::where('token', $request->token)->where('status', 1)->first();
       if ($teacher !== null)
         {
-          if(Vote::where('teacher_id', $teacher->id)->where('form_id', $form->id)->exists())
+          // if(Vote::where('teacher_id', $teacher->id)->where('form_id', $form->id)->exists())
+          if(VoteRegister::where('teacher_id', $teacher->id)->where('form_id', $form->id)->exists())
           return redirect('/sufragio-sudunt/autenticar-empadronado')->withErrors([
             "validation-error" => $teacher->nombres.", su voto ya se encuentra registrado."
           ]); //return view('admin.vote.index',["teacher" => $teacher,"context" => 1]); //Voto ya realizado
           else{
-            Vote::create([
-              "teacher_id" => $teacher->id,
-              "form_id" => $form->id,
-              "response" => $request->vote
-            ]);
+            DB::transaction(function () use ($form, $request, $teacher){
+              Vote::create([
+                "form_id" => $form->id,
+                "response" => $request->vote,
+                "ip" => $request->ip
+              ]);
+              VoteRegister::create([
+                "teacher_id" => $teacher->id,
+                "form_id" => $form->id
+              ]);
+            });
             $cantidad = Vote::where('form_id',  $form->id)->count();
             event(new VoteEvent($cantidad));
             try {
@@ -97,7 +109,7 @@ class VoteController extends Controller
   public function statistics($id){
     $form = Form::dateVerify($id);
     $votes = Vote::where('form_id', $form->id)->get();
-    $teachers = Teacher::all();
+    $teachers = Teacher::where('status', 1)->get();
     $summary = Vote::where('form_id', $form->id)->selectRaw('response, count(response) as total')->groupBy('response')->get();
 
     $fecha_close = Carbon::parse($form->close_time);
@@ -123,13 +135,20 @@ class VoteController extends Controller
   public function resultados($id){
     $form = Form::dateVerify($id);
     $votes = Vote::where('form_id', $form->id)->get();
-    $teachers = Teacher::all();
+    $teachers = Teacher::where('status', 1)->get();
     $summary = Vote::where('form_id', $form->id)->selectRaw('response, count(response) as total')->groupBy('response')->orderBy('total', 'desc')->get();
     $ganador = Vote::where('form_id', $form->id)
       ->selectRaw('response, count(response) as total')
       ->groupBy('response')
       ->orderBy('total', 'desc')
       ->first();
+    
+    $votes_teachers_summary = DB::table('vote_register')
+                              ->selectRaw('count(teachers.is_activo) as activos, count(vote_register.id) as total')
+                              ->where('form_id', $form->id)
+                              ->groupBy('form_id')
+                              ->join('teachers', 'teachers.id', '=', 'vote_register.teacher_id')
+                              ->get();
 
     $votos_blanco = Vote::where('form_id', $form->id)
       ->selectRaw('response, count(response) as total')
@@ -141,18 +160,6 @@ class VoteController extends Controller
       ->selectRaw('response, count(response) as total')
       ->groupBy('response')
       ->where('response', 'Nulo o Viciado')
-      ->first();
-
-    $votos_lista_1 = Vote::where('form_id', $form->id)
-      ->selectRaw('response, count(response) as total')
-      ->groupBy('response')
-      ->where('response', 'Lista 1')
-      ->first();
-
-    $votos_lista_2 = Vote::where('form_id', $form->id)
-      ->selectRaw('response, count(response) as total')
-      ->groupBy('response')
-      ->where('response', 'Lista 2')
       ->first();
 
     $index_ganador = array_search($ganador->response, $this->list_elections);
@@ -181,19 +188,67 @@ class VoteController extends Controller
       "nombre_lista_ganador" => $this->list_nombres_listas[$index_ganador],
       "lista_ganador" => $this->list_elections[$index_ganador],
       "hora_actual" => $fecha->format('H:i'),
+      "dia_actual" => $fecha->format('d'),
+      "mes_actual" => $this->nombreMes(number_format($fecha->format('m'),0)),
+      "anio_actual" => $fecha->format('Y'),
       "votos_blanco" => $votos_blanco,
       "votos_viciado" => $votos_viciado,
       "empate_listas" =>  $empate,
       "empate_1" => $empate_1,
-      "empate_2" => $empate_2
+      "empate_2" => $empate_2,
+      "votes_teachers_summary" => $votes_teachers_summary
     ]);
   }
+
+  public function nombreMes($mes){
+    $res = null;
+    switch ($mes) {
+        case 1:
+            $res = 'Enero';
+            break;
+        case 2:
+            $res = 'Febrero';
+            break;
+        case 3:
+            $res = 'Marzo';
+            break;
+        case 4:
+            $res = 'Abril';
+            break;
+        case 5:
+            $res = 'Mayo';
+            break;
+        case 6:
+            $res = 'Junio';
+            break;
+        case 7:
+            $res = 'Julio';
+            break;
+        case 8:
+            $res = 'Agosto';
+            break;
+        case 9:
+            $res = 'Setiembre';
+            break;
+        case 10:
+            $res = 'Octubre';
+            break;
+        case 11:
+            $res = 'Noviembre';
+            break;
+        case 12:
+            $res = 'Diciembre';
+            break;
+    }
+
+    return $res;
+}
 
   //NO SUBIR
   public function getDataSimulacion($formID){
     
     $form = Form::find($formID);
-    Vote::where('form_id', $formID)->delete();
+    $this->truncar_tablas();
     $votes = Vote::where('form_id', $formID)->count();
 
     if( $votes > 0 )
@@ -205,13 +260,17 @@ class VoteController extends Controller
   }
 
   public function puestaCero($formID){
-    Vote::where('form_id', $formID)->delete();
+    $this->truncar_tablas();
     return response()->json([ "error" => false]);
   }
 
   public function setVotoSimulado(Request $request){
       Vote::create([
+        "form_id" => $request->form,
         "response" => $request->lista,
+        "ip" => '127.0.0.1'
+      ]);
+      VoteRegister::create([
         "teacher_id" => $request->teacher,
         "form_id" => $request->form
       ]);
@@ -219,4 +278,12 @@ class VoteController extends Controller
       event(new VoteEvent($cantidad));
       return response()->json([ "error" => false ]);
   }
+
+  public function truncar_tablas(){
+    Vote::truncate();
+    VoteRegister::truncate();
+    Logs::truncate();
+    UserActivity::truncate();
+  }
+
 }

@@ -5,7 +5,7 @@
             <h3 class="text-center"><b>ACTA DE COMPUTO GENERAL DE VOTOS</b></h3>
             <br>
             <p>
-                En la ciudad de Trujillo, en el local del Sindicato Unificado de Docentes de la Universidad Nacional de Trujillo, siendo las {{$hora_actual}} horas del día 30 de diciembre del año 2020, el Comité Electoral Autónomo SUDUNT 2020, recepcionó los resultados del acto electoral e inmediatamente consolidó los resultados generales siguientes:
+                En la ciudad de Trujillo, en el local del Sindicato Unificado de Docentes de la Universidad Nacional de Trujillo, siendo las {{$hora_actual}} horas del día {{$dia_actual}} de {{$mes_actual}} del año {{$anio_actual}}, el Comité Electoral Autónomo SUDUNT 2020, recepcionó los resultados del acto electoral e inmediatamente consolidó los resultados generales siguientes:
             </p>
             @if( $votes >= (($total / 2) + 1 ))
                 @if($empate_listas == true)
@@ -30,7 +30,7 @@
                 <p>Luego de dar lectura a los artículos pertinentes del Reglamento de Elecciones SUDUNT 2020, el Presidente del Comité Electoral proclamó inválida las elecciones.</p>    
             @endif
             <p>
-                Dándose por finalizado el Cómputo General de Votos a las 16:00 horas del día miercoles 30 de diciembre del 2020.
+                Dándose por finalizado el Cómputo General de Votos a las 16:00 horas del día {{$dia_actual}} de {{$mes_actual}} del año {{$anio_actual}},.
             </p>
 
             <div class="row justify-content-around" style="margin-top: 100px;">

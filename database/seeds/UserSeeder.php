@@ -15,6 +15,9 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
+        Person::truncate();
+        ScopeUser::truncate();
+        
         $person = Person::create([
             "names" => "Javier Rodolfo",
             "last_names" => "Briceño Montaño",

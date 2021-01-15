@@ -48,7 +48,7 @@
                 <select name="scope" id="scope" class="form-control" v-model="form.scope" required>
                     <option :value="null" disabled selected> -- Porfavor seleccione una opción --</option>
                     <option value="1">Administrador</option>
-                    <option value="2">Personero</option>
+                    <option value="2">Usuario</option>
                 </select>
             </div>
         </div>

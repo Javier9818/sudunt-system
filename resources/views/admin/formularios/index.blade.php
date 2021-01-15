@@ -54,7 +54,7 @@
                 </div>
             </div>
             @can('rol-admin')
-            <div class="col-md-6">
+            <div class="col-md-6 d-none">
                 <div class="card full-height">
                     <div class="card-header">
                         <div class="card-title">Resúmen de resultados</div>
@@ -67,7 +67,7 @@
                     <button class=" btn btn-info" onclick="prinCanvas('pieChart')">Generar reporte</button>
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 d-none">
                 <div class="card">
                     <div class="card-header">
                         <div class="card-title">Resúmen de votos</div>

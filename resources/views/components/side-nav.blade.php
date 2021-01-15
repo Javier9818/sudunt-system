@@ -141,6 +141,33 @@
                         </ul>
                     </div>
                 </li>
+                @can('rol-admin')
+                <li class="nav-item {{ $isTab('3') ? 'active' : '' }}" >
+                    <a data-toggle="collapse" href="#base2">
+                        <i class="fas fa-layer-group"></i>
+                        <p>Auditoria</p>
+                        <span class="caret"></span>
+                    </a>
+                    <div class="collapse {{ $isTab('3') ? 'show' : '' }}" id="base2">
+                        <ul class="nav nav-collapse">
+                            <li class="{{ $isSelected('3', '1') ? 'active' : '' }}">
+                                <a href="/audit-@1">
+                                    <span class="sub-item">Registros con fecha diferente</span>
+                                </a>
+                            </li>
+                            <li class="{{ $isSelected('3', '2') ? 'active' : '' }}">
+                                <a href="/audit-@2">
+                                    <span class="sub-item">Registros de actividad de usuarios</span>
+                                </a>
+                            </li>
+                            <li class="{{ $isSelected('3', '3') ? 'active' : '' }}">
+                                <a href="/audit-@3">
+                                    <span class="sub-item">Logs</span>
+                                </a>
+                            </li>
+                    </div>
+                </li>
+                @endcan
             </ul>
         </div>
     </div>

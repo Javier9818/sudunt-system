@@ -21484,7 +21484,7 @@ var staticRenderFns = [
         "a",
         {
           attrs: {
-            href: "/FORMATO DE ACTUALIZACIÓN DE CORREO.docx",
+            href: "/FORMATO DE ACTUALIZACION DE CORREO.docx",
             target: "_blank"
           }
         },
@@ -21497,13 +21497,12 @@ var staticRenderFns = [
         "a",
         {
           attrs: {
-            href: "https://forms.gle/gKDncGMrJn4aE27D8",
+            href: "https://forms.gle/bzwQGggqmfo68vNN9",
             target: "_blank"
           }
         },
-        [_vm._v("https://forms.gle/gKDncGMrJn4aE27D8")]
-      ),
-      _vm._v(".")
+        [_vm._v("https://forms.gle/bzwQGggqmfo68vNN9")]
+      )
     ])
   }
 ]
@@ -21830,7 +21829,7 @@ var render = function() {
             _vm._v(" "),
             _c("option", { attrs: { value: "1" } }, [_vm._v("Administrador")]),
             _vm._v(" "),
-            _c("option", { attrs: { value: "2" } }, [_vm._v("Personero")])
+            _c("option", { attrs: { value: "2" } }, [_vm._v("Usuario")])
           ]
         )
       ])

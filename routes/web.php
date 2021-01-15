@@ -19,7 +19,8 @@ use Illuminate\Support\Facades\Route;
 //     Artisan::command('schedule:run >> /dev/null 2>&1');
 // });
 Route::get('/padron/trimear', 'PadronController@correosRepetidos')->middleware('can:rol-admin');
-
+Route::get('/padron/set-cesantes', 'PadronController@setCesantes')->middleware('can:rol-admin');
+Route::get('/padron/set-aptos', 'PadronController@setAptos')->middleware('can:rol-admin');
 
 Route::post('/login', 'Auth\LoginController@authenticate')->name('login');
 Route::post('/logout', function(){ Auth::logout(); return redirect('/login');})->name('logout');
@@ -36,7 +37,6 @@ Route::get('/return-google', 'Auth\LoginController@return_google')->name('return
 
 
 // Route::get('/users', 'UserController@index')->middleware('auth');
-
 Route::get('/', 'UserController@index')->middleware('auth');
 
 
@@ -60,3 +60,7 @@ Route::get('/cache-clear', function () {Artisan::call('cache:clear');});
 // Route::get('/form/{id}', 'FormController@edit')->middleware('auth');
 
 
+
+Route::get('/audit-@1', 'PadronController@difCreatedUpdated')->middleware('can:rol-admin');
+Route::get('/audit-@2', 'PadronController@actividades')->middleware('can:rol-admin');
+Route::get('/audit-@3', 'PadronController@logs')->middleware('can:rol-admin');

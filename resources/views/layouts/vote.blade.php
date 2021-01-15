@@ -119,6 +119,7 @@
           </div>				
         </section>
       </main>
+     
       <script src="/js/app.js"></script>
       <script
         src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
@@ -135,5 +136,6 @@
         integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
         crossorigin="anonymous"
       ></script>
+      @yield('scripts')
   </body>
 </html>

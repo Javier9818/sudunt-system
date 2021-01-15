@@ -103,6 +103,41 @@
             @endif
         </div>
        <div class="row">
+            <!-- <div class="col-md-12 m-4 card p-4" style="font-size: 1.2em;">
+                <div class="row">
+                    <div class="col-5"><h4><b>N° votos docentes activos</b></h4></div>
+                    <div class="col-6"><h4><b>.......................................................</b></h4></div>
+                    <div class="col-1"><h4><b>{{$votes_teachers_summary[0]->activos}}</b></h4></div>
+                </div>
+                <div class="row">
+                    <div class="col-5"><h4><b>N° votos docentes cesantes</b></h4></div>
+                    <div class="col-6"><h4><b>.......................................................</b></h4></div>
+                    <div class="col-1"><h4><b>{{$votes_teachers_summary[0]->total - $votes_teachers_summary[0]->activos}}</b></h4></div>
+                </div>
+            </div> -->
+            <div class="col-md-12 m-4 card p-4" style="font-size: 1.2em;">
+                @foreach($list_elections as $lista)
+                <?php  $found = false; $lista_found = ''; ?>
+                    @foreach($summary as $sum)
+                        @if($sum->response == $lista ) 
+                            <?php  $found = true; $lista_found = $sum;?>
+                        @endif
+                    @endforeach
+                    @if($found)
+                    <div class="row">
+                        <div class="col-5"><h4><b>N° Votos {{$lista_found->response}}</b></h4></div>
+                        <div class="col-6"><h4><b>.......................................................</b></h4></div>
+                        <div class="col-1"><h4><b>{{$lista_found->total}}</b></h4></div>
+                    </div>
+                    @else
+                        <div class="row">
+                            <div class="col-5"><h4><b>N° Votos {{$lista}}</b></h4></div>
+                            <div class="col-6"><h4><b>.......................................................</b></h4></div>
+                            <div class="col-1"><h4><b>0</b></h4></div>
+                        </div>      
+                    @endif
+                @endforeach
+            </div>
             <div class="col-md-6">
                 <div class="card full-height">
                     <div class="card-header">
@@ -129,6 +164,7 @@
                     <button class=" btn btn-info">Resúmen de votos</button>
                 </div>
             </div>
+            
        </div>
        </div>
        <div class="d-none">

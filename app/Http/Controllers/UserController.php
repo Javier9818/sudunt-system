@@ -7,7 +7,10 @@ use App\Person;
 use App\Scope;
 use App\ScopeUser;
 use App\User;
+use App\UserActivity;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
@@ -22,6 +25,13 @@ class UserController extends Controller
      */
     public function index()
     {
+        $fecha_actual = new Carbon(now('America/Lima'));
+        if(Auth::check())
+            UserActivity::create([
+                "hora_entrada" => $fecha_actual->format('H:i:s'),
+                "user_id" => Auth::id(),
+                "actividad" => 'Vista lista de usuarios'
+            ]);
         $users = DB::table('users')
                 ->selectRaw('users.*, person.names, person.last_names')
                 ->join('person', 'users.person_id', '=', 'person.id')
@@ -37,6 +47,13 @@ class UserController extends Controller
      */
     public function create()
     {
+        $fecha_actual = new Carbon(now('America/Lima'));
+        if(Auth::check())
+            UserActivity::create([
+                "hora_entrada" => $fecha_actual->format('H:i:s'),
+                "user_id" => Auth::id(),
+                "actividad" => 'Vista crear usuario'
+            ]);
         $scopes = Scope::all();
         return view('admin.users.create', ["scopes" => $scopes]);
     }
@@ -101,6 +118,14 @@ class UserController extends Controller
     {
         $user  = User::find($id);
         $person = Person::find($user->person_id);
+
+        $fecha_actual = new Carbon(now('America/Lima'));
+        if(Auth::check())
+            UserActivity::create([
+                "hora_entrada" => $fecha_actual->format('H:i:s'),
+                "user_id" => Auth::id(),
+                "actividad" => 'Vista editar usuario'
+            ]);
 
         return view('admin.users.create', ["user" => $user, "person" => $person]);
     }
