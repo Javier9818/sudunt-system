@@ -13,9 +13,9 @@ class AlterVotesTable extends Migration
      */
     public function up()
     {
-        Schema::table('votes', function (Blueprint $table) {
-            $table->string('ip',50)->nullable();
-        });
+        // Schema::table('votes', function (Blueprint $table) {
+        //     $table->string('ip',50)->nullable();
+        // });
     }
 
     /**

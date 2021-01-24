@@ -2076,6 +2076,22 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 var text = vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__["helpers"].regex('alpha', /^[a-zA-Z0-9À-ÿ\u00f1\u00d1\s]*$/);
@@ -2091,7 +2107,9 @@ var text = vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__["helpers"].rege
         departamento: '',
         facultad: '',
         categoria: '',
-        sexo: null
+        sexo: null,
+        is_activo: 0,
+        status: 0
       }
     };
   },
@@ -21270,6 +21288,60 @@ var render = function() {
             _c("option", { attrs: { value: "H" } }, [_vm._v("Masculino")]),
             _vm._v(" "),
             _c("option", { attrs: { value: "M" } }, [_vm._v("Femenino")])
+          ]
+        )
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "col-md-6" }, [
+      _c("div", { staticClass: "form-group" }, [
+        _c("label", { attrs: { for: "tipo" } }, [_vm._v("Tipo")]),
+        _vm._v(" "),
+        _vm.form.is_activo
+          ? _c("p", [_vm._v("Docente activo")])
+          : _c("p", [_vm._v("Docente cesante")])
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "col-md-6" }, [
+      _c("div", { staticClass: "form-group" }, [
+        _c("label", { attrs: { for: "status" } }, [_vm._v("Estado")]),
+        _vm._v(" "),
+        _c(
+          "select",
+          {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.form.status,
+                expression: "form.status"
+              }
+            ],
+            staticClass: "form-control",
+            attrs: { name: "status", id: "status", disabled: "" },
+            on: {
+              change: function($event) {
+                var $$selectedVal = Array.prototype.filter
+                  .call($event.target.options, function(o) {
+                    return o.selected
+                  })
+                  .map(function(o) {
+                    var val = "_value" in o ? o._value : o.value
+                    return val
+                  })
+                _vm.$set(
+                  _vm.form,
+                  "status",
+                  $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+                )
+              }
+            }
+          },
+          [
+            _c("option", { domProps: { value: 1 } }, [_vm._v("Habilitado")]),
+            _vm._v(" "),
+            _c("option", { domProps: { value: 0 } }, [_vm._v("Deshabilitado")])
           ]
         )
       ])

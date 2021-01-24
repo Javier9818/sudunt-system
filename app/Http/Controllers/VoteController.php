@@ -109,7 +109,7 @@ class VoteController extends Controller
   public function statistics($id){
     $form = Form::dateVerify($id);
     $votes = Vote::where('form_id', $form->id)->get();
-    $teachers = Teacher::where('status', 1)->get();
+    $teachers = $this->get_aptos();
     $summary = Vote::where('form_id', $form->id)->selectRaw('response, count(response) as total')->groupBy('response')->get();
 
     $fecha_close = Carbon::parse($form->close_time);
@@ -135,7 +135,7 @@ class VoteController extends Controller
   public function resultados($id){
     $form = Form::dateVerify($id);
     $votes = Vote::where('form_id', $form->id)->get();
-    $teachers = Teacher::where('status', 1)->get();
+    $teachers = $this->get_aptos();
     $summary = Vote::where('form_id', $form->id)->selectRaw('response, count(response) as total')->groupBy('response')->orderBy('total', 'desc')->get();
     $ganador = Vote::where('form_id', $form->id)
       ->selectRaw('response, count(response) as total')
@@ -284,6 +284,32 @@ class VoteController extends Controller
     VoteRegister::truncate();
     Logs::truncate();
     UserActivity::truncate();
+  }
+
+  public function get_aptos(){
+    $aptos = Teacher::select('nombres', 'correo_personal', 'correo_institucional')->where('status', 1)->orderBy('nombres', 'asc')->get();
+        $re = '/[\w\-.]+@(unitru.edu.pe)/m';
+        $rg = '/[\w\-.]+@(gmail.com)/m';
+        $response = [];
+        foreach ($aptos as $teacher) {
+            $valida_institucional = preg_match($re, $teacher->correo_institucional);
+            $valida_personal = preg_match($rg, $teacher->correo_personal);
+            $valida_personal_i = preg_match($re, $teacher->correo_personal);
+
+            if( $valida_institucional == 1 || $valida_personal == 1 || $valida_personal_i == 1){
+                if($valida_institucional == 1)
+                    $teacher->correo = trim($teacher->correo_institucional);
+                elseif($valida_personal == 1 || $valida_personal_i == 1)
+                    $teacher->correo = trim($teacher->correo_personal);
+                else
+                    $teacher->correo = '-';
+                
+                array_push($response, $teacher);
+            }
+            
+        }
+
+        return $response;
   }
 
 }

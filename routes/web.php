@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 // Route::get('/cron', function () {
 //     Artisan::command('schedule:run >> /dev/null 2>&1');
 // });
-Route::get('/padron/trimear', 'PadronController@correosRepetidos')->middleware('can:rol-admin');
+Route::get('/padron/trimear', 'PadronController@trimear')->middleware('can:rol-admin');
 Route::get('/padron/set-cesantes', 'PadronController@setCesantes')->middleware('can:rol-admin');
 Route::get('/padron/set-aptos', 'PadronController@setAptos')->middleware('can:rol-admin');
 

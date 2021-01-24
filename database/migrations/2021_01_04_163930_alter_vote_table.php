@@ -13,9 +13,9 @@ class AlterVoteTable extends Migration
      */
     public function up()
     {
-        Schema::table('votes', function (Blueprint $table) {
-            $table->dropColumn('teacher_id');
-        });
+        // Schema::table('votes', function (Blueprint $table) {
+        //     $table->dropColumn('teacher_id');
+        // });
     }
 
     /**

@@ -56,7 +56,7 @@
                                                     <td>{{$log->id}}</td>
                                                     <td>{{$log->typo}}</td>
                                                     <td>{{$log->tabla}}</td>
-                                                    <td>{{$log->valor_alterado}}</td>
+                                                    <td>{{$log->valor_alterado ?? $log->old}}</td>
                                                     <td>{{$log->usuario}}</td>
                                                     <td>{{$log->ip}}</td>
                                                     <td>{{$log->fecha}}</td>

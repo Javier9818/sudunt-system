@@ -40,8 +40,8 @@ class PadronController extends Controller
 
     public function noAptos()
     {
-        $this->setAptos();
-        $teachers = Teacher::orderBy('nombres', 'asc')->get();
+        //$this->setAptos();
+        $teachers = Teacher::select('nombres', 'correo_personal', 'correo_institucional')->where('status', 1)->orderBy('nombres', 'asc')->get();
         $padron = Teacher::select('nombres', 'correo_personal', 'correo_institucional')->orderBy('nombres', 'asc')->get();
         $aptos = $this->getAptos();
         $re = '/[\w\-.]+@(unitru.edu.pe)/m';
@@ -155,9 +155,10 @@ class PadronController extends Controller
             UserActivity::create([
                 "hora_entrada" => $fecha_actual->format('H:i:s'),
                 "user_id" => Auth::id(),
-                "actividad" => 'Vista edición empadronado'
+                "actividad" => 'Vista edicion empadronado'
             ]);
         $teacher = Teacher::find($id);
+         $teacher->token = '';
         return view('admin.padron.create', ["teacher" => $teacher]);
     }
 
@@ -177,21 +178,30 @@ class PadronController extends Controller
         else if($teacher->correo_personal !== $request->correo_personal && strlen($request->correo_personal) > 0)
             Mail::to($request->correo_personal)->queue(new DatosDocenteActualizados($teacher));
         
-        $teacher->update($request->all());
+        $teacher->update([
+            "correo_personal" => $request->correo_personal,
+            "correo_institucional" => $request->correo_institucional,
+            "facultad" => $request->facultad,
+            "departamento" => $request->departamento,
+            "categoria" => $request->categoria,
+            "sexo" => $request->sexo,
+            "nombres" => $request->nombres,
+            // "status" => $request->status
+        ]);
 
-        $re = '/[\w\-.]+@(unitru.edu.pe)/m';
-        $rg = '/[\w\-.]+@(gmail.com)/m';
+        // $re = '/[\w\-.]+@(unitru.edu.pe)/m';
+        // $rg = '/[\w\-.]+@(gmail.com)/m';
 
-        $valida_institucional = preg_match($re, $request->correo_institucional);
-        $valida_personal = preg_match($rg, $request->correo_personal);
-        $valida_personal_i = preg_match($re, $request->correo_personal);
+        // $valida_institucional = preg_match($re, $request->correo_institucional);
+        // $valida_personal = preg_match($rg, $request->correo_personal);
+        // $valida_personal_i = preg_match($re, $request->correo_personal);
 
-        $correo_apto = $valida_institucional  || $valida_personal  || $valida_personal_i;
+        // $correo_apto = $valida_institucional  || $valida_personal  || $valida_personal_i;
 
-        if(!$correo_apto){
-            $teacher->status = 0;
-            $teacher->save();
-        }   
+        // if(!$correo_apto){
+        //     $teacher->status = 0;
+        //     $teacher->save();
+        // }   
 
         return redirect('/padron');
     }
@@ -333,11 +343,13 @@ class PadronController extends Controller
     public function trimear(){
         ini_set('max_execution_time', 180000);
         $teachers = Teacher::all();
-
+        $correo = '/[-0-9a-zA-Z.+_]+@[-0-9a-zA-Z.+_]+.[a-zA-Z]{2,4}/';
         foreach ($teachers as $teacher ) {
+            preg_match($correo, $teacher->correo_personal, $personal, PREG_OFFSET_CAPTURE);
+            preg_match($correo, $teacher->correo_institucional, $institucional, PREG_OFFSET_CAPTURE);
             $teacher->update([
-                "correo_personal" => trim($teacher->correo_personal),
-                "correo_institucional" => trim($teacher->correo_institucional)
+                "correo_personal" => $personal[0][0] ?? null,
+                "correo_institucional" => $institucional[0][0] ?? null
             ]);
         }
         return "Se trimero correctamente";
@@ -405,21 +417,30 @@ class PadronController extends Controller
 
     public function setAptos(){
         ini_set('max_execution_time', 180000);
-        $teachers = Teacher::all();
-        $re = '/[\w\-.]+@(unitru.edu.pe)/m';
-        $rg = '/[\w\-.]+@(gmail.com)/m';
-        foreach ($teachers as $teacher) {
-            $valida_institucional = preg_match($re, $teacher->correo_institucional);
-            $valida_personal = preg_match($rg, $teacher->correo_personal);
-            $valida_personal_i = preg_match($re, $teacher->correo_personal);
 
-            $correo_no_apto = ($valida_institucional == 0 || $valida_institucional == false) && ($valida_personal == 0 || $valida_personal == false) && ($valida_personal_i == 0 || $valida_personal_i == false);
+        Teacher::where('is_activo', 1)->update([
+            "status" => 1
+        ]);
 
-            if($correo_no_apto){ // AQUI PONER CONDICIONAL EXTRA POR SI CESANTES SON NO APTOS
-                $teacher->status = 0;
-                $teacher->save();
-            }
-        }
+        Teacher::where('is_activo', 0)->update([
+            "status" => 0
+        ]);
+
+        // $teachers = Teacher::all();
+        // $re = '/[\w\-.]+@(unitru.edu.pe)/m';
+        // $rg = '/[\w\-.]+@(gmail.com)/m';
+        // foreach ($teachers as $teacher) {
+        //     $valida_institucional = preg_match($re, $teacher->correo_institucional);
+        //     $valida_personal = preg_match($rg, $teacher->correo_personal);
+        //     $valida_personal_i = preg_match($re, $teacher->correo_personal);
+
+        //     $correo_no_apto = ($valida_institucional == 0 || $valida_institucional == false) && ($valida_personal == 0 || $valida_personal == false) && ($valida_personal_i == 0 || $valida_personal_i == false);
+
+        //     if($correo_no_apto){ // AQUI PONER CONDICIONAL EXTRA POR SI CESANTES SON NO APTOS
+        //         $teacher->status = 0;
+        //         $teacher->save();
+        //     }
+        // }
         return "Se actualizó padrón satisfactoriamente.";
     }
 
@@ -452,19 +473,25 @@ class PadronController extends Controller
         $aptos = Teacher::select('nombres', 'correo_personal', 'correo_institucional')->where('status', 1)->orderBy('nombres', 'asc')->get();
         $re = '/[\w\-.]+@(unitru.edu.pe)/m';
         $rg = '/[\w\-.]+@(gmail.com)/m';
+        $response = [];
         foreach ($aptos as $teacher) {
             $valida_institucional = preg_match($re, $teacher->correo_institucional);
             $valida_personal = preg_match($rg, $teacher->correo_personal);
             $valida_personal_i = preg_match($re, $teacher->correo_personal);
 
-            if($valida_institucional == 1)
-                $teacher->correo = trim($teacher->correo_institucional);
-            elseif($valida_personal == 1 || $valida_personal_i == 1)
-                $teacher->correo = trim($teacher->correo_personal);
-            else
-                $teacher->correo = '-';
+            if( $valida_institucional == 1 || $valida_personal == 1 || $valida_personal_i == 1){
+                if($valida_institucional == 1)
+                    $teacher->correo = trim($teacher->correo_institucional);
+                elseif($valida_personal == 1 || $valida_personal_i == 1)
+                    $teacher->correo = trim($teacher->correo_personal);
+                else
+                    $teacher->correo = '-';
+                
+                array_push($response, $teacher);
+            }
+            
         }
 
-        return $aptos;
+        return $response;
     }
 }

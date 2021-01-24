@@ -122,7 +122,7 @@
                 <h3 class="text-center"style="text-align: center;"><b>ELECCIONES GENERALES SUDUNT 2020</b></h3>
                 <br>
                 <h3 class="text-center"style="text-align: center;"><b>LISTA DE DOCENTES CON CORREOS NO VÁLIDOS PARA SUFRAGIO</b></h3>
-                
+                <h3 style="text-align: center;"> <b>ACTO DE SUFRAGIO - 27 de Enero 2021 - 09 am a 04 pm</b> </h3>
                 <div class="row justify-content-center aligin-items-center">
                     <table style="width: 100%;">
                         <thead>
@@ -183,6 +183,8 @@
                 <h3 class="text-center"style="text-align: center;"><b>ELECCIONES GENERALES SUDUNT 2020</b></h3>
                 <br>
                 <h3 class="text-center"style="text-align: center;"><b>LISTA DE DOCENTES APTOS PARA SUFRAGIO</b></h3>
+
+                <h3 style="text-align: center;"> <b>ACTO DE SUFRAGIO - 27 de Enero 2021 - 09 am a 04 pm</b> </h3> 
                 
                 <div class="row justify-content-center aligin-items-center">
                     <table style="width: 100%;">

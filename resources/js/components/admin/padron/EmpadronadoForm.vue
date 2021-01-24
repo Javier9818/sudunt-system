@@ -59,6 +59,22 @@
                 </select>
             </div>
         </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="tipo">Tipo</label>
+                <p v-if="form.is_activo">Docente activo</p>
+                <p v-else>Docente cesante</p>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="status">Estado</label>
+                <select name="status" id="status" v-model="form.status" class="form-control" disabled>
+                    <option :value="1">Habilitado</option>
+                    <option :value="0">Deshabilitado</option>
+                </select>
+            </div>
+        </div>
         <div class="col-md-12">
             <button class="btn btn-primary ml-2 my-3" type="submit">{{edit === '0' ? 'Registrar' : 'Actualizar'}}</button>
         </div>
@@ -81,7 +97,9 @@
                     departamento:'',
                     facultad:'',
                     categoria:'',
-                    sexo:null
+                    sexo:null,
+                    is_activo: 0,
+                    status:0
 
                 }
             }
