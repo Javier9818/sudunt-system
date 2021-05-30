@@ -26,7 +26,7 @@ class PadronController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {   
+    {
         $teachers = Teacher::all();
         $fecha_actual = new Carbon(now('America/Lima'));
         if(Auth::check())
@@ -41,7 +41,7 @@ class PadronController extends Controller
     public function noAptos()
     {
         //$this->setAptos();
-        $teachers = Teacher::select('nombres', 'correo_personal', 'correo_institucional')->where('status', 1)->orderBy('nombres', 'asc')->get();
+        $teachers = Teacher::select('nombres', 'correo_personal', 'correo_institucional', 'code')->where('status', 1)->orderBy('nombres', 'asc')->get();
         $padron = Teacher::select('nombres', 'correo_personal', 'correo_institucional')->orderBy('nombres', 'asc')->get();
         $aptos = $this->getAptos();
         $re = '/[\w\-.]+@(unitru.edu.pe)/m';
@@ -78,14 +78,18 @@ class PadronController extends Controller
                 "actividad" => 'Ver lista de no aptos'
             ]);
 
+        $votantes = VoteRegister::join('teachers', 'teachers.id', '=', 'vote_register.teacher_id')->orderBy('teachers.nombres', 'asc')->get();
+        $no_votantes = $this->noVotantes($aptos);
         return view('admin.padron.list_no_aptos', [
-            "teachers" => $no_aptos, 
-            "total" => count($no_aptos), 
+            "teachers" => $no_aptos,
+            "total" => count($no_aptos),
             "inlocalizables" => $sin_correo,
             "repetidos_personal" => $repetidos_personal,
             "repetidos_institucional" => $repetidos_institucional,
             "padron" => $padron,
-            "aptos" => $aptos
+            "aptos" => $aptos,
+            "votantes" => $votantes,
+            "no_votantes" => $no_votantes
         ]);
     }
 
@@ -115,7 +119,7 @@ class PadronController extends Controller
     public function store(Request $request)
     {
         $this->validarEmail($request, null);
-        
+
         Teacher::create([
             "nombres" => $request->nombres,
             "correo_institucional" => $request->correo_institucional,
@@ -125,7 +129,7 @@ class PadronController extends Controller
             "facultad" => $request->facultad,
             "categoria" => $request->categoria,
             "sexo" => $request->sexo,
-            "token" => preg_replace("/\//i", "online", Hash::make($request->code)) 
+            "token" => preg_replace("/\//i", "online", Hash::make($request->code))
         ]);
 
         return redirect('/padron');
@@ -170,14 +174,14 @@ class PadronController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {   
+    {
         $teacher = Teacher::find($id);
         $this->validarEmail($request, $teacher);
         if($teacher->correo_institucional !== $request->correo_institucional && strlen($request->correo_institucional) > 0)
             Mail::to($request->correo_institucional)->queue(new DatosDocenteActualizados($teacher));
         else if($teacher->correo_personal !== $request->correo_personal && strlen($request->correo_personal) > 0)
             Mail::to($request->correo_personal)->queue(new DatosDocenteActualizados($teacher));
-        
+
         $teacher->update([
             "correo_personal" => $request->correo_personal,
             "correo_institucional" => $request->correo_institucional,
@@ -201,7 +205,7 @@ class PadronController extends Controller
         // if(!$correo_apto){
         //     $teacher->status = 0;
         //     $teacher->save();
-        // }   
+        // }
 
         return redirect('/padron');
     }
@@ -219,7 +223,7 @@ class PadronController extends Controller
         else
             Teacher::find($id)->delete();
             return redirect('/padron');
-        
+
     }
 
     public function obtenerEmpadronado($code){
@@ -230,15 +234,13 @@ class PadronController extends Controller
     }
 
     public function generateTokens(){
+        ini_set('max_execution_time', 180000);
         $empadronados = Teacher::all();
-
         foreach ($empadronados as $empadronado) {
-            if($empadronado->token == null || $empadronado->token == '')
-                $empadronado->update([
-                    "token" =>  preg_replace("/\//i", "online", Hash::make($empadronado->code))
-                ]);
+            $empadronado->update([
+                "token" =>  preg_replace("/\//i", "online", Hash::make($empadronado->code.$empadronado->id))
+            ]);
         }
-
         return "Los tokens fueron generados";
     }
 
@@ -254,24 +256,24 @@ class PadronController extends Controller
                     if($empadronado->correo_institucional == null || $empadronado->correo_institucional == '')
                         $empadronado->correo_institucional = $correos[0];
                 }
-                else 
+                else
                     $empadronado->correo_personal = $correos[0];
 
                 if (preg_match($re, $correos[1])){
                     if($empadronado->correo_institucional == null || $empadronado->correo_institucional == '')
                         $empadronado->correo_institucional = $correos[1];
                 }
-                else 
+                else
                     $empadronado->correo_personal = $correos[1];
-                
+
                 if (preg_match($rg, $correos[0]))
                     $empadronado->correo_personal = $correos[0];
                 else if (preg_match($rg, $correos[1]))
                     $empadronado->correo_personal = $correos[1];
-                    
+
                 $empadronado->save();
             }
-            else if (preg_match($re, $empadronado->correo_personal ?? '')) 
+            else if (preg_match($re, $empadronado->correo_personal ?? ''))
                 $empadronado->update([
                     "correo_institucional" =>  $empadronado->correo_personal
                 ]);
@@ -304,11 +306,11 @@ class PadronController extends Controller
                 }
             }
         }
-        
+
         return response()->json(["total" => $total." correos enviados", "no aptos" => $no_aptos]);
     }
 
-    
+
     public function enviarCorreoInvitacion(){
         ini_set('max_execution_time', 180000);
         $teachers = Teacher::all();
@@ -326,7 +328,7 @@ class PadronController extends Controller
             if( $valida_institucional == 1 ){
                 Mail::to(trim($empadronado->correo_institucional))->queue(new InvitacionVoto($empadronado));
                 $total = $total + 1;
-            } 
+            }
             elseif( $valida_personal == 1){
                 Mail::to(trim($empadronado->correo_personal))->queue(new InvitacionVoto($empadronado));
                 $total = $total + 1;
@@ -334,9 +336,9 @@ class PadronController extends Controller
             elseif( $valida_personal_i == 1){
                 Mail::to(trim($empadronado->correo_personal))->queue(new InvitacionVoto($empadronado));
                 $total = $total + 1;
-            }  
+            }
         }
-        
+
         return response()->json(["total" => $total." correos enviados"]);
     }
 
@@ -357,7 +359,7 @@ class PadronController extends Controller
 
     public function correosRepetidos(){
         ini_set('max_execution_time', 180000);
-        
+
         $teachers = Teacher::selectRaw('correo_institucional, GROUP_CONCAT(code) as codigos, count(id) as repetidos')->groupBy('correo_institucional')
                     ->having('repetidos', '>', 1)
                     ->get();
@@ -388,7 +390,7 @@ class PadronController extends Controller
         $actividades = UserActivity::select('hora_entrada', 'user_id', 'actividad', 'created_at')->with('usuario')->orderBy('created_at', 'desc')->get();
         return view('admin.auditoria.registro_votos', ["actividades" => $actividades]);
     }
-    
+
     public function logs(){
         $fecha_actual = new Carbon(now('America/Lima'));
         if(Auth::check())
@@ -466,11 +468,11 @@ class PadronController extends Controller
                     'correo_personal' => 'unique:teachers',
                 ]);
         }
-        
+
     }
 
     public function  getAptos(){
-        $aptos = Teacher::select('nombres', 'correo_personal', 'correo_institucional')->where('status', 1)->orderBy('nombres', 'asc')->get();
+        $aptos = Teacher::select('id','nombres', 'correo_personal', 'correo_institucional')->where('status', 1)->orderBy('nombres', 'asc')->get();
         $re = '/[\w\-.]+@(unitru.edu.pe)/m';
         $rg = '/[\w\-.]+@(gmail.com)/m';
         $response = [];
@@ -486,12 +488,37 @@ class PadronController extends Controller
                     $teacher->correo = trim($teacher->correo_personal);
                 else
                     $teacher->correo = '-';
-                
+
                 array_push($response, $teacher);
             }
-            
+
         }
 
         return $response;
+    }
+
+    public function updateEmails(){
+        ini_set('max_execution_time', 180000);
+        $docentes_update = DB::table('docentes_correo')->get();
+        foreach ($docentes_update as $docente) {
+            $teacher = Teacher::where('code', $docente->code)->first();
+            if($teacher){
+                $teacher->correo_institucional = $docente->correo;
+                $teacher->update();
+            }
+        }
+
+        return response()->json(["response" => "Todo bien."]);
+    }
+
+    public function noVotantes($aptos){
+        $no_votantes = [];
+
+        foreach ($aptos as $key => $apto) {
+            if( !VoteRegister::where('teacher_id', $apto->id)->exists())
+                array_push($no_votantes, $apto);
+        }
+
+        return $no_votantes;
     }
 }

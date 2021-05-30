@@ -66,16 +66,15 @@ class VoteController extends Controller
     if($form->status == 0)
       return redirect('/sufragio-sudunt/autenticar-empadronado')->withErrors([
         "validation-error" => "El formulario de votación ha cerrado."
-      ]);// return view('admin.vote.index',["context" => 5]); //EL VOTO YA FUE CERRADO
+      ]);
     else{
       $teacher = Teacher::where('token', $request->token)->where('status', 1)->first();
       if ($teacher !== null)
         {
-          // if(Vote::where('teacher_id', $teacher->id)->where('form_id', $form->id)->exists())
           if(VoteRegister::where('teacher_id', $teacher->id)->where('form_id', $form->id)->exists())
           return redirect('/sufragio-sudunt/autenticar-empadronado')->withErrors([
             "validation-error" => $teacher->nombres.", su voto ya se encuentra registrado."
-          ]); //return view('admin.vote.index',["teacher" => $teacher,"context" => 1]); //Voto ya realizado
+          ]);
           else{
             DB::transaction(function () use ($form, $request, $teacher){
               Vote::create([
@@ -96,13 +95,13 @@ class VoteController extends Controller
             } catch (\Throwable $th) {}
             return redirect('/sufragio-sudunt/autenticar-empadronado')->withErrors([
               "validation-error" => $teacher->nombres.", su voto se registro exitosamente."
-            ]);// return view('admin.vote.index',["teacher" => $teacher,"context" => 4]); //VOTO REGISTRADO CORRECTAMENTE
-          } 
+            ]);
+          }
         }
       else
       return redirect('/sufragio-sudunt/autenticar-empadronado')->withErrors([
         "validation-error" => "El correo electrónico no se encuetra registrado."
-      ]);//return view('admin.vote.index',["context" => 3]); //Usuario inválido
+      ]);
     }
   }
 
@@ -120,10 +119,10 @@ class VoteController extends Controller
     $res_s = $fecha_close->diffInSeconds($now);
 
     return view('admin.formularios.index', [
-      "votes" => count($votes), 
+      "votes" => count($votes),
       "id_votes" => $votes->pluck('id'),
       "total" => count($teachers),
-      "summary" => $summary, 
+      "summary" => $summary,
       "list_elections" => $this->list_elections,
       "form" => $form,
       "res_h" => $res_h,
@@ -142,7 +141,7 @@ class VoteController extends Controller
       ->groupBy('response')
       ->orderBy('total', 'desc')
       ->first();
-    
+
     $votes_teachers_summary = DB::table('vote_register')
                               ->selectRaw('count(teachers.is_activo) as activos, count(vote_register.id) as total')
                               ->where('form_id', $form->id)
@@ -164,7 +163,7 @@ class VoteController extends Controller
 
     $index_ganador = array_search($ganador->response, $this->list_elections);
     $fecha = new Carbon(now('America/Lima'));
-    
+
     $empate = false;
     $empate_1 = '';
     $empate_2 = '';
@@ -175,11 +174,11 @@ class VoteController extends Controller
         $empate_1 = $summary[0]->response;
         $empate_2 = $summary[1]->response;
       }
-    
+
     return view('admin.formularios.resultados', [
-      "votes" => count($votes), 
+      "votes" => count($votes),
       "total" => count($teachers),
-      "summary" => $summary, 
+      "summary" => $summary,
       "list_elections" => $this->list_elections,
       "form" => $form,
       "fecha" => $fecha->format('Y-m-d H:i:s'),
@@ -246,7 +245,7 @@ class VoteController extends Controller
 
   //NO SUBIR
   public function getDataSimulacion($formID){
-    
+
     $form = Form::find($formID);
     $this->truncar_tablas();
     $votes = Vote::where('form_id', $formID)->count();
@@ -254,7 +253,7 @@ class VoteController extends Controller
     if( $votes > 0 )
       return response()->json(["error" => true, "message" => "Error. El formulario contiene votos registrados."]);
     else{
-       $empadronados = Teacher::all();
+       $empadronados = Teacher::where('status', 1)->get();
        return response()->json(["error" => false, "form" => $form, "votes" => $votes, "empadronados" => $empadronados, "listas" => $this->list_elections]);
     }
   }
@@ -303,10 +302,10 @@ class VoteController extends Controller
                     $teacher->correo = trim($teacher->correo_personal);
                 else
                     $teacher->correo = '-';
-                
+
                 array_push($response, $teacher);
             }
-            
+
         }
 
         return $response;

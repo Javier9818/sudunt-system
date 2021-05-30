@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Route;
 // Route::get('/cron', function () {
 //     Artisan::command('schedule:run >> /dev/null 2>&1');
 // });
+Route::get('/padron/update-correo', 'PadronController@updateEmails')->middleware('can:rol-admin');
 Route::get('/padron/trimear', 'PadronController@trimear')->middleware('can:rol-admin');
 Route::get('/padron/set-cesantes', 'PadronController@setCesantes')->middleware('can:rol-admin');
 Route::get('/padron/set-aptos', 'PadronController@setAptos')->middleware('can:rol-admin');
@@ -29,7 +30,10 @@ Route::get('/login', function () {return view('auth.login');});
 
 Route::get('/sufragio-sudunt', function(){ return view('admin.vote.main');});
 Route::get('/sufragio-sudunt/busqueda-empadronados', function(){ return view('admin.vote.searchTeacher');});
-Route::get('/sufragio-sudunt/autenticar-empadronado', function(){ return view('admin.vote.autentication');});
+Route::get('/sufragio-sudunt/autenticar-empadronado', function(){ 
+    // return view('admin.vote.main');
+    return view('admin.vote.autentication');
+});
 
 Route::get('/login-google', 'Auth\LoginController@login_google')->name('login-google');
 Route::get('/return-google', 'Auth\LoginController@return_google')->name('return-google');
@@ -64,3 +68,6 @@ Route::get('/cache-clear', function () {Artisan::call('cache:clear');});
 Route::get('/audit-@1', 'PadronController@difCreatedUpdated')->middleware('can:rol-admin');
 Route::get('/audit-@2', 'PadronController@actividades')->middleware('can:rol-admin');
 Route::get('/audit-@3', 'PadronController@logs')->middleware('can:rol-admin');
+
+Route::get('/audit-@4', 'PadronController@reportVotantes')->middleware('can:rol-admin');
+Route::get('/audit-@5', 'PadronController@reportNoVotantes')->middleware('can:rol-admin');

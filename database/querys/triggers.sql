@@ -61,6 +61,7 @@ BEGIN
 END$$
 
 #log de Borrados
+#DROP TRIGGER `delete`;
 DELIMITER $$
 USE `sudunt`$$
 CREATE
@@ -68,11 +69,12 @@ TRIGGER `sudunt`.`delete`
 AFTER DELETE ON `sudunt`.`votes`
 FOR EACH ROW
 BEGIN
+	select host as IP INTO @ipcl from information_schema.processlist WHERE ID=connection_id();
 	SET @newq = '';
     SET @oldq = CONCAT (' id ',ifnull(OLD.id,''),
 	' ip ',ifnull(OLD.ip,''),
 	' response ',ifnull(OLD.response,''),
 	' form_id ',ifnull(OLD.form_id,''));
-	INSERT INTO sudunt.logs (old,new,usuario,typo,fecha,tabla)                
-    VALUES (@oldq ,@newq,CURRENT_USER,"DELETE",NOW(),"votes");
+	INSERT INTO sudunt.logs (old,new,usuario,typo,fecha,tabla, ip)                
+    VALUES (@oldq ,@newq,CURRENT_USER,"DELETE",NOW(),"votes", @ipcl);
 END$$

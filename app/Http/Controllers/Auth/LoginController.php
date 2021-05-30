@@ -60,7 +60,6 @@ class LoginController extends Controller
 
 	//LOGIN CON GOOGLE
 	public function login_google(){
-        //dd(Socialite::driver('google')->redirect());
 		return Socialite::driver('google')->redirect();
 	}
 	//LOGIN CON GOOGLE

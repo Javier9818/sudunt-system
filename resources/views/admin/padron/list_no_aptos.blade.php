@@ -61,6 +61,8 @@
                         <button class="btn btn-success" onclick="generarPDF(1)">Reporte no aptos</button>
                         <!-- <button class="btn btn-warning" onclick="generarPDF(2)">Reporte repetidos</button> -->
                         <button class="btn btn-alert" onclick="generarPDF(3)">Reporte padrón</button>
+                        <button class="btn btn-primary" onclick="generarPDF(4)">Reporte votantes</button>
+                        <button class="btn btn-primary" onclick="generarPDF(5)">Reporte no votantes</button>
                         <!-- <h5 class="text-white op-7 mb-2">Lista de usuarios del sistema</h5> -->
                     </div>
                     <!-- <div class="ml-md-auto py-2 py-md-0">
@@ -128,6 +130,7 @@
                         <thead>
                             <tr style="text-align: center;">
                                 <th>N°</th>
+                                <th>Código</th>
                                 <th>Docente</th>
                                 <th>Correo personal</th>
                             </tr>
@@ -137,6 +140,7 @@
                             @foreach($teachers as $index => $teacher)
                                 <tr>    
                                     <td style="text-align: center;">{{$index + 1}}</td>
+                                    <td style="padding-left: 1em;">{{$teacher->code}}</td>
                                     <td style="padding-left: 1em;">{{$teacher->nombres}}</td>
                                     <td style="padding-left: 1em;">{{$teacher->correo_personal ?? '-'}}</td>
                                 </tr>
@@ -204,6 +208,72 @@
                                     <td style="text-align: center;">{{$index + 1}}</td>
                                     <td style="padding-left: 1em;">{{$teacher->nombres}}</td>
                                     <td style="padding-left: 1em;">{{$teacher->correo}}</td>
+                                    <!-- <td style="padding-left: 1em;">{{$teacher->correo_personal ?? '-'}}</td>
+                                    <td style="padding-left: 1em;">{{$teacher->correo_institucional ?? '-'}}</td> -->
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+        </div>
+
+        <div class="container" id="votantes">
+                <h3 class="text-center"style="text-align: center;"><b>COMITÉ ELECTORAL AUTÓNOMO SUDUNT 2020</b></h3>
+                <h3 class="text-center"style="text-align: center;"><b>ELECCIONES GENERALES SUDUNT 2020</b></h3>
+                <br>
+                <h3 class="text-center"style="text-align: center;"><b>LISTA DE DOCENTES SUFRAGANTES</b></h3> 
+                
+                <div class="row justify-content-center aligin-items-center">
+                    <table style="width: 100%;">
+                        <thead>
+                            <tr style="text-align: center;">
+                                <th>N°</th>
+                                <th>Docente</th>
+                                <th>Correo</th>
+                                <!-- <th>Correo personal</th>
+                                <th>Correo institucional</th> -->
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @foreach($votantes as $index => $votante)
+                                <tr>    
+                                    <td style="text-align: center;">{{$index + 1}}</td>
+                                    <td style="padding-left: 1em;">{{$votante->nombres}}</td>
+                                    <td style="padding-left: 1em;">{{$votante->correo_institucional ?? $votante->correo_personal}}</td>
+                                    <!-- <td style="padding-left: 1em;">{{$teacher->correo_personal ?? '-'}}</td>
+                                    <td style="padding-left: 1em;">{{$teacher->correo_institucional ?? '-'}}</td> -->
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+        </div>
+
+        <div class="container" id="noVotantes">
+                <h3 class="text-center"style="text-align: center;"><b>COMITÉ ELECTORAL AUTÓNOMO SUDUNT 2020</b></h3>
+                <h3 class="text-center"style="text-align: center;"><b>ELECCIONES GENERALES SUDUNT 2020</b></h3>
+                <br>
+                <h3 class="text-center"style="text-align: center;"><b>LISTA DE DOCENTES NO SUFRAGANTES</b></h3> 
+                
+                <div class="row justify-content-center aligin-items-center">
+                    <table style="width: 100%;">
+                        <thead>
+                            <tr style="text-align: center;">
+                                <th>N°</th>
+                                <th>Docente</th>
+                                <th>Correo</th>
+                                <!-- <th>Correo personal</th>
+                                <th>Correo institucional</th> -->
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @foreach($no_votantes as $index => $votante)
+                                <tr>    
+                                    <td style="text-align: center;">{{$index + 1}}</td>
+                                    <td style="padding-left: 1em;">{{$votante->nombres}}</td>
+                                    <td style="padding-left: 1em;">{{$votante->correo_institucional ?? $votante->correo_personal}}</td>
                                     <!-- <td style="padding-left: 1em;">{{$teacher->correo_personal ?? '-'}}</td>
                                     <td style="padding-left: 1em;">{{$teacher->correo_institucional ?? '-'}}</td> -->
                                 </tr>
@@ -293,6 +363,8 @@
             var listDocentes = document.getElementById('listDocentesRepetidos');
         else if(report === 3)
             var listDocentes = document.getElementById('padronCompleto');
+        else if(report === 4)
+            var listDocentes = document.getElementById('votantes');
         alert('generando...')
         var opt = {
         margin:       0.60,
@@ -317,6 +389,10 @@
             var listDocentes = document.getElementById('listDocentesRepetidos');
         else if(report === 3)
             var listDocentes = document.getElementById('padronCompleto');
+        else if(report === 4)
+            var listDocentes = document.getElementById('votantes');
+        else if(report === 5)
+            var listDocentes = document.getElementById('noVotantes');
 
         var mywindow = window.open('', 'PRINT');
         mywindow.document.write('<html><head>');
