@@ -120,17 +120,18 @@
 
    <div class="d-none">
         <div class="container" id="listDocentes">
-                <h3 class="text-center" style="text-align: center;"><b>COMITÉ ELECTORAL AUTÓNOMO SUDUNT 2020</b></h3>
-                <h3 class="text-center"style="text-align: center;"><b>ELECCIONES GENERALES SUDUNT 2020</b></h3>
+                <h3 class="text-center" style="text-align: center;"><b>COMITÉ ELECTORAL AUTÓNOMO SUDUNT 2021</b></h3>
+                <h3 class="text-center"style="text-align: center;"><b>ELECCIONES GENERALES SUDUNT 2021</b></h3>
                 <br>
                 <h3 class="text-center"style="text-align: center;"><b>LISTA DE DOCENTES CON CORREOS NO VÁLIDOS PARA SUFRAGIO</b></h3>
-                <h3 style="text-align: center;"> <b>ACTO DE SUFRAGIO - 27 de Enero 2021 - 09 am a 04 pm</b> </h3>
+                <h3 style="text-align: center;"> <b>ACTO DE SUFRAGIO - 12 de Enero 2022 - 09 a.m. a 04 p.m.</b> </h3>
                 <div class="row justify-content-center aligin-items-center">
                     <table style="width: 100%;">
                         <thead>
                             <tr style="text-align: center;">
                                 <th>N°</th>
                                 <th>Código</th>
+                                <th>DNI</th>
                                 <th>Docente</th>
                                 <th>Correo personal</th>
                             </tr>
@@ -141,6 +142,7 @@
                                 <tr>    
                                     <td style="text-align: center;">{{$index + 1}}</td>
                                     <td style="padding-left: 1em;">{{$teacher->code}}</td>
+                                    <td style="padding-left: 1em;">{{$teacher->dni}}</td>
                                     <td style="padding-left: 1em;">{{$teacher->nombres}}</td>
                                     <td style="padding-left: 1em;">{{$teacher->correo_personal ?? '-'}}</td>
                                 </tr>
@@ -151,8 +153,8 @@
         </div>
 
         <div class="container" id="listDocentesRepetidos">
-                <h3 class="text-center"style="text-align: center;"><b>COMITÉ ELECTORAL AUTÓNOMO SUDUNT 2020</b></h3>
-                <h3 class="text-center"style="text-align: center;"><b>ELECCIONES GENERALES SUDUNT 2020</b></h3>
+                <h3 class="text-center"style="text-align: center;"><b>COMITÉ ELECTORAL AUTÓNOMO SUDUNT 2021</b></h3>
+                <h3 class="text-center"style="text-align: center;"><b>ELECCIONES GENERALES SUDUNT 2021</b></h3>
                 <br>
                 <h3 class="text-center"style="text-align: center;"><b>LISTA DE DOCENTES CON CORREOS REPETIDOS</b></h3>
                 
@@ -183,18 +185,19 @@
         </div>
 
         <div class="container" id="padronCompleto">
-                <h3 class="text-center"style="text-align: center;"><b>COMITÉ ELECTORAL AUTÓNOMO SUDUNT 2020</b></h3>
-                <h3 class="text-center"style="text-align: center;"><b>ELECCIONES GENERALES SUDUNT 2020</b></h3>
+                <h3 class="text-center"style="text-align: center;"><b>COMITÉ ELECTORAL AUTÓNOMO SUDUNT 2021</b></h3>
+                <h3 class="text-center"style="text-align: center;"><b>ELECCIONES GENERALES SUDUNT 2021</b></h3>
                 <br>
                 <h3 class="text-center"style="text-align: center;"><b>LISTA DE DOCENTES APTOS PARA SUFRAGIO</b></h3>
 
-                <h3 style="text-align: center;"> <b>ACTO DE SUFRAGIO - 27 de Enero 2021 - 09 am a 04 pm</b> </h3> 
+                <h3 style="text-align: center;"> <b>ACTO DE SUFRAGIO - 12 de Enero 2022 - 09 a.m. a 04 p.m.</b> </h3> 
                 
                 <div class="row justify-content-center aligin-items-center">
                     <table style="width: 100%;">
                         <thead>
                             <tr style="text-align: center;">
                                 <th>N°</th>
+                                <th>DNI</th>
                                 <th>Docente</th>
                                 <th>Correo</th>
                                 <!-- <th>Correo personal</th>
@@ -206,6 +209,7 @@
                             @foreach($aptos as $index => $teacher)
                                 <tr>    
                                     <td style="text-align: center;">{{$index + 1}}</td>
+                                    <td style="text-align: center;">{{$teacher->dni}}</td>
                                     <td style="padding-left: 1em;">{{$teacher->nombres}}</td>
                                     <td style="padding-left: 1em;">{{$teacher->correo}}</td>
                                     <!-- <td style="padding-left: 1em;">{{$teacher->correo_personal ?? '-'}}</td>
@@ -218,8 +222,8 @@
         </div>
 
         <div class="container" id="votantes">
-                <h3 class="text-center"style="text-align: center;"><b>COMITÉ ELECTORAL AUTÓNOMO SUDUNT 2020</b></h3>
-                <h3 class="text-center"style="text-align: center;"><b>ELECCIONES GENERALES SUDUNT 2020</b></h3>
+                <h3 class="text-center"style="text-align: center;"><b>COMITÉ ELECTORAL AUTÓNOMO SUDUNT 2021</b></h3>
+                <h3 class="text-center"style="text-align: center;"><b>ELECCIONES GENERALES SUDUNT 2021</b></h3>
                 <br>
                 <h3 class="text-center"style="text-align: center;"><b>LISTA DE DOCENTES SUFRAGANTES</b></h3> 
                 
@@ -228,6 +232,7 @@
                         <thead>
                             <tr style="text-align: center;">
                                 <th>N°</th>
+                                <th>DNI</th>
                                 <th>Docente</th>
                                 <th>Correo</th>
                                 <!-- <th>Correo personal</th>
@@ -239,6 +244,7 @@
                             @foreach($votantes as $index => $votante)
                                 <tr>    
                                     <td style="text-align: center;">{{$index + 1}}</td>
+                                    <td style="text-align: center;">{{$votante->dni}}</td>
                                     <td style="padding-left: 1em;">{{$votante->nombres}}</td>
                                     <td style="padding-left: 1em;">{{$votante->correo_institucional ?? $votante->correo_personal}}</td>
                                     <!-- <td style="padding-left: 1em;">{{$teacher->correo_personal ?? '-'}}</td>
@@ -251,8 +257,8 @@
         </div>
 
         <div class="container" id="noVotantes">
-                <h3 class="text-center"style="text-align: center;"><b>COMITÉ ELECTORAL AUTÓNOMO SUDUNT 2020</b></h3>
-                <h3 class="text-center"style="text-align: center;"><b>ELECCIONES GENERALES SUDUNT 2020</b></h3>
+                <h3 class="text-center"style="text-align: center;"><b>COMITÉ ELECTORAL AUTÓNOMO SUDUNT 2021</b></h3>
+                <h3 class="text-center"style="text-align: center;"><b>ELECCIONES GENERALES SUDUNT 2021</b></h3>
                 <br>
                 <h3 class="text-center"style="text-align: center;"><b>LISTA DE DOCENTES NO SUFRAGANTES</b></h3> 
                 
@@ -261,6 +267,7 @@
                         <thead>
                             <tr style="text-align: center;">
                                 <th>N°</th>
+                                <th>DNI</th>
                                 <th>Docente</th>
                                 <th>Correo</th>
                                 <!-- <th>Correo personal</th>
@@ -272,6 +279,7 @@
                             @foreach($no_votantes as $index => $votante)
                                 <tr>    
                                     <td style="text-align: center;">{{$index + 1}}</td>
+                                    <td style="text-align: center;">{{$votante->dni}}</td>
                                     <td style="padding-left: 1em;">{{$votante->nombres}}</td>
                                     <td style="padding-left: 1em;">{{$votante->correo_institucional ?? $votante->correo_personal}}</td>
                                     <!-- <td style="padding-left: 1em;">{{$teacher->correo_personal ?? '-'}}</td>

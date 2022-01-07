@@ -41,8 +41,8 @@ class PadronController extends Controller
     public function noAptos()
     {
         //$this->setAptos();
-        $teachers = Teacher::select('nombres', 'correo_personal', 'correo_institucional', 'code')->where('status', 1)->orderBy('nombres', 'asc')->get();
-        $padron = Teacher::select('nombres', 'correo_personal', 'correo_institucional')->orderBy('nombres', 'asc')->get();
+        $teachers = Teacher::select('dni', 'nombres', 'correo_personal', 'correo_institucional', 'code')->where('status', 1)->orderBy('nombres', 'asc')->get();
+        $padron = Teacher::select('dni', 'nombres', 'correo_personal', 'correo_institucional')->orderBy('nombres', 'asc')->get();
         $aptos = $this->getAptos();
         $re = '/[\w\-.]+@(unitru.edu.pe)/m';
         $rg = '/[\w\-.]+@(gmail.com)/m';
@@ -472,7 +472,7 @@ class PadronController extends Controller
     }
 
     public function  getAptos(){
-        $aptos = Teacher::select('id','nombres', 'correo_personal', 'correo_institucional')->where('status', 1)->orderBy('nombres', 'asc')->get();
+        $aptos = Teacher::select('dni', 'id','nombres', 'correo_personal', 'correo_institucional')->where('status', 1)->orderBy('nombres', 'asc')->get();
         $re = '/[\w\-.]+@(unitru.edu.pe)/m';
         $rg = '/[\w\-.]+@(gmail.com)/m';
         $response = [];

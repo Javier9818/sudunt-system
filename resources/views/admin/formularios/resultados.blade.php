@@ -103,6 +103,7 @@
             @endif
         </div>
        <div class="row">
+		   {{-- 
             <!-- <div class="col-md-12 m-4 card p-4" style="font-size: 1.2em;">
                 <div class="row">
                     <div class="col-5"><h4><b>N° votos docentes activos</b></h4></div>
@@ -115,6 +116,7 @@
                     <div class="col-1"><h4><b>{{$votes_teachers_summary[0]->total - $votes_teachers_summary[0]->activos}}</b></h4></div>
                 </div>
             </div> -->
+			--}}
             <div class="col-md-12 m-4 card p-4" style="font-size: 1.2em;">
                 @foreach($list_elections as $lista)
                 <?php  $found = false; $lista_found = ''; ?>

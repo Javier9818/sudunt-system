@@ -20,7 +20,7 @@
                 <input type="datetime-local" id="open-time"
                 class="form-control"
                 name="open_time" v-model="form.open_time"
-                min="2020-01-01T00:00" max="2021-12-31T00:00" required>
+                min="2022-01-01T00:00" max="2022-12-31T00:00" required>
             </div>
         </div>
         <div class="col-md-6">
@@ -29,7 +29,7 @@
                 <input type="datetime-local" id="close-time"
                 class="form-control"
                 name="close_time" v-model="form.close_time"
-                min="2020-01-01T00:00" max="2021-12-31T00:00" required>
+                min="2022-01-01T00:00" max="2022-12-31T00:00" required>
             </div>
         </div>
         <div class="col-md-12">

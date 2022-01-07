@@ -20876,8 +20876,8 @@ var render = function() {
             type: "datetime-local",
             id: "open-time",
             name: "open_time",
-            min: "2020-01-01T00:00",
-            max: "2021-12-31T00:00",
+            min: "2022-01-01T00:00",
+            max: "2022-12-31T00:00",
             required: ""
           },
           domProps: { value: _vm.form.open_time },
@@ -20911,8 +20911,8 @@ var render = function() {
             type: "datetime-local",
             id: "close-time",
             name: "close_time",
-            min: "2020-01-01T00:00",
-            max: "2021-12-31T00:00",
+            min: "2022-01-01T00:00",
+            max: "2022-12-31T00:00",
             required: ""
           },
           domProps: { value: _vm.form.close_time },
@@ -36541,8 +36541,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\laragon\www\sudunt-system\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\laragon\www\sudunt-system\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! F:\html\sudunt-system\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! F:\html\sudunt-system\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
