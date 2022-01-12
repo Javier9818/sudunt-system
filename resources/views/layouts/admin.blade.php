@@ -59,7 +59,7 @@
 						</ul>
 					</nav>
 					<div class="copyright ml-auto">
-						Copyright@2020
+						Copyright@2022
 					</div>
 				</div>
 			</footer>

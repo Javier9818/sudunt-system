@@ -1,12 +1,12 @@
 <div class="container" id="page6">
-            <h3 class="text-center"><b>COMITÉ ELECTORAL AUTÓNOMO SUDUNT 2020</b></h3>
-            <h3 class="text-center"><b>ELECCIONES GENERALES SUDUNT 2020</b></h3>
+            <h3 class="text-center"><b>COMITÉ ELECTORAL AUTÓNOMO SUDUNT 2021</b></h3>
+            <h3 class="text-center"><b>ELECCIONES GENERALES SUDUNT 2021</b></h3>
             <br>
             <h3 class="text-center"><b>NÓMINA DE LA JUNTA DIRECTIVA</b></h3>
-            <h3 class="text-center"><b>PERIODO 2020 - 2021</b></h3>
+            <h3 class="text-center"><b>PERIODO 2021 - 2022</b></h3>
             <br>
             <p>
-                En la ciudad de Trujillo a los 30 días del mes de Diciembre del año 2020, el Ing. Alberto Carlos Mendoza de los Santos, en calidad de Presidente del Comité Electoral Autónomo y en cumplimiento de las normas estatutarias, procedió a la Proclamación a los miembros de la <b>Lista N° 1 MOVIMIENTO DOCENTE RENACIMIENTO GREMIAL</b>, ganadores del proceso electoral 2020, para el periodo del _____ de ______ del 2021 al _____ de ______ del 2021.
+				En la ciudad de Trujillo a los 12 días del mes de Enero del año 2022, el Abog. Miguel Rodriguez Albán, en calidad de Presidente del Comité Electoral Autónomo y en cumplimiento de las normas estatutarias, procedió a la Proclamación a los miembros de la <b>Lista N° 1 MOVIMIENTO DOCENTE RENACIMIENTO GREMIAL</b>, ganadores del proceso electoral 2021, para el periodo del _____ de ______ del 2022 al _____ de ______ del 2022.
             </p>
             <p>
                 Siendo los cargos de los señores docentes como siguen:

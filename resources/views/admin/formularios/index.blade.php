@@ -340,7 +340,7 @@
         ventana.document.write(`<p><b>Rol: </b>${user.is_admin ? 'Administrador' : 'Personero'}</p>`);
         ventana.document.write(`<p><b>Fecha y hora: </b>${f.getDate() + " de " + meses[f.getMonth()] + " de " + f.getFullYear() + " - " + hora}</p>`);
         ventana.document.write(`<hr>`);
-        ventana.document.write(`<b>Sistema de sufragio SUDUNT 2020</b>`);
+        ventana.document.write(`<b>Sistema de sufragio SUDUNT 2021</b>`);
 		ventana.document.write('</body>');
         ventana.document.write('<script src="/assets/js/plugin/chart.js/chart.min.js"></'+'script>');
         ventana.document.write('<script src="/assets/js/plugin/chart-circle/circles.min.js"></'+'script>');
@@ -381,7 +381,7 @@
         <p><b>Rol: </b>${user.is_admin ? 'Administrador' : 'Personero'}</p>
         <p><b>Fecha y hora: </b>${f.getDate() + " de " + meses[f.getMonth()] + " de " + f.getFullYear() + " - " + hora}</p>
         <hr>
-        <b>Sistema de sufragio SUDUNT 2020</b>`;       
+        <b>Sistema de sufragio SUDUNT 2021</b>`;       
         windowContent += '</body>';
         windowContent += '</html>';
         const printWin = window.open('', '', 'width=' + screen.availWidth + ',height=' + screen.availHeight);

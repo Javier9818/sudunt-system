@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Invitación para participar del proceso electoral SUDUNT - 2020</title>
+    <title>Invitación para participar del proceso electoral SUDUNT - 2021</title>
 </head>
 <body>
     <h1>SISTEMA DE SUFRAGIO - SUDUNT</h1>
-    <p>Buenas noches profesor {{$empadronado->nombres}}, se le invita a participar del proceso electoral SUDUNT - 2020, a llevarse a cabo el día de hoy, 30 de diciembre del 2020 de 9:00 am hasta las 4:00 pm.</p>
+    <p>Buenas noches profesor {{$empadronado->nombres}}, se le invita a participar del proceso electoral SUDUNT - 2021, a llevarse a cabo el día de hoy, 12 de enero del 2022 de 9:00 am hasta las 4:00 pm.</p>
     <br>
     <b>Indicaciones:</b>
     <ul>

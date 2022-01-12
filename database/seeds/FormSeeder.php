@@ -14,7 +14,7 @@ class FormSeeder extends Seeder
     {
         Form::truncate();
         Form::create([
-            "title" => "Votaciones SUDUNT 2020",
+            "title" => "Votaciones SUDUNT 2021",
             "description" => "Formulario para el sufragio del SUDUNT"
         ]);
     }
